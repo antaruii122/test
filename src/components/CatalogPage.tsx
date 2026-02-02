@@ -8,6 +8,8 @@ import EditableText from './EditableText';
 import ImageUpload from './ImageUpload';
 import { supabase } from '@/lib/supabaseClient';
 import { Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import ProductLightbox from './ProductLightbox';
 
 interface CatalogPageProps {
     page: PageType;
@@ -22,6 +24,7 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
     // Scale container based on zoom (1=800px, 2=1000px, 3=1200px approx width logic handled by max-w wrapper in parent)
     // Actually, zoomLevel can scale the font/padding inside? 
     // Let's use zoomLevel to impact the grid density of images primarily.
+    const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
     const handleUpdateTitle = async (newTitle: string) => {
         const { error } = await supabase
@@ -78,13 +81,14 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
                                     currentUrl={page.images[0].url}
                                     onUpdate={() => onRefresh?.()}
                                     isEditMode={!!isEditMode}
+                                    onImageClick={() => setLightboxIndex(0)}
                                 />
                             </div>
                         )}
 
                         {/* Thumbnails Grid */}
                         <div className="grid grid-cols-3 gap-2">
-                            {page.images?.slice(1).map((img) => (
+                            {page.images?.slice(1).map((img, index) => (
                                 <div key={img.id} className="aspect-video border border-white/10 bg-black/40 hover:border-primary transition-colors">
                                     <ImageUpload
                                         pageId={page.id}
@@ -92,6 +96,7 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
                                         currentUrl={img.url}
                                         onUpdate={() => onRefresh?.()}
                                         isEditMode={!!isEditMode}
+                                        onImageClick={() => setLightboxIndex(index + 1)}
                                     />
                                 </div>
                             ))}
@@ -138,6 +143,13 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
                 <span>ESGAMINGPC</span>
                 <span>Powered by High Performance</span>
             </div>
+
+            <ProductLightbox
+                isOpen={lightboxIndex !== null}
+                initialIndex={lightboxIndex || 0}
+                images={page.images || []}
+                onClose={() => setLightboxIndex(null)}
+            />
         </div>
     );
 }

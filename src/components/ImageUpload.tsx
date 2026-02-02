@@ -10,9 +10,10 @@ interface ImageUploadProps {
     currentUrl?: string;
     onUpdate: (newUrl: string) => void;
     isEditMode?: boolean; // New prop for security
+    onImageClick?: () => void; // New prop for external lightbox
 }
 
-export default function ImageUpload({ pageId, imageId, currentUrl, onUpdate, isEditMode = false }: ImageUploadProps) {
+export default function ImageUpload({ pageId, imageId, currentUrl, onUpdate, isEditMode = false, onImageClick }: ImageUploadProps) {
     // State for Lightbox
     // State for Lightbox
     const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -76,7 +77,7 @@ export default function ImageUpload({ pageId, imageId, currentUrl, onUpdate, isE
                 <>
                     {/* Thumbnail */}
                     <div
-                        onClick={() => setLightboxOpen(true)}
+                        onClick={() => onImageClick ? onImageClick() : setLightboxOpen(true)}
                         className="w-full h-full cursor-zoom-in relative group"
                     >
                         <img
