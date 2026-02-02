@@ -27,16 +27,16 @@ export default function SpecGroupGrid({ specs = [] }: SpecGroupGridProps) {
     const renderGroup = (title: string, icon: React.ReactNode, items: Specification[]) => {
         if (items.length === 0) return null;
         return (
-            <div className="bg-white/5 border-l-4 border-primary p-4 rounded-r-lg hover:bg-white/10 transition-colors">
-                <div className="flex items-center gap-2 mb-3 text-primary border-b border-white/10 pb-2">
+            <div className="bg-white/5 border-t-2 border-primary/50 hover:border-primary p-6 transition-all hover:bg-white/10 group">
+                <div className="flex items-center gap-3 mb-4 text-white/50 group-hover:text-primary transition-colors">
                     {icon}
-                    <h4 className="font-display font-bold uppercase tracking-wider">{title}</h4>
+                    <h4 className="font-display font-bold uppercase tracking-wider text-lg text-white">{title}</h4>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-3">
                     {items.map(s => (
-                        <div key={s.id} className="flex flex-col text-sm">
-                            <span className="text-white/60 font-semibold text-xs uppercase">{s.label}</span>
-                            <span className="text-white pl-2 border-l-2 border-white/20">{s.value}</span>
+                        <div key={s.id} className="grid grid-cols-[1fr_auto] gap-4 text-sm border-b border-white/5 pb-2 last:border-0 hover:bg-white/5 px-2 -mx-2 rounded">
+                            <span className="text-white/40 font-semibold text-xs uppercase self-center">{s.label}</span>
+                            <span className="text-white font-medium text-right">{s.value}</span>
                         </div>
                     ))}
                 </div>
@@ -44,20 +44,21 @@ export default function SpecGroupGrid({ specs = [] }: SpecGroupGridProps) {
         );
     };
 
+    // Changed from grid-cols-4 to grid-cols-2 for wider viewing experience
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-            {renderGroup('Structure & Build', <Box className="w-5 h-5" />, groups.structure)}
-            {renderGroup('Cooling System', <Fan className="w-5 h-5" />, groups.cooling)}
-            {renderGroup('I/O Connectivity', <Cable className="w-5 h-5" />, groups.io)}
-            {renderGroup('Storage / Expansion', <Monitor className="w-5 h-5" />, groups.storage)}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+            {renderGroup('Structure & Build', <Box className="w-6 h-6" />, groups.structure)}
+            {renderGroup('Cooling System', <Fan className="w-6 h-6" />, groups.cooling)}
+            {renderGroup('I/O Connectivity', <Cable className="w-6 h-6" />, groups.io)}
+            {renderGroup('Storage / Expansion', <Monitor className="w-6 h-6" />, groups.storage)}
 
             {others.length > 0 && (
-                <div className="md:col-span-2 lg:col-span-4 mt-4 bg-black/40 border border-white/10 p-4 rounded">
-                    <h4 className="font-display font-bold uppercase text-white/50 text-sm mb-2">Additional Specs</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-2">
+                <div className="md:col-span-2 mt-4 bg-black/40 border-t border-white/10 p-6">
+                    <h4 className="font-display font-bold uppercase text-white/50 text-sm mb-4 tracking-widest">Additional Specs</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-3">
                         {others.map(s => (
                             <div key={s.id} className="flex justify-between text-sm border-b border-white/5 py-1">
-                                <span className="text-primary/80">{s.label}</span>
+                                <span className="text-primary/60 text-xs uppercase">{s.label}</span>
                                 <span className="text-white text-right">{s.value}</span>
                             </div>
                         ))}
