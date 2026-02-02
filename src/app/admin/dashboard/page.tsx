@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabaseClient';
 import { Loader2, ArrowLeft, Trash2, Edit, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import DeleteModal from '@/components/DeleteModal';
 
 interface DashboardItem {
     id: string;
@@ -18,6 +19,7 @@ interface DashboardItem {
 export default function AdminDashboard() {
     const [items, setItems] = useState<DashboardItem[]>([]);
     const [loading, setLoading] = useState(true);
+    const [deleteItem, setDeleteItem] = useState<{ id: string, title: string } | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -41,16 +43,18 @@ export default function AdminDashboard() {
         }
     }
 
-    const handleDelete = async (id: string) => {
-        const validation = prompt('SECURITY CHECK: To confirm deletion, type "DELETE" below:');
-        if (validation !== 'DELETE') {
-            if (validation !== null) alert('Deletion cancelled: You must type DELETE exactly.');
-            return;
-        }
+    const handleDeleteClick = (item: DashboardItem) => {
+        setDeleteItem({ id: item.id, title: item.title });
+    };
+
+    const executeDelete = async () => {
+        if (!deleteItem) return;
+
         try {
-            const { error } = await supabase.from('esgaming_pages').delete().eq('id', id);
+            const { error } = await supabase.from('esgaming_pages').delete().eq('id', deleteItem.id);
             if (error) throw error;
-            setItems(items.filter(i => i.id !== id));
+            setItems(items.filter(i => i.id !== deleteItem.id));
+            setDeleteItem(null); // Close modal
         } catch (err) {
             alert('Error deleting item');
         }
@@ -126,7 +130,7 @@ export default function AdminDashboard() {
                                     <Link href={`/admin/edit/${item.id}`} className="p-2 bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white rounded transition-colors" title="Edit Data">
                                         <Edit className="w-4 h-4" />
                                     </Link>
-                                    <button onClick={() => handleDelete(item.id)} className="p-2 bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white rounded transition-colors" title="Delete">
+                                    <button onClick={() => handleDeleteClick(item)} className="p-2 bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white rounded transition-colors" title="Delete">
                                         <Trash2 className="w-4 h-4" />
                                     </button>
                                 </td>
@@ -135,6 +139,13 @@ export default function AdminDashboard() {
                     </tbody>
                 </table>
             </div>
-        </div>
+
+            <DeleteModal
+                isOpen={!!deleteItem}
+                itemName={deleteItem?.title || ''}
+                onClose={() => setDeleteItem(null)}
+                onConfirm={executeDelete}
+            />
+        </div >
     );
 }
