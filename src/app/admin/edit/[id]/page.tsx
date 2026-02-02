@@ -7,6 +7,7 @@ import { Loader2, ArrowLeft, Save, Plus, Trash2, Image as ImageIcon, Box, Fan, C
 import Link from 'next/link';
 import { CatalogPage, Specification } from '@/lib/types';
 import ImageUpload from '@/components/ImageUpload';
+import CatalogPageView from '@/components/CatalogPage';
 
 export default function EditorPage() {
     const params = useParams();
@@ -122,12 +123,33 @@ export default function EditorPage() {
         if (data) setSpecs([...specs, data]);
     };
 
+    const deleteImage = async (imageId: string) => {
+        if (!confirm('Delete this image?')) return;
+        const { error } = await supabase.from('esgaming_images').delete().eq('id', imageId);
+        if (!error) {
+            fetchPage();
+        }
+    };
+
     const deleteSpec = async (specId: string) => {
         if (!confirm('Delete this spec?')) return;
         const { error } = await supabase.from('esgaming_specifications').delete().eq('id', specId);
         if (!error) {
             setSpecs(specs.filter(s => s.id !== specId));
         }
+    };
+
+    if (loading) return <div className="min-h-screen bg-black flex items-center justify-center text-primary"><Loader2 className="animate-spin" /></div>;
+    if (!page) return <div className="text-white">Page not found</div>;
+
+    // Construct Preview Data
+    const previewData: CatalogPage = {
+        ...page,
+        title: title,
+        category: category,
+        specifications: specs,
+        // Mock prices array for preview
+        prices: [{ amount: parseFloat(price), currency: 'USD' }] as any,
     };
 
     // Spec Grouping Logic (Same as SpecGroupGrid.tsx)
@@ -198,17 +220,16 @@ export default function EditorPage() {
                     </div>
                 </div>
                 <div className="flex gap-2">
-                    <button onClick={handleSavePrimary} disabled={saving} className="bg-primary text-black px-6 py-2 font-bold uppercase tracking-widest hover:bg-white transition-colors flex items-center gap-2">
+                    <button onClick={handleSavePrimary} disabled={saving} className="bg-primary text-black px-6 py-2 font-bold uppercase tracking-widest hover:bg-white transition-colors flex items-center gap-2 shadow-[0_4px_20px_rgba(255,255,255,0.1)] active:scale-95">
                         {saving ? <Loader2 className="animate-spin w-4 h-4" /> : <Save className="w-4 h-4" />}
-                        Save Changes
+                        Save Basic Info
                     </button>
                 </div>
             </header>
 
-            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
-
-                {/* LEFT COLUMN: Main Info & Images */}
-                <div className="space-y-12">
+            <div className="flex flex-col xl:flex-row gap-8">
+                {/* LEFT COLUMN: Editing Controls */}
+                <div className="flex-1 space-y-12 max-w-3xl">
 
                     {/* 1. General Info */}
                     <section className="bg-white/5 border border-white/10 p-6 rounded-lg">
@@ -254,11 +275,15 @@ export default function EditorPage() {
                             {page.images.map((img) => (
                                 <div key={img.id} className="relative aspect-square group border border-white/10 bg-black">
                                     <img src={img.url} className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" />
-                                    {/* Using logic from main page: reusing ImageUpload for simplicity, or building custom delete? */}
-                                    {/* For Admin convenience, let's reuse ImageUpload in edit mode which handles replacement */}
                                     <div className="absolute inset-0">
                                         <ImageUpload pageId={page.id} imageId={img.id} currentUrl={img.url} onUpdate={fetchPage} isEditMode={true} />
                                     </div>
+                                    <button
+                                        onClick={() => deleteImage(img.id)}
+                                        className="absolute top-2 right-2 p-1.5 bg-black/80 text-white/50 hover:text-red-500 rounded z-10 border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
                                 </div>
                             ))}
 
@@ -274,10 +299,8 @@ export default function EditorPage() {
                         </div>
                         <p className="mt-4 text-xs text-center text-white/30">Click any image to replace it. Use the empty slot to add new.</p>
                     </section>
-                </div>
 
-                {/* RIGHT COLUMN: Specifications */}
-                <div className="space-y-12">
+                    {/* 3. Specifications */}
                     <section className="bg-white/5 border border-white/10 p-6 rounded-lg h-full">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="font-display font-bold uppercase text-primary tracking-widest">Enhanced Spec Manager</h2>
@@ -301,6 +324,25 @@ export default function EditorPage() {
                             </button>
                         </div>
                     </section>
+                </div>
+
+                {/* RIGHT COLUMN: LIVE PREVIEW (GOD MODE) */}
+                <div className="hidden xl:block xl:flex-1">
+                    <div className="sticky top-28 space-y-4">
+                        <div className="flex items-center justify-between text-white/40 mb-2 px-2">
+                            <span className="text-[10px] uppercase font-bold tracking-[0.3em]">Live Product Preview</span>
+                            <span className="text-[10px] italic">Scaling automatically...</span>
+                        </div>
+                        <div className="border border-white/20 bg-zinc-900 rounded-xl overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.8)] transform scale-[0.85] origin-top">
+                            <div className="pointer-events-none">
+                                <CatalogPageView
+                                    page={previewData}
+                                    zoomLevel={1}
+                                />
+                            </div>
+                        </div>
+                        <p className="text-center text-[10px] text-white/20 uppercase tracking-widest bg-white/5 py-2 rounded">What clients see</p>
+                    </div>
                 </div>
             </div>
         </div>
