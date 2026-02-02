@@ -6,7 +6,8 @@ import { CatalogPage as PageType } from '@/lib/types';
 import CatalogPage from '@/components/CatalogPage';
 import ExcelImporter from '@/components/ExcelImporter';
 import { generateCatalogPDF } from '@/lib/pdfGenerator';
-import { Loader2, Settings, Download, PlusCircle, FileSpreadsheet, GripVertical } from 'lucide-react';
+import { Loader2, Settings, Download, PlusCircle, FileSpreadsheet, GripVertical, LayoutGrid } from 'lucide-react';
+import Link from 'next/link';
 import { Reorder, useDragControls } from 'framer-motion';
 import ViewControls from '@/components/ViewControls';
 
@@ -155,8 +156,8 @@ export default function Home() {
               key={cat}
               onClick={() => { setSelectedCategory(cat); setCurrentPage(0); }}
               className={`px-4 py-1 text-xs font-bold font-display rounded-full transition-all ${selectedCategory === cat
-                  ? 'bg-primary text-black shadow-[0_0_10px_rgba(0,255,0,0.5)]'
-                  : 'text-white/50 hover:text-white hover:bg-white/10'
+                ? 'bg-primary text-black shadow-[0_0_10px_rgba(0,255,0,0.5)]'
+                : 'text-white/50 hover:text-white hover:bg-white/10'
                 }`}
             >
               {cat}
@@ -165,6 +166,12 @@ export default function Home() {
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Dashboard Link (Visible to everyone for now, or just admins? Let's make it visible but subtle) */}
+          <Link href="/admin/dashboard" className="hidden md:flex items-center gap-2 px-4 py-2 text-xs font-display font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">
+            <LayoutGrid className="w-4 h-4" />
+            Dashboard
+          </Link>
+
           <button
             onClick={() => setIsEditMode(!isEditMode)}
             className={`flex items-center gap-2 px-6 py-2 border font-display text-sm uppercase transition-all tracking-widest ${isEditMode
