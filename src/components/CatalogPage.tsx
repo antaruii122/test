@@ -117,7 +117,8 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
                 </div>
             </div>
 
-            {/* BOTTOM: VARIANT FLIP CARDS */}
+            {/* BOTTOM: VARIANT FLIP CARDS REMOVED PER USER REQUEST */
+            /*
             <div className="mt-12 pt-8 border-t border-white/10 relative">
                 <div className="absolute top-[-15px] left-1/2 -translate-x-1/2 bg-black px-6">
                     <span className="font-display font-bold text-primary uppercase tracking-widest border border-primary px-4 py-1 rounded-full text-sm">
@@ -127,6 +128,7 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
 
                 <ModelVariantGrid pageId={page.id} isEditMode={!!isEditMode} />
             </div>
+            */}
 
             {/* FOOTER */}
             <div className="mt-auto pt-8 flex justify-between items-center text-white/30 text-xs font-display uppercase tracking-widest">
