@@ -11,6 +11,12 @@ import { Reorder, useDragControls } from 'framer-motion';
 import ViewControls from '@/components/ViewControls';
 
 export default function Home() {
+  const [pages, setPages] = useState<PageType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [showImporter, setShowImporter] = useState(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+
   const [zoomLevel, setZoomLevel] = useState(2);
   const [currentPage, setCurrentPage] = useState(0);
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
