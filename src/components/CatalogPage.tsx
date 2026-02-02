@@ -67,7 +67,7 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
             <div className="flex flex-col xl:flex-row gap-8">
 
                 {/* LEFT: IMAGES */}
-                <div className={`flex-1 transition-all ${zoomLevel === 1 ? 'xl:w-1/3' : 'xl:w-1/2'}`}>
+                <div className={`transition-all ${zoomLevel === 1 ? 'xl:w-[30%]' : 'xl:w-[38%]'} print:w-1/2`}>
                     <div className={`grid gap-4 ${zoomLevel === 3 ? 'grid-cols-2' : 'grid-cols-1'}`}>
                         {/* Main Hero Image */}
                         {page.images?.[0] && (
@@ -106,7 +106,7 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
                 </div>
 
                 {/* RIGHT: SPECS GROUPS */}
-                <div className="flex-1">
+                <div className="flex-1 xl:w-[62%] print:w-1/2">
                     <div className="bg-gradient-to-r from-primary to-purple-600 p-2 mb-6 skew-x-[-10deg] inline-block">
                         <h2 className="font-display font-black text-white text-xl uppercase skew-x-[10deg] px-4">
                             Product Structure & Features
