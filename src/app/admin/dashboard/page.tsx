@@ -12,6 +12,7 @@ interface DashboardItem {
     category: string;
     display_order: number;
     updated_at: string;
+    prices: { amount: number }[];
 }
 
 export default function AdminDashboard() {
@@ -28,7 +29,7 @@ export default function AdminDashboard() {
             setLoading(true);
             const { data, error } = await supabase
                 .from('esgaming_pages')
-                .select('id, title, category, display_order, updated_at')
+                .select('id, title, category, display_order, updated_at, prices:esgaming_prices(amount)')
                 .order('display_order', { ascending: true });
 
             if (error) throw error;
@@ -47,7 +48,7 @@ export default function AdminDashboard() {
             return;
         }
         try {
-            const { error } = await supabase.from('pages').delete().eq('id', id);
+            const { error } = await supabase.from('esgaming_pages').delete().eq('id', id);
             if (error) throw error;
             setItems(items.filter(i => i.id !== id));
         } catch (err) {
@@ -99,6 +100,7 @@ export default function AdminDashboard() {
                             <th className="p-4">Order</th>
                             <th className="p-4">Title</th>
                             <th className="p-4">Category</th>
+                            <th className="p-4 text-right">Price</th>
                             <th className="p-4 text-right">Actions</th>
                         </tr>
                     </thead>
@@ -113,6 +115,11 @@ export default function AdminDashboard() {
                                             'bg-primary/20 text-primary'
                                         }`}>
                                         {item.category || 'CASE'}
+                                    </span>
+                                </td>
+                                <td className="p-4 text-right">
+                                    <span className="font-mono text-primary font-bold">
+                                        {item.prices && item.prices.length > 0 ? `$${item.prices[0].amount}` : '-'}
                                     </span>
                                 </td>
                                 <td className="p-4 text-right flex justify-end gap-2 opacity-100 sm:opacity-50 group-hover:opacity-100 transition-opacity">

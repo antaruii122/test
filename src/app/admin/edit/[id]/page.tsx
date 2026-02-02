@@ -19,6 +19,7 @@ export default function EditorPage() {
 
     // Form State
     const [title, setTitle] = useState('');
+    const [price, setPrice] = useState('0');
     const [category, setCategory] = useState('CASES');
     const [specs, setSpecs] = useState<Specification[]>([]);
 
@@ -33,7 +34,8 @@ export default function EditorPage() {
             .select(`
                 *,
                 images:esgaming_images (*),
-                specifications:esgaming_specifications (*)
+                specifications:esgaming_specifications (*),
+                prices:esgaming_prices (*)
             `)
             .eq('id', id)
             .single();
@@ -41,6 +43,7 @@ export default function EditorPage() {
         if (data) {
             setPage(data);
             setTitle(data.title);
+            setPrice(data.prices && data.prices.length > 0 ? data.prices[0].amount : '0');
             setCategory(data.category || 'CASES');
             setSpecs(data.specifications || []);
         }
@@ -59,6 +62,16 @@ export default function EditorPage() {
                 .eq('id', id);
 
             if (error) throw error;
+
+            // Save Price
+            // Check if price exists
+            const { data: existingPrice } = await supabase.from('esgaming_prices').select('id').eq('page_id', id).single();
+            if (existingPrice) {
+                await supabase.from('esgaming_prices').update({ amount: parseFloat(price) }).eq('id', existingPrice.id);
+            } else {
+                await supabase.from('esgaming_prices').insert({ page_id: id, amount: parseFloat(price), currency: 'USD' });
+            }
+
             alert('Saved successfully!');
         } catch (err) {
             alert('Error saving data');
@@ -156,6 +169,15 @@ export default function EditorPage() {
                                     value={title}
                                     onChange={e => setTitle(e.target.value)}
                                     className="w-full bg-black border border-white/20 p-3 font-bold text-lg focus:border-primary outline-none transition-colors"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs uppercase text-white/50 mb-1">Price (USD)</label>
+                                <input
+                                    type="number"
+                                    value={price}
+                                    onChange={e => setPrice(e.target.value)}
+                                    className="w-full bg-black border border-white/20 p-3 font-mono text-lg focus:border-primary outline-none transition-colors"
                                 />
                             </div>
                             <div>

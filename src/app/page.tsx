@@ -171,10 +171,12 @@ export default function Home() {
 
         <div className="flex items-center gap-3">
           {/* Dashboard Link (Visible to everyone for now, or just admins? Let's make it visible but subtle) */}
-          <Link href="/admin/dashboard" className="hidden md:flex items-center gap-2 px-4 py-2 text-xs font-display font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">
-            <LayoutGrid className="w-4 h-4" />
-            Dashboard
-          </Link>
+          {isEditMode && (
+            <Link href="/admin/dashboard" className="hidden md:flex items-center gap-2 px-4 py-2 text-xs font-display font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">
+              <LayoutGrid className="w-4 h-4" />
+              Dashboard
+            </Link>
+          )}
 
           <button
             onClick={() => setIsEditMode(!isEditMode)}
