@@ -60,7 +60,8 @@ body {
 }
 
 .a4-page {
-  width: var(--a4-width);
+  width: 80%;
+  max-width: 1400px;
   min-height: 1123px;
   /* A4 aspect ratio height approx */
   background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
@@ -75,6 +76,26 @@ body {
     0 0 100px rgba(255, 0, 0, 0.05);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media print {
+  .a4-page {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+    page-break-after: always;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    border: none;
+    box-shadow: none;
+  }
+
+  /* Hide UI elements during print */
+  nav,
+  .view-controls,
+  .admin-controls {
+    display: none !important;
+  }
 }
 
 .a4-page:hover {

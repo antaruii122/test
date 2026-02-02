@@ -14,8 +14,8 @@ export default function Home() {
   const [pages, setPages] = useState<PageType[]>([]);
   const [loading, setLoading] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [showImporter, setShowImporter] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [hasAdminAccess, setHasAdminAccess] = useState(false);
 
   const [zoomLevel, setZoomLevel] = useState(2);
   const [currentPage, setCurrentPage] = useState(0);
@@ -25,6 +25,9 @@ export default function Home() {
 
   useEffect(() => {
     fetchPages();
+    // Check for admin access
+    const isAdmin = localStorage.getItem('admin_access') === 'true';
+    setHasAdminAccess(isAdmin);
   }, []);
 
   async function fetchPages() {
@@ -137,16 +140,18 @@ export default function Home() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => setIsEditMode(!isEditMode)}
-            className={`flex items-center gap-2 px-4 py-2 border font-display text-sm uppercase transition-all ${isEditMode
-              ? 'bg-primary text-black border-primary'
-              : 'hover:border-primary hover:text-primary border-white/20'
-              }`}
-          >
-            <Settings className={`w-4 h-4 ${isEditMode ? 'animate-spin-slow' : ''}`} />
-            {isEditMode ? 'Admin Active' : 'Edit Mode'}
-          </button>
+          {hasAdminAccess && (
+            <button
+              onClick={() => setIsEditMode(!isEditMode)}
+              className={`flex items-center gap-2 px-4 py-2 border font-display text-sm uppercase transition-all ${isEditMode
+                ? 'bg-primary text-black border-primary'
+                : 'hover:border-primary hover:text-primary border-white/20'
+                }`}
+            >
+              <Settings className={`w-4 h-4 ${isEditMode ? 'animate-spin-slow' : ''}`} />
+              {isEditMode ? 'Admin Active' : 'Edit Mode'}
+            </button>
+          )}
 
           <button
             onClick={handleDownloadPDF}
