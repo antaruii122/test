@@ -25,7 +25,7 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
 
     const handleUpdateTitle = async (newTitle: string) => {
         const { error } = await supabase
-            .from('pages')
+            .from('esgaming_pages')
             .update({ title: newTitle })
             .eq('id', page.id);
         if (error) throw error;

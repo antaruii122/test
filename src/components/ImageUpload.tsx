@@ -44,13 +44,13 @@ export default function ImageUpload({ pageId, imageId, currentUrl, onUpdate, isE
             // 3. Update DB
             if (imageId) {
                 const { error: dbError } = await supabase
-                    .from('images')
+                    .from('esgaming_images')
                     .update({ url: publicUrl })
                     .eq('id', imageId);
                 if (dbError) throw dbError;
             } else {
                 const { error: dbError } = await supabase
-                    .from('images')
+                    .from('esgaming_images')
                     .insert({ page_id: pageId, url: publicUrl });
                 if (dbError) throw dbError;
             }

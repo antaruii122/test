@@ -18,14 +18,14 @@ export default function SpecificationTable({ pageId, specifications, isEditMode,
 
     const handleUpdateSpec = async (id: string, field: 'label' | 'value', newValue: string) => {
         const { error } = await supabase
-            .from('specifications')
+            .from('esgaming_specifications')
             .update({ [field]: newValue })
             .eq('id', id);
         if (error) throw error;
     };
 
     const handleDeleteSpec = async (id: string) => {
-        const { error } = await supabase.from('specifications').delete().eq('id', id);
+        const { error } = await supabase.from('esgaming_specifications').delete().eq('id', id);
         if (error) throw error;
         if (onRefresh) onRefresh();
     };

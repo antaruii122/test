@@ -70,7 +70,7 @@ export default function ExcelImporter({ onComplete }: ExcelImporterProps) {
 
                 // 1. Create Page
                 const { data: page, error: pError } = await supabase
-                    .from('pages')
+                    .from('esgaming_pages')
                     .insert({ title })
                     .select()
                     .single();
@@ -79,7 +79,7 @@ export default function ExcelImporter({ onComplete }: ExcelImporterProps) {
 
                 // 2. Add Price
                 if (priceAmount > 0) {
-                    await supabase.from('prices').insert({
+                    await supabase.from('esgaming_prices').insert({
                         page_id: page.id,
                         amount: priceAmount,
                         currency: 'USD'
@@ -88,7 +88,7 @@ export default function ExcelImporter({ onComplete }: ExcelImporterProps) {
 
                 // 3. Add Image
                 if (imageUrl) {
-                    await supabase.from('images').insert({
+                    await supabase.from('esgaming_images').insert({
                         page_id: page.id,
                         url: imageUrl,
                         display_order: 0
@@ -103,7 +103,7 @@ export default function ExcelImporter({ onComplete }: ExcelImporterProps) {
                         value: s.value,
                         display_order: idx
                     }));
-                    await supabase.from('specifications').insert(specsPayload);
+                    await supabase.from('esgaming_specifications').insert(specsPayload);
                 }
             }
 

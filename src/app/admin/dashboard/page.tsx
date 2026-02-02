@@ -27,7 +27,7 @@ export default function AdminDashboard() {
         try {
             setLoading(true);
             const { data, error } = await supabase
-                .from('pages')
+                .from('esgaming_pages')
                 .select('id, title, category, display_order, updated_at')
                 .order('display_order', { ascending: true });
 
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
         setLoading(true);
         try {
             const { data, error } = await supabase
-                .from('pages')
+                .from('esgaming_pages')
                 .insert({ title: 'NEW PRODUCT', category: 'CASES' })
                 .select()
                 .single();
@@ -109,8 +109,8 @@ export default function AdminDashboard() {
                                 <td className="p-4 font-bold">{item.title}</td>
                                 <td className="p-4">
                                     <span className={`px-2 py-1 rounded text-xs uppercase font-bold ${item.category === 'KEYBOARDS' ? 'bg-purple-500/20 text-purple-400' :
-                                            item.category === 'MOTHERBOARDS' ? 'bg-blue-500/20 text-blue-400' :
-                                                'bg-primary/20 text-primary'
+                                        item.category === 'MOTHERBOARDS' ? 'bg-blue-500/20 text-blue-400' :
+                                            'bg-primary/20 text-primary'
                                         }`}>
                                         {item.category || 'CASE'}
                                     </span>

@@ -40,7 +40,7 @@ export default function Home() {
       setLoading(true);
       // Fetch pages with related images, specs, and price
       const { data, error } = await supabase
-        .from('pages')
+        .from('esgaming_pages')
         .select(`
           *,
           images (*),
@@ -68,7 +68,7 @@ export default function Home() {
   const handleAddNewPage = async () => {
     try {
       const { data, error } = await supabase
-        .from('pages')
+        .from('esgaming_pages')
         .insert({ title: 'NEW GAMING CASE' })
         .select()
         .single();

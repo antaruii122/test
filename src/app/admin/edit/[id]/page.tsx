@@ -29,7 +29,7 @@ export default function EditorPage() {
     async function fetchPage() {
         setLoading(true);
         const { data, error } = await supabase
-            .from('pages')
+            .from('esgaming_pages')
             .select(`
                 *,
                 images (*),
@@ -51,7 +51,7 @@ export default function EditorPage() {
         setSaving(true);
         try {
             const { error } = await supabase
-                .from('pages')
+                .from('esgaming_pages')
                 .update({
                     title,
                     category: category.toUpperCase()
@@ -85,7 +85,7 @@ export default function EditorPage() {
                 display_order: i
             }));
 
-            const { error } = await supabase.from('specifications').upsert(updates);
+            const { error } = await supabase.from('esgaming_specifications').upsert(updates);
             if (error) throw error;
             alert('Specs Saved!');
         } catch (err) {
@@ -101,7 +101,7 @@ export default function EditorPage() {
         // Let's do local first, but for upsert to work effectively it's better to insert.
         // Actually, simplest is to insert a blank one.
         const { data, error } = await supabase
-            .from('specifications')
+            .from('esgaming_specifications')
             .insert({ page_id: id, label: 'NEW LABEL', value: 'New Value', display_order: specs.length })
             .select()
             .single();
@@ -111,7 +111,7 @@ export default function EditorPage() {
 
     const deleteSpec = async (specId: string) => {
         if (!confirm('Delete this spec?')) return;
-        const { error } = await supabase.from('specifications').delete().eq('id', specId);
+        const { error } = await supabase.from('esgaming_specifications').delete().eq('id', specId);
         if (!error) {
             setSpecs(specs.filter(s => s.id !== specId));
         }
