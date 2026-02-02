@@ -34,8 +34,9 @@ export default function AdminDashboard() {
 
             if (error) throw error;
             setItems(data || []);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error fetching dashboard items:', error);
+            alert('Debug Error Loading Dashboard: ' + (error.message || JSON.stringify(error)));
         } finally {
             setLoading(false);
         }
@@ -67,9 +68,9 @@ export default function AdminDashboard() {
 
             if (error) throw error;
             router.push(`/admin/edit/${data.id}`);
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-            alert('Error creating product');
+            alert('Debug Error Creating: ' + (err.message || JSON.stringify(err)));
             setLoading(false);
         }
     };
