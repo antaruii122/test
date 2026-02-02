@@ -141,18 +141,24 @@ export default function Home() {
         </div>
 
         <div className="flex items-center gap-3">
-          {hasAdminAccess && (
-            <button
-              onClick={() => setIsEditMode(!isEditMode)}
-              className={`flex items-center gap-2 px-4 py-2 border font-display text-sm uppercase transition-all ${isEditMode
-                ? 'bg-primary text-black border-primary'
-                : 'hover:border-primary hover:text-primary border-white/20'
-                }`}
-            >
-              <Settings className={`w-4 h-4 ${isEditMode ? 'animate-spin-slow' : ''}`} />
-              {isEditMode ? 'Admin Active' : 'Edit Mode'}
-            </button>
-          )}
+          <button
+            onClick={() => setIsEditMode(!isEditMode)}
+            className={`flex items-center gap-2 px-6 py-2 border font-display text-sm uppercase transition-all tracking-widest ${isEditMode
+              ? 'bg-green-500 text-black border-green-500 hover:bg-green-400'
+              : 'border-primary text-primary hover:bg-primary hover:text-black'
+              }`}
+          >
+            {isEditMode ? (
+              <>
+                <span className="font-black">ADMIN OK</span>
+              </>
+            ) : (
+              <>
+                <Settings className="w-4 h-4" />
+                <span>ADMIN</span>
+              </>
+            )}
+          </button>
 
           <button
             onClick={handleDownloadPDF}
