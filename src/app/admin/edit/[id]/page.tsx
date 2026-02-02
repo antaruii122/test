@@ -110,13 +110,10 @@ export default function EditorPage() {
         }
     };
 
-    const addNewSpec = async () => {
-        // Create a blank spec in DB immediately to get an ID? Or just local?
-        // Let's do local first, but for upsert to work effectively it's better to insert.
-        // Actually, simplest is to insert a blank one.
+    const addNewSpec = async (defaultLabel: string = 'NEW LABEL') => {
         const { data, error } = await supabase
             .from('esgaming_specifications')
-            .insert({ page_id: id, label: 'NEW LABEL', value: 'New Value', display_order: specs.length })
+            .insert({ page_id: id, label: defaultLabel, value: '...', display_order: specs.length })
             .select()
             .single();
 
@@ -167,11 +164,21 @@ export default function EditorPage() {
         !groupedSpecs.storage.includes(s)
     );
 
-    const renderSpecEditor = (label: string, icon: React.ReactNode, items: Specification[]) => (
+    const renderSpecEditor = (label: string, icon: React.ReactNode, items: Specification[], addLabel?: string) => (
         <div className="bg-white/5 border border-white/10 p-4 rounded mb-4">
-            <div className="flex items-center gap-2 mb-4 text-primary">
-                {icon}
-                <h3 className="font-display font-bold uppercase text-sm tracking-widest">{label}</h3>
+            <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2 text-primary">
+                    {icon}
+                    <h3 className="font-display font-bold uppercase text-sm tracking-widest">{label}</h3>
+                </div>
+                {addLabel && (
+                    <button
+                        onClick={() => addNewSpec(addLabel)}
+                        className="text-[10px] bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded text-white/50 flex items-center gap-1"
+                    >
+                        + Add {label}
+                    </button>
+                )}
             </div>
             <div className="space-y-2">
                 {items.length === 0 && <p className="text-[10px] text-white/20 italic">No specs in this category yet.</p>}
@@ -280,7 +287,7 @@ export default function EditorPage() {
                                     </div>
                                     <button
                                         onClick={() => deleteImage(img.id)}
-                                        className="absolute top-2 right-2 p-1.5 bg-black/80 text-white/50 hover:text-red-500 rounded z-10 border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        className="absolute top-2 right-2 p-1.5 bg-black/80 text-white/50 hover:text-red-500 rounded z-10 border border-white/10 opacity-100 transition-opacity shadow-lg"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </button>
@@ -310,12 +317,12 @@ export default function EditorPage() {
                         </div>
 
                         <div className="space-y-4 max-h-[1000px] overflow-y-auto pr-2 custom-scrollbar">
-                            {renderSpecEditor('Structure', <Box size={16} />, groupedSpecs.structure)}
-                            {renderSpecEditor('Cooling', <Fan size={16} />, groupedSpecs.cooling)}
-                            {renderSpecEditor('I/O', <Cable size={16} />, groupedSpecs.io)}
-                            {renderSpecEditor('Storage', <Monitor size={16} />, groupedSpecs.storage)}
+                            {renderSpecEditor('Structure', <Box size={16} />, groupedSpecs.structure, 'Panel')}
+                            {renderSpecEditor('Cooling', <Fan size={16} />, groupedSpecs.cooling, 'Fan')}
+                            {renderSpecEditor('I/O', <Cable size={16} />, groupedSpecs.io, 'USB')}
+                            {renderSpecEditor('Storage', <Monitor size={16} />, groupedSpecs.storage, 'HDD/SSD')}
 
-                            {others.length > 0 && renderSpecEditor('Additional / Uncategorized', <Plus size={16} />, others)}
+                            {others.length > 0 && renderSpecEditor('Additional', <Plus size={16} />, others)}
                         </div>
 
                         <div className="mt-6 pt-4 border-t border-white/10 sticky bottom-0 bg-zinc-900/90 p-4 -m-4">
