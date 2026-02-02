@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;600;700&family=Orbitron:wght@700;900&display=swap');
+
+:root {
+  /* MSI Gaming Aesthetic Tokens */
+  --primary: #ff0000;
+  --primary-dark: #cc0000;
+  --background: #000000;
+  --background-alt: #1a1a1a;
+  --text-white: #ffffff;
+  --text-gray: #cccccc;
+  
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Rajdhani', sans-serif;
+  
+  --a4-width: 794px; /* 210mm at 96dpi */
+  --page-padding: 40px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: #0a0a0a;
+  color: var(--text-white);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* A4 Container Styling */
+.catalog-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.a4-page {
+  width: var(--a4-width);
+  min-height: 1123px; /* A4 aspect ratio height approx */
+  background: linear-gradient(135deg, var(--background) 0%, var(--background-alt) 100%);
+  border: 4px solid var(--primary);
+  padding: var(--page-padding);
+  position: relative;
+  box-shadow: 0 0 50px rgba(0,0,0,0.5), 0 0 20px rgba(255,0,0,0.1);
+  overflow: hidden;
+}
+
+/* Angular Shapes / MSI Style Utility Classes */
+.angular-header {
+  background: linear-gradient(90deg, var(--background) 0%, var(--primary) 50%, var(--background) 100%);
+  clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.orbitron-title {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 20px var(--primary);
+}
+
+.price-tag {
+  background: linear-gradient(45deg, var(--primary) 0%, var(--primary-dark) 100%);
+  clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
+  padding: 1rem 2rem;
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: white;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
