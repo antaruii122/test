@@ -6,6 +6,7 @@ export interface CatalogPage {
   specifications: Specification[];
   price?: Price;
   category?: string; // e.g. 'case', 'motherboard', 'keyboard'
+  prices?: { amount: number }[];
 }
 
 export interface CatalogImage {
