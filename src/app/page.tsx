@@ -14,6 +14,7 @@ export default function Home() {
   const [pages, setPages] = useState<PageType[]>([]);
   const [loading, setLoading] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [showImporter, setShowImporter] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [hasAdminAccess, setHasAdminAccess] = useState(false);
 
