@@ -236,50 +236,54 @@ export default function EditorPage() {
                 </div>
             </header>
 
-            <div className="flex flex-col xl:flex-row gap-8">
-                {/* LEFT COLUMN: Editing Controls */}
-                <div className="flex-1 space-y-12 max-w-3xl">
+            <div className="flex flex-col xl:flex-row gap-8 items-start">
+                {/* LEFT COLUMN: Compact Editing Controls */}
+                <div className="w-full xl:w-[400px] shrink-0 space-y-8">
 
                     {/* 1. General Info */}
                     <section className="bg-white/5 border border-white/10 p-6 rounded-lg">
                         <h2 className="font-display font-bold uppercase text-primary mb-6 tracking-widest">General Info</h2>
                         <div className="space-y-4">
-                            <div>
-                                <label className="block text-xs uppercase text-white/50 mb-1">Product Title</label>
-                                <input
-                                    value={title}
-                                    onChange={e => setTitle(e.target.value)}
-                                    className="w-full bg-black border border-white/20 p-3 font-bold text-lg focus:border-primary outline-none transition-colors"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs uppercase text-white/50 mb-1">Price (USD)</label>
-                                <input
-                                    type="number"
-                                    value={price}
-                                    onChange={e => setPrice(e.target.value)}
-                                    className="w-full bg-black border border-white/20 p-3 font-mono text-lg focus:border-primary outline-none transition-colors"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs uppercase text-white/50 mb-1">Category</label>
-                                <select
-                                    value={category}
-                                    onChange={e => setCategory(e.target.value)}
-                                    className="w-full bg-black border border-white/20 p-3 text-white focus:border-primary outline-none"
-                                >
-                                    <option value="CASES">CASES</option>
-                                    <option value="MOTHERBOARDS">MOTHERBOARDS</option>
-                                    <option value="KEYBOARDS">KEYBOARDS</option>
-                                </select>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-[10px] uppercase text-white/30 mb-1">Product Title</label>
+                                    <input
+                                        value={title}
+                                        onChange={e => setTitle(e.target.value)}
+                                        className="w-full bg-black border border-white/10 p-2 font-bold text-sm focus:border-primary outline-none transition-colors rounded"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label className="block text-[10px] uppercase text-white/30 mb-1">Price</label>
+                                        <input
+                                            type="number"
+                                            value={price}
+                                            onChange={e => setPrice(e.target.value)}
+                                            className="w-full bg-black border border-white/10 p-2 font-mono text-sm focus:border-primary outline-none rounded"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] uppercase text-white/30 mb-1">Cat.</label>
+                                        <select
+                                            value={category}
+                                            onChange={e => setCategory(e.target.value)}
+                                            className="w-full bg-black border border-white/10 p-2 text-xs focus:border-primary outline-none rounded"
+                                        >
+                                            <option value="CASES">CASES</option>
+                                            <option value="MOTHERBOARDS">MOTHERBOARDS</option>
+                                            <option value="KEYBOARDS">KEYBOARDS</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
 
                     {/* 2. Images Manager */}
-                    <section className="bg-white/5 border border-white/10 p-6 rounded-lg">
-                        <h2 className="font-display font-bold uppercase text-primary mb-6 tracking-widest">Image Gallery</h2>
-                        <div className="grid grid-cols-3 gap-4">
+                    <section className="bg-white/5 border border-white/10 p-4 rounded-lg">
+                        <h2 className="font-display font-bold uppercase text-primary/50 mb-4 tracking-widest text-[10px]">Photo Management</h2>
+                        <div className="grid grid-cols-5 gap-2">
                             {/* Existing Images */}
                             {page.images.map((img) => (
                                 <div key={img.id} className="relative aspect-square group border border-white/10 bg-black">
@@ -307,7 +311,7 @@ export default function EditorPage() {
                                 </div>
                             </div>
                         </div>
-                        <p className="mt-4 text-xs text-center text-white/30">Click any image to replace it. Use the empty slot to add new.</p>
+                        <p className="mt-2 text-[10px] text-center text-white/20 italic">Click image to replace. Trash to delete.</p>
                     </section>
 
                     {/* 3. Specifications */}
@@ -336,25 +340,31 @@ export default function EditorPage() {
                     </section>
                 </div>
 
-                {/* RIGHT COLUMN: LIVE PREVIEW (GOD MODE) */}
-                <div className="hidden xl:block xl:flex-1">
-                    <div className="sticky top-28 space-y-4">
-                        <div className="flex items-center justify-between text-white/40 mb-2 px-2">
-                            <span className="text-[10px] uppercase font-bold tracking-[0.3em]">Live Product Preview</span>
-                            <span className="text-[10px] italic">Scaling automatically...</span>
-                        </div>
-                        <div className="border border-white/20 bg-zinc-900 rounded-xl overflow-hidden shadow-[0_20px_80px_rgba(0,0,0,0.8)] transform scale-[0.85] origin-top">
-                            <div className="pointer-events-none">
-                                <CatalogPageView
-                                    page={previewData}
-                                    zoomLevel={1}
-                                />
+                {/* RIGHT COLUMN: DOMINANT PREVIEW (GOD MODE) */}
+                <div className="flex-1 min-w-0">
+                    <div className="sticky top-28 bg-black/40 border border-white/10 p-8 rounded-2xl backdrop-blur-md">
+                        <div className="flex items-center justify-between text-white/40 mb-6 border-b border-white/10 pb-4">
+                            <div className="flex items-center gap-4">
+                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                                <span className="text-xs uppercase font-black tracking-[0.4em] text-white">Live Production View</span>
                             </div>
+                            <span className="text-[10px] font-mono bg-white/10 px-2 py-1 rounded">100% SCALE</span>
                         </div>
-                        <p className="text-center text-[10px] text-white/20 uppercase tracking-widest bg-white/5 py-2 rounded">What clients see</p>
+
+                        <div className="max-w-[1000px] mx-auto bg-zinc-950 rounded-lg shadow-[0_0_100px_rgba(0,0,0,1)]">
+                            <CatalogPageView
+                                page={previewData}
+                                zoomLevel={1}
+                            />
+                        </div>
+                        <div className="mt-8 flex justify-center gap-8 text-[10px] text-white/20 uppercase tracking-[0.3em]">
+                            <span>Responsive Check</span>
+                            <span>•</span>
+                            <span>A4 Format Ready</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
