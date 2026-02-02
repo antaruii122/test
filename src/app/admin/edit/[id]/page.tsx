@@ -120,19 +120,21 @@ export default function EditorPage() {
         if (data) setSpecs([...specs, data]);
     };
 
-    const deleteImage = async (imageId: string) => {
-        if (!confirm('Delete this image?')) return;
-        const { error } = await supabase.from('esgaming_images').delete().eq('id', imageId);
-        if (!error) {
-            fetchPage();
-        }
-    };
-
     const deleteSpec = async (specId: string) => {
         if (!confirm('Delete this spec?')) return;
         const { error } = await supabase.from('esgaming_specifications').delete().eq('id', specId);
         if (!error) {
             setSpecs(specs.filter(s => s.id !== specId));
+        }
+    };
+
+    const handleDeleteImage = async (e: React.MouseEvent, imageId: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!confirm('Delete this image?')) return;
+        const { error } = await supabase.from('esgaming_images').delete().eq('id', imageId);
+        if (!error) {
+            fetchPage();
         }
     };
 
@@ -286,8 +288,9 @@ export default function EditorPage() {
                                         <ImageUpload pageId={page.id} imageId={img.id} currentUrl={img.url} onUpdate={fetchPage} isEditMode={true} />
                                     </div>
                                     <button
-                                        onClick={() => deleteImage(img.id)}
-                                        className="absolute top-2 right-2 p-1.5 bg-black/80 text-white/50 hover:text-red-500 rounded z-10 border border-white/10 opacity-100 transition-opacity shadow-lg"
+                                        onClick={(e) => handleDeleteImage(e, img.id)}
+                                        className="absolute top-2 right-2 p-2 bg-red-600 text-white hover:bg-red-500 rounded-full z-20 border border-white/20 shadow-xl transition-all active:scale-90"
+                                        title="Delete Image"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </button>
@@ -311,7 +314,7 @@ export default function EditorPage() {
                     <section className="bg-white/5 border border-white/10 p-6 rounded-lg h-full">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="font-display font-bold uppercase text-primary tracking-widest">Enhanced Spec Manager</h2>
-                            <button onClick={addNewSpec} className="text-xs bg-primary text-black hover:bg-white px-3 py-1 font-bold rounded flex items-center gap-1 transition-colors">
+                            <button onClick={() => addNewSpec()} className="text-xs bg-primary text-black hover:bg-white px-3 py-1 font-bold rounded flex items-center gap-1 transition-colors">
                                 <Plus className="w-3 h-3" /> Add Any Spec
                             </button>
                         </div>
