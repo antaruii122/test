@@ -146,7 +146,10 @@ export default function Home() {
       {/* Admin Toolbar / Nav */}
       <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-primary/30 py-4 px-8 flex justify-between items-center shadow-[0_0_20px_rgba(255,0,0,0.2)]">
         <div className="flex items-center gap-4">
-          <div className="bg-primary px-3 py-1 font-display font-black text-black">MSI</div>
+          {/* Logo */}
+          <div className="h-12 w-auto overflow-hidden rounded">
+            <img src="/logo.jfif" alt="ESGAMINGPC" className="h-full w-auto object-contain" />
+          </div>
           <h1 className="font-display font-black text-xl tracking-tighter hidden md:block">{selectedCategory} <span className="text-primary italic">CATALOG</span></h1>
         </div>
 

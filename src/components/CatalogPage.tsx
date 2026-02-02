@@ -135,7 +135,7 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
 
             {/* FOOTER */}
             <div className="mt-auto pt-8 flex justify-between items-center text-white/30 text-xs font-display uppercase tracking-widest">
-                <span>MSI Gaming Chassis</span>
+                <span>ESGAMINGPC</span>
                 <span>Powered by High Performance</span>
             </div>
         </div>
