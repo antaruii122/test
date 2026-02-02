@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useParams, useRouter } from 'next/navigation';
-import { Loader2, ArrowLeft, Save, Plus, Trash2, Image as ImageIcon } from 'lucide-react';
+import { Loader2, ArrowLeft, Save, Plus, Trash2, Image as ImageIcon, Box, Fan, Cable, Monitor } from 'lucide-react';
 import Link from 'next/link';
 import { CatalogPage, Specification } from '@/lib/types';
 import ImageUpload from '@/components/ImageUpload';
@@ -130,6 +130,57 @@ export default function EditorPage() {
         }
     };
 
+    // Spec Grouping Logic (Same as SpecGroupGrid.tsx)
+    const groupedSpecs = {
+        structure: specs.filter(s => /structure|size|dimension|mm|material|panel/i.test(s.label) || /mm|steel|glass/i.test(s.value)),
+        cooling: specs.filter(s => /fan|cool|radiator|water|rgb/i.test(s.label)),
+        io: specs.filter(s => /usb|audio|port|jack/i.test(s.label) || /usb/i.test(s.value)),
+        storage: specs.filter(s => /hdd|ssd|drive|bay|slot/i.test(s.label))
+    };
+
+    const others = specs.filter(s =>
+        !groupedSpecs.structure.includes(s) &&
+        !groupedSpecs.cooling.includes(s) &&
+        !groupedSpecs.io.includes(s) &&
+        !groupedSpecs.storage.includes(s)
+    );
+
+    const renderSpecEditor = (label: string, icon: React.ReactNode, items: Specification[]) => (
+        <div className="bg-white/5 border border-white/10 p-4 rounded mb-4">
+            <div className="flex items-center gap-2 mb-4 text-primary">
+                {icon}
+                <h3 className="font-display font-bold uppercase text-sm tracking-widest">{label}</h3>
+            </div>
+            <div className="space-y-2">
+                {items.length === 0 && <p className="text-[10px] text-white/20 italic">No specs in this category yet.</p>}
+                {items.map((spec) => {
+                    const realIndex = specs.findIndex(s => s.id === spec.id);
+                    return (
+                        <div key={spec.id} className="flex gap-2 items-start group">
+                            <div className="flex-1 grid grid-cols-2 gap-2">
+                                <input
+                                    value={spec.label}
+                                    onChange={(e) => handleSpecChange(realIndex, 'label', e.target.value)}
+                                    placeholder="Label"
+                                    className="bg-black/50 border border-white/10 p-2 text-[10px] font-bold text-white/70 focus:text-primary focus:border-primary outline-none"
+                                />
+                                <input
+                                    value={spec.value}
+                                    onChange={(e) => handleSpecChange(realIndex, 'value', e.target.value)}
+                                    placeholder="Value"
+                                    className="bg-black/50 border border-white/10 p-2 text-[10px] text-white focus:border-primary outline-none"
+                                />
+                            </div>
+                            <button onClick={() => deleteSpec(spec.id)} className="p-2 text-white/20 hover:text-red-500 transition-colors">
+                                <Trash2 className="w-3 h-3" />
+                            </button>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+
     if (loading) return <div className="min-h-screen bg-black flex items-center justify-center text-primary"><Loader2 className="animate-spin" /></div>;
     if (!page) return <div className="text-white">Page not found</div>;
 
@@ -229,39 +280,24 @@ export default function EditorPage() {
                 <div className="space-y-12">
                     <section className="bg-white/5 border border-white/10 p-6 rounded-lg h-full">
                         <div className="flex justify-between items-center mb-6">
-                            <h2 className="font-display font-bold uppercase text-primary tracking-widest">Specifications</h2>
-                            <button onClick={addNewSpec} className="text-xs bg-white/10 hover:bg-white/20 px-3 py-1 rounded text-white flex items-center gap-1">
-                                <Plus className="w-3 h-3" /> Add Spec
+                            <h2 className="font-display font-bold uppercase text-primary tracking-widest">Enhanced Spec Manager</h2>
+                            <button onClick={addNewSpec} className="text-xs bg-primary text-black hover:bg-white px-3 py-1 font-bold rounded flex items-center gap-1 transition-colors">
+                                <Plus className="w-3 h-3" /> Add Any Spec
                             </button>
                         </div>
 
-                        <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-                            {specs.sort((a, b) => a.display_order - b.display_order).map((spec, index) => (
-                                <div key={spec.id} className="flex gap-2 items-start group">
-                                    <div className="flex-1 grid grid-cols-2 gap-2">
-                                        <input
-                                            value={spec.label}
-                                            onChange={(e) => handleSpecChange(index, 'label', e.target.value)}
-                                            placeholder="Label"
-                                            className="bg-black/50 border border-white/10 p-2 text-xs font-bold text-white/70 focus:text-primary focus:border-primary outline-none"
-                                        />
-                                        <input
-                                            value={spec.value}
-                                            onChange={(e) => handleSpecChange(index, 'value', e.target.value)}
-                                            placeholder="Value"
-                                            className="bg-black/50 border border-white/10 p-2 text-xs text-white focus:border-primary outline-none"
-                                        />
-                                    </div>
-                                    <button onClick={() => deleteSpec(spec.id)} className="p-2 text-white/20 hover:text-red-500 transition-colors">
-                                        <Trash2 className="w-4 h-4" />
-                                    </button>
-                                </div>
-                            ))}
+                        <div className="space-y-4 max-h-[1000px] overflow-y-auto pr-2 custom-scrollbar">
+                            {renderSpecEditor('Structure', <Box size={16} />, groupedSpecs.structure)}
+                            {renderSpecEditor('Cooling', <Fan size={16} />, groupedSpecs.cooling)}
+                            {renderSpecEditor('I/O', <Cable size={16} />, groupedSpecs.io)}
+                            {renderSpecEditor('Storage', <Monitor size={16} />, groupedSpecs.storage)}
+
+                            {others.length > 0 && renderSpecEditor('Additional / Uncategorized', <Plus size={16} />, others)}
                         </div>
 
-                        <div className="mt-6 pt-4 border-t border-white/10">
-                            <button onClick={handleSaveSpecs} className="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-bold uppercase text-xs tracking-widest flex justify-center items-center gap-2 transition-colors">
-                                <Save className="w-3 h-3" /> Update Specs List
+                        <div className="mt-6 pt-4 border-t border-white/10 sticky bottom-0 bg-zinc-900/90 p-4 -m-4">
+                            <button onClick={handleSaveSpecs} className="w-full py-4 bg-primary text-black font-black uppercase text-xs tracking-[0.2em] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                                <Save className="w-4 h-4" /> Finalize & Push Specs
                             </button>
                         </div>
                     </section>
