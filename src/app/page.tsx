@@ -43,9 +43,9 @@ export default function Home() {
         .from('esgaming_pages')
         .select(`
           *,
-          images (*),
-          specifications (*),
-          prices (*)
+          images:esgaming_images (*),
+          specifications:esgaming_specifications (*),
+          prices:esgaming_prices (*)
         `)
         .order('display_order', { ascending: true });
 

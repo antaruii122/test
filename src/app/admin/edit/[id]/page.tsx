@@ -32,8 +32,8 @@ export default function EditorPage() {
             .from('esgaming_pages')
             .select(`
                 *,
-                images (*),
-                specifications (*)
+                images:esgaming_images (*),
+                specifications:esgaming_specifications (*)
             `)
             .eq('id', id)
             .single();
