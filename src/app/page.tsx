@@ -80,7 +80,8 @@ export default function Home() {
   };
 
   const handleDeletePage = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this page?')) return;
+    const validation = prompt('SECURITY CHECK: To confirm deletion, type "DELETE" below:');
+    if (validation !== 'DELETE') return;
     try {
       const { error } = await supabase.from('pages').delete().eq('id', id);
       if (error) throw error;

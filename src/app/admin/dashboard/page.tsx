@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { Loader2, ArrowLeft, Trash2, Edit, Plus } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface DashboardItem {
     id: string;
@@ -16,6 +17,7 @@ interface DashboardItem {
 export default function AdminDashboard() {
     const [items, setItems] = useState<DashboardItem[]>([]);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
         fetchItems();
@@ -39,13 +41,35 @@ export default function AdminDashboard() {
     }
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this product?')) return;
+        const validation = prompt('SECURITY CHECK: To confirm deletion, type "DELETE" below:');
+        if (validation !== 'DELETE') {
+            if (validation !== null) alert('Deletion cancelled: You must type DELETE exactly.');
+            return;
+        }
         try {
             const { error } = await supabase.from('pages').delete().eq('id', id);
             if (error) throw error;
             setItems(items.filter(i => i.id !== id));
         } catch (err) {
             alert('Error deleting item');
+        }
+    };
+
+    const handleCreate = async () => {
+        setLoading(true);
+        try {
+            const { data, error } = await supabase
+                .from('pages')
+                .insert({ title: 'NEW PRODUCT', category: 'CASES' })
+                .select()
+                .single();
+
+            if (error) throw error;
+            router.push(`/admin/edit/${data.id}`);
+        } catch (err) {
+            console.error(err);
+            alert('Error creating product');
+            setLoading(false);
         }
     };
 
@@ -63,9 +87,9 @@ export default function AdminDashboard() {
                         <p className="text-white/50 text-sm">Manage all GADNIC products</p>
                     </div>
                 </div>
-                <Link href="/?new=true" className="bg-primary text-black px-4 py-2 font-bold uppercase tracking-widest hover:bg-white transition-colors flex items-center gap-2">
+                <button onClick={handleCreate} className="bg-primary text-black px-4 py-2 font-bold uppercase tracking-widest hover:bg-white transition-colors flex items-center gap-2">
                     <Plus className="w-4 h-4" /> New Product
-                </Link>
+                </button>
             </header>
 
             <div className="bg-white/5 border border-white/10 rounded-lg overflow-hidden">
@@ -92,7 +116,7 @@ export default function AdminDashboard() {
                                     </span>
                                 </td>
                                 <td className="p-4 text-right flex justify-end gap-2 opacity-100 sm:opacity-50 group-hover:opacity-100 transition-opacity">
-                                    <Link href="/" className="p-2 bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white rounded transition-colors" title="Edit Visuals">
+                                    <Link href={`/admin/edit/${item.id}`} className="p-2 bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white rounded transition-colors" title="Edit Data">
                                         <Edit className="w-4 h-4" />
                                     </Link>
                                     <button onClick={() => handleDelete(item.id)} className="p-2 bg-red-600/20 text-red-400 hover:bg-red-600 hover:text-white rounded transition-colors" title="Delete">
