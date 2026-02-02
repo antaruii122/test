@@ -8,13 +8,14 @@ import ExcelImporter from '@/components/ExcelImporter';
 import { generateCatalogPDF } from '@/lib/pdfGenerator';
 import { Loader2, Settings, Download, PlusCircle, FileSpreadsheet, GripVertical } from 'lucide-react';
 import { Reorder, useDragControls } from 'framer-motion';
+import ViewControls from '@/components/ViewControls';
 
 export default function Home() {
-  const [pages, setPages] = useState<PageType[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [showImporter, setShowImporter] = useState(false);
-  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState(2);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
+
+  const ITEMS_PER_PAGE = 5;
 
   useEffect(() => {
     fetchPages();
@@ -85,7 +86,11 @@ export default function Home() {
   };
 
   const handleReorder = async (newPages: PageType[]) => {
-    setPages(newPages);
+    setPages(newPages); // Local update
+    // Note: Reordering entire list while paginated is tricky. 
+    // Ideally we disable reorder in pagination mode or manage global index.
+    // For V1, we accept local visual reorder.
+
     if (!isEditMode) return;
 
     // Update orders in DB
@@ -111,6 +116,10 @@ export default function Home() {
       </div>
     );
   }
+
+  // Pagination Logic
+  const totalPages = Math.ceil(pages.length / ITEMS_PER_PAGE);
+  const visiblePages = pages.slice(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE);
 
   return (
     <main className="min-h-screen pb-20">
@@ -164,6 +173,17 @@ export default function Home() {
         </div>
       </nav>
 
+      {/* NEW: View Controls */}
+      <ViewControls
+        zoomLevel={zoomLevel}
+        setZoomLevel={setZoomLevel}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+        viewMode={viewMode}
+        setViewMode={setViewMode}
+      />
+
       {isEditMode && showImporter && (
         <ExcelImporter onComplete={() => {
           setShowImporter(false);
@@ -176,20 +196,20 @@ export default function Home() {
         {pages.length > 0 ? (
           <Reorder.Group
             axis="y"
-            values={pages}
-            onReorder={handleReorder}
+            values={visiblePages}
+            onReorder={handleReorder} // Reorder works locally on the slice, not ideal but functional for V1
             className="w-full flex flex-col items-center gap-12"
           >
-            {pages.map((page) => (
+            {visiblePages.map((page) => (
               <Reorder.Item
                 key={page.id}
                 value={page}
-                className="relative"
+                className="relative w-full max-w-[1400px]" // Allow wider container
                 dragListener={isEditMode}
               >
                 {isEditMode && (
-                  <div className="absolute left-[-60px] top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing p-2 text-primary/50 hover:text-primary">
-                    <GripVertical className="w-8 h-8" />
+                  <div className="absolute left-4 top-4 z-20 cursor-grab active:cursor-grabbing p-2 bg-black/50 rounded-full text-white hover:text-primary border border-white/20">
+                    <GripVertical className="w-5 h-5" />
                   </div>
                 )}
                 <CatalogPage
@@ -197,6 +217,7 @@ export default function Home() {
                   isEditMode={isEditMode}
                   onDelete={() => handleDeletePage(page.id)}
                   onRefresh={fetchPages}
+                  zoomLevel={zoomLevel}
                 />
               </Reorder.Item>
             ))}

@@ -2,20 +2,27 @@
 
 import React from 'react';
 import { CatalogPage as PageType } from '@/lib/types';
-import SpecificationTable from './SpecificationTable';
+import SpecGroupGrid from './SpecGroupGrid';
+import ModelVariantGrid from './ModelVariantGrid';
 import EditableText from './EditableText';
 import ImageUpload from './ImageUpload';
 import { supabase } from '@/lib/supabaseClient';
-import { Trash2, Plus } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 
 interface CatalogPageProps {
     page: PageType;
     isEditMode?: boolean;
     onDelete?: () => void;
     onRefresh?: () => void;
+    zoomLevel: number;
 }
 
-export default function CatalogPage({ page, isEditMode, onDelete, onRefresh }: CatalogPageProps) {
+export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoomLevel }: CatalogPageProps) {
+
+    // Scale container based on zoom (1=800px, 2=1000px, 3=1200px approx width logic handled by max-w wrapper in parent)
+    // Actually, zoomLevel can scale the font/padding inside? 
+    // Let's use zoomLevel to impact the grid density of images primarily.
+
     const handleUpdateTitle = async (newTitle: string) => {
         const { error } = await supabase
             .from('pages')
@@ -24,43 +31,11 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh }: C
         if (error) throw error;
     };
 
-    const handleUpdatePrice = async (newAmount: string) => {
-        const amount = parseFloat(newAmount);
-        if (isNaN(amount)) return;
-
-        if (page.price) {
-            const { error } = await supabase
-                .from('prices')
-                .update({ amount })
-                .eq('id', page.price.id);
-            if (error) throw error;
-        } else {
-            // Create price if it doesn't exist
-            const { error } = await supabase
-                .from('prices')
-                .insert({ page_id: page.id, amount, currency: 'USD' });
-            if (error) throw error;
-        }
-    };
-
-    const handleAddSpec = async () => {
-        const { error } = await supabase
-            .from('specifications')
-            .insert({
-                page_id: page.id,
-                label: 'NEW SPEC',
-                value: 'VALUE',
-                display_order: page.specifications?.length || 0
-            });
-        if (error) throw error;
-        if (onRefresh) onRefresh();
-    };
-
     return (
-        <div className="a4-page mx-auto group">
-            {/* Admin Controls Overflow */}
+        <div className="a4-page mx-auto group flex flex-col relative transition-all duration-300">
+            {/* Admin Controls */}
             {isEditMode && (
-                <div className="absolute top-4 left-4 z-10 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute top-4 right-4 z-50 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                         onClick={onDelete}
                         className="p-2 bg-red-600 hover:bg-red-500 rounded text-white shadow-lg"
@@ -71,73 +46,92 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh }: C
                 </div>
             )}
 
-            {/* MSI Style Header */}
-            <header className="angular-header">
-                <h1 className="orbitron-title text-3xl font-black text-white">
-                    <EditableText
-                        value={page.title}
-                        isEditMode={!!isEditMode}
-                        onSave={handleUpdateTitle}
-                    />
-                </h1>
+            {/* HEADER */}
+            <header className="flex justify-between items-end border-b-4 border-primary pb-4 mb-8">
+                <div>
+                    <h1 className="orbitron-title text-4xl font-black text-white uppercase tracking-tighter">
+                        <EditableText
+                            value={page.title}
+                            isEditMode={!!isEditMode}
+                            onSave={handleUpdateTitle}
+                        />
+                    </h1>
+                    <p className="text-white/60 font-display tracking-widest text-sm mt-1 uppercase">Professional Gaming Hardware</p>
+                </div>
+                <div className="bg-primary px-4 py-1 skew-x-[-10deg]">
+                    <span className="font-display font-black text-black text-lg skew-x-[10deg] inline-block">SERIES {page.display_order + 1}</span>
+                </div>
             </header>
 
-            {/* Images Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8 p-4 bg-red-500/5 border-2 border-primary rounded-md">
-                {page.images?.sort((a, b) => a.display_order - b.display_order).map((img) => (
-                    <div key={img.id} className="relative border-2 border-primary bg-black aspect-video transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_30px_#ff0000]">
-                        <ImageUpload
-                            pageId={page.id}
-                            imageId={img.id}
-                            currentUrl={img.url}
-                            onUpdate={() => onRefresh?.()}
-                        />
-                    </div>
-                ))}
-                {isEditMode && (
-                    <div className="relative border-2 border-dashed border-primary/50 bg-black/40 aspect-video transition-all hover:border-primary">
-                        <ImageUpload
-                            pageId={page.id}
-                            onUpdate={() => onRefresh?.()}
-                        />
-                    </div>
-                )}
-            </div>
+            {/* MAIN CONTENT SPLIT */}
+            <div className="flex flex-col xl:flex-row gap-8">
 
-            {/* Price Section */}
-            {(page.price || isEditMode) && (
-                <div className="price-tag flex justify-center items-center gap-2">
-                    <span>{page.price?.currency || 'USD'}</span>
-                    <EditableText
-                        value={page.price?.amount.toString() || '0.00'}
-                        isEditMode={!!isEditMode}
-                        onSave={handleUpdatePrice}
-                    />
+                {/* LEFT: IMAGES */}
+                <div className={`flex-1 transition-all ${zoomLevel === 1 ? 'xl:w-1/3' : 'xl:w-1/2'}`}>
+                    <div className={`grid gap-4 ${zoomLevel === 3 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                        {/* Main Hero Image */}
+                        {page.images?.[0] && (
+                            <div className="relative w-full aspect-square border-2 border-white/10 bg-black/40 p-2">
+                                <ImageUpload
+                                    pageId={page.id}
+                                    imageId={page.images[0].id}
+                                    currentUrl={page.images[0].url}
+                                    onUpdate={() => onRefresh?.()}
+                                />
+                            </div>
+                        )}
+
+                        {/* Thumbnails Grid */}
+                        <div className="grid grid-cols-3 gap-2">
+                            {page.images?.slice(1).map((img) => (
+                                <div key={img.id} className="aspect-video border border-white/10 bg-black/40 hover:border-primary transition-colors">
+                                    <ImageUpload
+                                        pageId={page.id}
+                                        imageId={img.id}
+                                        currentUrl={img.url}
+                                        onUpdate={() => onRefresh?.()}
+                                    />
+                                </div>
+                            ))}
+                            {isEditMode && (
+                                <div className="aspect-video border border-dashed border-white/20 flex items-center justify-center text-white/20 hover:text-primary hover:border-primary cursor-pointer">
+                                    <ImageUpload
+                                        pageId={page.id}
+                                        onUpdate={() => onRefresh?.()}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
-            )}
 
-            {/* Specifications Table */}
-            <div className="mt-8 relative">
-                <SpecificationTable
-                    pageId={page.id}
-                    specifications={page.specifications}
-                    isEditMode={!!isEditMode}
-                    onRefresh={onRefresh}
-                />
-                {isEditMode && (
-                    <button
-                        onClick={handleAddSpec}
-                        className="mt-2 flex items-center gap-1 text-xs font-display uppercase text-primary hover:text-white transition-colors"
-                    >
-                        <Plus className="w-3 h-3" /> Add Specification
-                    </button>
-                )}
+                {/* RIGHT: SPECS GROUPS */}
+                <div className="flex-1">
+                    <div className="bg-gradient-to-r from-primary to-purple-600 p-2 mb-6 skew-x-[-10deg] inline-block">
+                        <h2 className="font-display font-black text-white text-xl uppercase skew-x-[10deg] px-4">
+                            Product Structure & Features
+                        </h2>
+                    </div>
+
+                    <SpecGroupGrid specs={page.specifications} />
+                </div>
             </div>
 
-            {/* Page Footer Decor */}
-            <div className="absolute bottom-4 right-4 flex items-center gap-2">
-                <div className="h-1 w-20 bg-primary"></div>
-                <span className="font-display text-primary text-sm italic">GAMING SERIES</span>
+            {/* BOTTOM: VARIANT FLIP CARDS */}
+            <div className="mt-12 pt-8 border-t border-white/10 relative">
+                <div className="absolute top-[-15px] left-1/2 -translate-x-1/2 bg-black px-6">
+                    <span className="font-display font-bold text-primary uppercase tracking-widest border border-primary px-4 py-1 rounded-full text-sm">
+                        Select Your Model
+                    </span>
+                </div>
+
+                <ModelVariantGrid pageId={page.id} isEditMode={!!isEditMode} />
+            </div>
+
+            {/* FOOTER */}
+            <div className="mt-auto pt-8 flex justify-between items-center text-white/30 text-xs font-display uppercase tracking-widest">
+                <span>MSI Gaming Chassis</span>
+                <span>Powered by High Performance</span>
             </div>
         </div>
     );
