@@ -22,6 +22,9 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(0);
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
 
+  const [selectedCategory, setSelectedCategory] = useState('CASES');
+  const CATEGORIES = ['CASES', 'MOTHERBOARDS', 'KEYBOARDS'];
+
   const ITEMS_PER_PAGE = 5;
 
   useEffect(() => {
@@ -127,9 +130,14 @@ export default function Home() {
     );
   }
 
-  // Pagination Logic
-  const totalPages = Math.ceil(pages.length / ITEMS_PER_PAGE);
-  const visiblePages = pages.slice(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE);
+  // Filter & Pagination Logic
+  const filteredPages = pages.filter(p => {
+    const cat = p.category?.toUpperCase() || 'CASES'; // Default legacy items to CASES
+    return cat === selectedCategory;
+  });
+
+  const totalPages = Math.ceil(filteredPages.length / ITEMS_PER_PAGE);
+  const visiblePages = filteredPages.slice(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE);
 
   return (
     <main className="min-h-screen pb-20">
@@ -137,7 +145,23 @@ export default function Home() {
       <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-primary/30 py-4 px-8 flex justify-between items-center shadow-[0_0_20px_rgba(255,0,0,0.2)]">
         <div className="flex items-center gap-4">
           <div className="bg-primary px-3 py-1 font-display font-black text-black">MSI</div>
-          <h1 className="font-display font-black text-xl tracking-tighter hidden md:block">CASES <span className="text-primary italic">CATALOG</span></h1>
+          <h1 className="font-display font-black text-xl tracking-tighter hidden md:block">{selectedCategory} <span className="text-primary italic">CATALOG</span></h1>
+        </div>
+
+        {/* Category Tabs */}
+        <div className="hidden md:flex items-center gap-1 bg-white/5 border border-white/10 p-1 rounded-full">
+          {CATEGORIES.map(cat => (
+            <button
+              key={cat}
+              onClick={() => { setSelectedCategory(cat); setCurrentPage(0); }}
+              className={`px-4 py-1 text-xs font-bold font-display rounded-full transition-all ${selectedCategory === cat
+                  ? 'bg-primary text-black shadow-[0_0_10px_rgba(0,255,0,0.5)]'
+                  : 'text-white/50 hover:text-white hover:bg-white/10'
+                }`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
 
         <div className="flex items-center gap-3">
