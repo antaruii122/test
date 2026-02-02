@@ -9,9 +9,10 @@ interface ImageUploadProps {
     imageId?: string;
     currentUrl?: string;
     onUpdate: (newUrl: string) => void;
+    isEditMode?: boolean; // New prop for security
 }
 
-export default function ImageUpload({ pageId, imageId, currentUrl, onUpdate }: ImageUploadProps) {
+export default function ImageUpload({ pageId, imageId, currentUrl, onUpdate, isEditMode = false }: ImageUploadProps) {
     const [uploading, setUploading] = useState(false);
 
     const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +60,23 @@ export default function ImageUpload({ pageId, imageId, currentUrl, onUpdate }: I
         }
     };
 
+    // READ ONLY MODE
+    if (!isEditMode) {
+        if (currentUrl) {
+            return (
+                <img
+                    src={currentUrl}
+                    alt="Product"
+                    className="w-full h-full object-cover"
+                />
+            );
+        }
+        // If no URL and not edit mode, render nothing or placeholder? 
+        // Rendering empty div to maintain grid layout
+        return <div className="w-full h-full bg-white/5" />;
+    }
+
+    // EDIT MODE (Original Logic)
     return (
         <label className="relative cursor-pointer group block w-full h-full">
             {currentUrl ? (

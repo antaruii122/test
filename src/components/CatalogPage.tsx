@@ -77,6 +77,7 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
                                     imageId={page.images[0].id}
                                     currentUrl={page.images[0].url}
                                     onUpdate={() => onRefresh?.()}
+                                    isEditMode={!!isEditMode}
                                 />
                             </div>
                         )}
@@ -90,6 +91,7 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
                                         imageId={img.id}
                                         currentUrl={img.url}
                                         onUpdate={() => onRefresh?.()}
+                                        isEditMode={!!isEditMode}
                                     />
                                 </div>
                             ))}
@@ -98,6 +100,7 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
                                     <ImageUpload
                                         pageId={page.id}
                                         onUpdate={() => onRefresh?.()}
+                                        isEditMode={true}
                                     />
                                 </div>
                             )}
