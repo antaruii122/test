@@ -7,11 +7,6 @@ export interface CatalogPage {
   price?: Price;
   category?: string; // e.g. 'case', 'motherboard', 'keyboard'
   prices?: { amount: number }[];
-  max_gpu_length?: string;
-  max_cpu_cooler_height?: string;
-  motherboard_form_factor?: string;
-  cooling_airflow?: string;
-  fan_count?: string;
 }
 
 export interface CatalogImage {
