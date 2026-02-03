@@ -74,14 +74,21 @@ export default function ColumnMapper({ data, onConfirm, onCancel }: ColumnMapper
                                             value={mapping[header] || 'ignore'}
                                             onChange={(e) => handleMappingChange(header, e.target.value)}
                                             className={`w-full bg-black border text-xs uppercase font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 transition-all ${mapping[header] === 'ignore'
-                                                    ? 'border-white/10 text-text-gray/50'
-                                                    : 'border-primary/50 text-primary focus:ring-primary'
+                                                ? 'border-white/10 text-text-gray/50'
+                                                : 'border-primary/50 text-primary focus:ring-primary'
                                                 }`}
                                         >
                                             <option value="model">📌 Model Name (Required)</option>
                                             <option value="price">💰 Price (Required)</option>
                                             <option value="image">🖼️ Image URL</option>
                                             <option value="ignore">🚫 Ignore</option>
+                                            <optgroup label="Main Specs (Top Priority)">
+                                                <option value="max_gpu_length">🎮 Max GPU Length</option>
+                                                <option value="max_cpu_cooler_height">❄️ Max CPU Cooler Height</option>
+                                                <option value="motherboard_form_factor">🔌 Motherboard Support</option>
+                                                <option value="cooling_airflow">💨 Airflow / Cooling</option>
+                                                <option value="fan_count">🌀 Fan Count</option>
+                                            </optgroup>
                                             <optgroup label="Specifications">
                                                 <option value={`spec:${header}`}>🔧 Spec: {header}</option>
                                                 {/* We could allow custom spec names here in future */}

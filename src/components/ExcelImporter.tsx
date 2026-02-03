@@ -52,26 +52,52 @@ export default function ExcelImporter({ onComplete }: ExcelImporterProps) {
                 let title = 'Untitled Case';
                 let priceAmount = 0;
                 let imageUrl = '';
+
+                // Main Specs
+                let maxGpu = '';
+                let maxCpu = '';
+                let mobo = '';
+                let airflow = '';
+                let fanCount = '';
+
                 const specs: { label: string; value: string }[] = [];
 
                 Object.entries(mapping).forEach(([header, type]) => {
                     const value = row[header];
                     if (!value) return;
+                    const strValue = String(value).trim();
+                    if (!strValue) return;
 
-                    if (type === 'model') title = String(value);
-                    else if (type === 'price') priceAmount = parseFloat(String(value).replace(/[^0-9.]/g, '')) || 0;
-                    else if (type === 'image') imageUrl = String(value);
+                    if (type === 'model') title = strValue;
+                    else if (type === 'price') priceAmount = parseFloat(strValue.replace(/[^0-9.]/g, '')) || 0;
+                    else if (type === 'image') imageUrl = strValue;
+
+                    // Main Specs Mapping
+                    else if (type === 'max_gpu_length') maxGpu = strValue;
+                    else if (type === 'max_cpu_cooler_height') maxCpu = strValue;
+                    else if (type === 'motherboard_form_factor') mobo = strValue;
+                    else if (type === 'cooling_airflow') airflow = strValue;
+                    else if (type === 'fan_count') fanCount = strValue;
+
                     else if (type.startsWith('spec:')) {
                         // Extract the original header name if possible, or use the mapping suffix
                         const specLabel = type.replace('spec:', '');
-                        specs.push({ label: specLabel, value: String(value) });
+                        specs.push({ label: specLabel, value: strValue });
                     }
                 });
 
-                // 1. Create Page
+                // 1. Create Page (with Main Specs)
                 const { data: page, error: pError } = await supabase
                     .from('esgaming_pages')
-                    .insert({ title })
+                    .insert({
+                        title,
+                        category: 'CASES', // Default category
+                        max_gpu_length: maxGpu || null,
+                        max_cpu_cooler_height: maxCpu || null,
+                        motherboard_form_factor: mobo || null,
+                        cooling_airflow: airflow || null,
+                        fan_count: fanCount || null
+                    })
                     .select()
                     .single();
 
