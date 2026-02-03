@@ -191,10 +191,16 @@ export default function EditorPage() {
         }
     };
 
-    const addNewSpec = async (defaultLabel: string = 'NEW LABEL') => {
+    const addNewSpec = async (defaultLabel: string = 'NEW LABEL', group: string = 'ADDITIONAL') => {
         const { data, error } = await supabase
             .from('esgaming_specifications')
-            .insert({ page_id: id, label: defaultLabel, value: '...', display_order: specs.length })
+            .insert({
+                page_id: id,
+                label: defaultLabel,
+                value: '...',
+                spec_group: group,
+                display_order: specs.length
+            })
             .select()
             .single();
 
@@ -255,7 +261,7 @@ export default function EditorPage() {
         (s.spec_group === 'ADDITIONAL' || !s.spec_group) // Catch null/undefined
     );
 
-    const renderSpecEditor = (label: string, icon: React.ReactNode, items: Specification[], addLabel?: string) => (
+    const renderSpecEditor = (label: string, icon: React.ReactNode, items: Specification[], addLabel?: string, groupName: string = 'ADDITIONAL') => (
         <div className="bg-white/5 border border-white/10 p-4 rounded mb-4">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2 text-primary">
@@ -264,7 +270,7 @@ export default function EditorPage() {
                 </div>
                 {addLabel && (
                     <button
-                        onClick={() => addNewSpec(addLabel)}
+                        onClick={() => addNewSpec(addLabel, groupName)}
                         className="text-[10px] bg-white/10 hover:bg-white/20 px-2 py-0.5 rounded text-white/50 flex items-center gap-1"
                     >
                         + Add {label}
@@ -424,18 +430,18 @@ export default function EditorPage() {
 
 
                         <div className="space-y-4 mb-6 border-b border-white/10 pb-6">
-                            {renderSpecEditor('Main Specs', <Target size={16} />, groupedSpecs.main, 'Main Spec')}
+                            {renderSpecEditor('Main Specs', <Target size={16} />, groupedSpecs.main, 'Main Spec', 'MAIN')}
                         </div>
 
                         <div className="space-y-4 max-h-[1000px] overflow-y-auto pr-2 custom-scrollbar">
-                            {renderSpecEditor('Structure', <Box size={16} />, groupedSpecs.structure, 'Panel')}
-                            {renderSpecEditor('Cooling', <Fan size={16} />, groupedSpecs.cooling, 'Fan')}
-                            {renderSpecEditor('Input / Output', <Cable size={16} />, groupedSpecs.inputOutput, 'USB')}
-                            {renderSpecEditor('Storage', <Monitor size={16} />, groupedSpecs.storage, 'HDD/SSD')}
+                            {renderSpecEditor('Structure', <Box size={16} />, groupedSpecs.structure, 'Panel', 'STRUCTURE')}
+                            {renderSpecEditor('Cooling', <Fan size={16} />, groupedSpecs.cooling, 'Fan', 'COOLING')}
+                            {renderSpecEditor('Input / Output', <Cable size={16} />, groupedSpecs.inputOutput, 'USB', 'INPUT_OUTPUT')}
+                            {renderSpecEditor('Storage', <Monitor size={16} />, groupedSpecs.storage, 'HDD/SSD', 'STORAGE')}
 
                             {others.length > 0 && (
                                 <div className="border-t-2 border-dashed border-white/10 pt-4 mt-8">
-                                    {renderSpecEditor('Additional Specs (Bottom)', <Plus size={16} />, others)}
+                                    {renderSpecEditor('Additional Specs (Bottom)', <Plus size={16} />, others, 'New', 'ADDITIONAL')}
                                 </div>
                             )}
                         </div>
