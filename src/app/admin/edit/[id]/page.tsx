@@ -51,6 +51,39 @@ const AutoCompleteInput = ({ value, onChange, placeholder }: { value: string, on
     );
 };
 
+
+const DeleteConfirmButton = ({ onDelete }: { onDelete: () => void }) => {
+    const [confirming, setConfirming] = useState(false);
+
+    useEffect(() => {
+        if (confirming) {
+            const timer = setTimeout(() => setConfirming(false), 3000); // Auto-reset after 3s
+            return () => clearTimeout(timer);
+        }
+    }, [confirming]);
+
+    if (confirming) {
+        return (
+            <button
+                onClick={(e) => { e.stopPropagation(); onDelete(); }}
+                className="p-2 bg-red-600 text-white rounded text-[10px] animate-in fade-in zoom-in duration-200 font-bold whitespace-nowrap shadow-[0_0_10px_rgba(220,38,38,0.5)] border border-red-400"
+            >
+                Confirm?
+            </button>
+        );
+    }
+
+    return (
+        <button
+            onClick={() => setConfirming(true)}
+            className="p-2 text-white/20 hover:text-red-500 transition-colors"
+            title="Delete Spec"
+        >
+            <Trash2 className="w-3 h-3" />
+        </button>
+    );
+};
+
 export default function EditorPage() {
     const params = useParams();
     const router = useRouter();
@@ -169,7 +202,7 @@ export default function EditorPage() {
     };
 
     const deleteSpec = async (specId: string) => {
-        if (!confirm('Delete this spec?')) return;
+        // Optimistic update for UI feel, but actual logic awaits DB
         const { error } = await supabase.from('esgaming_specifications').delete().eq('id', specId);
         if (!error) {
             setSpecs(specs.filter(s => s.id !== specId));
@@ -270,9 +303,7 @@ export default function EditorPage() {
                                     <option value="ADDITIONAL">Other</option>
                                 </select>
                             </div>
-                            <button onClick={() => deleteSpec(spec.id)} className="p-2 text-white/20 hover:text-red-500 transition-colors">
-                                <Trash2 className="w-3 h-3" />
-                            </button>
+                            <DeleteConfirmButton onDelete={() => deleteSpec(spec.id)} />
                         </div>
                     );
                 })}
