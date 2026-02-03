@@ -329,7 +329,11 @@ export default function EditorPage() {
                             {renderSpecEditor('I/O', <Cable size={16} />, groupedSpecs.io, 'USB')}
                             {renderSpecEditor('Storage', <Monitor size={16} />, groupedSpecs.storage, 'HDD/SSD')}
 
-                            {others.length > 0 && renderSpecEditor('Additional', <Plus size={16} />, others)}
+                            {others.length > 0 && (
+                                <div className="border-t-2 border-dashed border-white/10 pt-4 mt-8">
+                                    {renderSpecEditor('Additional Specs (Bottom)', <Plus size={16} />, others)}
+                                </div>
+                            )}
                         </div>
 
                         <div className="mt-6 pt-4 border-t border-white/10 sticky bottom-0 bg-zinc-900/90 p-4 -m-4">

@@ -46,14 +46,24 @@ export default function SpecGroupGrid({ specs = [] }: SpecGroupGridProps) {
 
     // Changed from grid-cols-4 to grid-cols-2 for wider viewing experience
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-            {renderGroup('Structure & Build', <Box className="w-6 h-6" />, groups.structure)}
-            {renderGroup('Cooling System', <Fan className="w-6 h-6" />, groups.cooling)}
-            {renderGroup('I/O Connectivity', <Cable className="w-6 h-6" />, groups.io)}
-            {renderGroup('Storage / Expansion', <Monitor className="w-6 h-6" />, groups.storage)}
+        <div className="flex flex-col gap-6 mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                {/* LEFT COLUMN: STRUCTURE (TALL) */}
+                <div className="h-full">
+                    {renderGroup('Structure & Build', <Box className="w-6 h-6" />, groups.structure)}
+                </div>
 
+                {/* RIGHT COLUMN: COOLING + I/O + STORAGE */}
+                <div className="flex flex-col gap-6">
+                    {renderGroup('Cooling System', <Fan className="w-6 h-6" />, groups.cooling)}
+                    {renderGroup('I/O Connectivity', <Cable className="w-6 h-6" />, groups.io)}
+                    {renderGroup('Storage / Expansion', <Monitor className="w-6 h-6" />, groups.storage)}
+                </div>
+            </div>
+
+            {/* FULL WIDTH BOTTOM: ADDITIONAL SPECS */}
             {others.length > 0 && (
-                <div className="md:col-span-2 mt-4 bg-black/40 border-t border-white/10 p-6">
+                <div className="bg-black/40 border-t border-white/10 p-6">
                     <h4 className="font-display font-bold uppercase text-white/50 text-sm mb-4 tracking-widest">Additional Specs</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-3">
                         {others.map(s => (
