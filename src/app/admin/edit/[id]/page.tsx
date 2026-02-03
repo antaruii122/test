@@ -465,26 +465,46 @@ export default function EditorPage() {
                             <h3 className="text-xs font-bold uppercase text-white/50 tracking-widest mb-4 border-b border-white/5 pb-2">
                                 {title} - Spec Coverage
                             </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {(SPECS_BY_CATEGORY[category] || SPECS_BY_CATEGORY['CASES']).map(s => {
-                                    // Check if this suggested spec exists in ANY of our current specs
-                                    const exists = specs.some(myspec => myspec.label.toLowerCase().trim() === s.toLowerCase().trim());
+
+                            <div className="space-y-4">
+                                {Object.entries({
+                                    'MAIN': ['Motherboard Support', 'Max GPU Length', 'Max CPU Height', 'Power Supply Support', 'Expansion Slots'], // Example main specs
+                                    'STRUCTURE': ['Structure Size', 'Case Size', 'Carton Size', 'Form Factor', 'Material', 'Net Weight / Gross Weight'],
+                                    'COOLING': ['Cooling System', 'Water Cooling', 'Fan Support', 'Included Fans'],
+                                    'I/O': ['Input / Output Ports'],
+                                    'STORAGE': ['Drive Bays', 'PCI Slots']
+                                }).map(([groupName, groupSpecs]) => {
+                                    // Only show if relevant to category (simple filter: all for now, or refine per category)
+                                    // For now, we use the grouped structure but check against our SPECS_BY_CATEGORY list to ensure we only show valid ones for this product type
+                                    const validForCategory = (SPECS_BY_CATEGORY[category] || SPECS_BY_CATEGORY['CASES']);
+                                    const relevantSpecs = groupSpecs.filter(s => validForCategory.includes(s) || validForCategory.some(v => v.includes(s)));
+
+                                    if (relevantSpecs.length === 0) return null;
 
                                     return (
-                                        <span
-                                            key={s}
-
-                                            className={`
-                                                text-[10px] px-2 py-1 rounded border transition-colors cursor-default
-                                                ${exists
-                                                    ? 'bg-primary/20 border-primary text-primary font-bold shadow-[0_0_10px_rgba(50,255,100,0.1)]'
-                                                    : 'bg-white/5 border-white/10 text-white/30 hover:border-white/20'
-                                                }
-                                            `}
-                                        >
-                                            {s}
-                                        </span>
-                                    );
+                                        <div key={groupName}>
+                                            <h4 className="text-[10px] font-bold text-primary/70 mb-2 uppercase">{groupName}</h4>
+                                            <div className="flex flex-wrap gap-2">
+                                                {relevantSpecs.map(s => {
+                                                    const exists = specs.some(myspec => myspec.label.toLowerCase().trim() === s.toLowerCase().trim());
+                                                    return (
+                                                        <span
+                                                            key={s}
+                                                            className={`
+                                                                text-[10px] px-2 py-1 rounded border transition-colors cursor-default
+                                                                ${exists
+                                                                    ? 'bg-primary/20 border-primary text-primary font-bold shadow-[0_0_10px_rgba(50,255,100,0.1)]'
+                                                                    : 'bg-white/5 border-white/10 text-white/30 hover:border-white/20'
+                                                                }
+                                                            `}
+                                                        >
+                                                            {s}
+                                                        </span>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    )
                                 })}
                             </div>
                         </div>

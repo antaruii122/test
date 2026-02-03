@@ -58,7 +58,8 @@ export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) 
     return (
         <div className="flex flex-col gap-6 mt-8">
             {/* MAIN SPECS (PREMIUM GRID LAYOUT) */}
-            {(page?.max_gpu_length || page?.max_cpu_cooler_height || page?.motherboard_form_factor || page?.cooling_airflow || page?.fan_count) && (
+            {/* MAIN SPECS (PREMIUM GRID LAYOUT - DYNAMIC FROM 'MAIN' GROUP) */}
+            {specs.filter(s => s.spec_group === 'MAIN').length > 0 && (
                 <div className="bg-gradient-to-br from-primary/5 to-transparent border border-white/10 p-8 rounded-xl mb-8 relative overflow-hidden group">
                     {/* Decorative background elements */}
                     <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[100px] -translate-y-1/2 translate-x-1/3" />
@@ -72,36 +73,12 @@ export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) 
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-8 relative z-10">
-                        {page.max_gpu_length && (
-                            <div className="flex flex-col group/item">
-                                <span className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2 group-hover/item:text-primary/70 transition-colors">Max GPU Length</span>
-                                <span className="text-white font-mono text-lg tracking-tight border-l-2 border-primary/30 pl-3 leading-none py-1">{page.max_gpu_length}</span>
+                        {specs.filter(s => s.spec_group === 'MAIN').map(s => (
+                            <div key={s.id} className="flex flex-col group/item">
+                                <span className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2 group-hover/item:text-primary/70 transition-colors">{s.label}</span>
+                                <span className="text-white font-mono text-lg tracking-tight border-l-2 border-primary/30 pl-3 leading-none py-1">{s.value}</span>
                             </div>
-                        )}
-                        {page.max_cpu_cooler_height && (
-                            <div className="flex flex-col group/item">
-                                <span className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2 group-hover/item:text-primary/70 transition-colors">Max CPU Cooler</span>
-                                <span className="text-white font-mono text-lg tracking-tight border-l-2 border-primary/30 pl-3 leading-none py-1">{page.max_cpu_cooler_height}</span>
-                            </div>
-                        )}
-                        {page.motherboard_form_factor && (
-                            <div className="flex flex-col group/item">
-                                <span className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2 group-hover/item:text-primary/70 transition-colors">Motherboard</span>
-                                <span className="text-white font-mono text-lg tracking-tight border-l-2 border-primary/30 pl-3 leading-none py-1">{page.motherboard_form_factor}</span>
-                            </div>
-                        )}
-                        {page.cooling_airflow && (
-                            <div className="flex flex-col group/item">
-                                <span className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2 group-hover/item:text-primary/70 transition-colors">Airflow</span>
-                                <span className="text-white font-mono text-lg tracking-tight border-l-2 border-primary/30 pl-3 leading-none py-1">{page.cooling_airflow}</span>
-                            </div>
-                        )}
-                        {page.fan_count && (
-                            <div className="flex flex-col group/item">
-                                <span className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2 group-hover/item:text-primary/70 transition-colors">Fan Count</span>
-                                <span className="text-white font-mono text-lg tracking-tight border-l-2 border-primary/30 pl-3 leading-none py-1">{page.fan_count}</span>
-                            </div>
-                        )}
+                        ))}
                     </div>
                 </div>
             )}
