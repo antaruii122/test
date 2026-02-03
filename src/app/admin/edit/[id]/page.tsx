@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useParams, useRouter } from 'next/navigation';
-import { Loader2, ArrowLeft, Save, Plus, Trash2, Image as ImageIcon, Box, Fan, Cable, Monitor, Target } from 'lucide-react';
+import { Loader2, ArrowLeft, Save, Plus, Trash2, Image as ImageIcon, Box, Fan, Cable, Monitor, Target, AlertTriangle, X } from 'lucide-react';
 import Link from 'next/link';
 import { CatalogPage, Specification } from '@/lib/types';
 import ImageUpload from '@/components/ImageUpload';
@@ -145,6 +145,10 @@ export default function EditorPage() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
 
+    // Unsaved Changes State
+    const [isDirty, setIsDirty] = useState(false);
+    const [showExitModal, setShowExitModal] = useState(false);
+
     // Form State
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('0');
@@ -154,20 +158,36 @@ export default function EditorPage() {
     const [specs, setSpecs] = useState<Specification[]>([]);
 
     useEffect(() => {
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            if (isDirty) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [isDirty]);
+
+    useEffect(() => {
         if (!id) return;
 
         fetchPage();
 
         // POLL INTERVAL: Fetch every 5 seconds to ensure fresh data
         const pollInterval = setInterval(() => {
-            // console.log('Auto-refresh polling...');
-            fetchPage();
+            // Only auto-refresh if we don't have unsaved changes to prevent overwriting user work
+            if (!isDirty) {
+                // console.log('Auto-refresh polling...');
+                fetchPage();
+            }
         }, 5000);
 
         // WINDOW FOCUS: Fetch when window regains focus
         const handleFocus = () => {
-            console.log('Window focused, refreshing...');
-            fetchPage();
+            if (!isDirty) {
+                console.log('Window focused, refreshing...');
+                fetchPage();
+            }
         };
         window.addEventListener('focus', handleFocus);
         window.addEventListener('visibilitychange', handleFocus);
@@ -179,24 +199,30 @@ export default function EditorPage() {
                 'postgres_changes',
                 { event: '*', schema: 'public', table: 'esgaming_pages', filter: `id=eq.${id}` },
                 () => {
-                    console.log('Page updated, refreshing...');
-                    fetchPage();
+                    if (!isDirty) {
+                        console.log('Page updated, refreshing...');
+                        fetchPage();
+                    }
                 }
             )
             .on(
                 'postgres_changes',
                 { event: '*', schema: 'public', table: 'esgaming_specifications', filter: `page_id=eq.${id}` },
                 () => {
-                    console.log('Specs updated, refreshing...');
-                    fetchPage();
+                    if (!isDirty) {
+                        console.log('Specs updated, refreshing...');
+                        fetchPage();
+                    }
                 }
             )
             .on(
                 'postgres_changes',
                 { event: '*', schema: 'public', table: 'esgaming_prices', filter: `page_id=eq.${id}` },
                 () => {
-                    console.log('Price updated, refreshing...');
-                    fetchPage();
+                    if (!isDirty) {
+                        console.log('Price updated, refreshing...');
+                        fetchPage();
+                    }
                 }
             )
             .on(
@@ -215,7 +241,7 @@ export default function EditorPage() {
             window.removeEventListener('visibilitychange', handleFocus);
             supabase.removeChannel(channel);
         };
-    }, [id]);
+    }, [id, isDirty]);
 
     async function fetchPage() {
         // No loading spinner for updates to avoid flickering
@@ -277,6 +303,7 @@ export default function EditorPage() {
             }
 
             alert('Saved successfully!');
+            setIsDirty(false);
         } catch (err) {
             alert('Error saving data');
         } finally {
@@ -290,6 +317,7 @@ export default function EditorPage() {
         const newSpecs = [...specs];
         newSpecs[index] = { ...newSpecs[index], [field]: text };
         setSpecs(newSpecs);
+        setIsDirty(true);
     };
 
     const handleSaveSpecs = async () => {
@@ -307,6 +335,7 @@ export default function EditorPage() {
 
             const { error } = await supabase.from('esgaming_specifications').upsert(updates);
             if (error) throw error;
+            setIsDirty(false);
             alert('Specs Saved!');
         } catch (err) {
             console.error(err);
@@ -456,14 +485,34 @@ export default function EditorPage() {
     if (loading) return <div className="min-h-screen bg-black flex items-center justify-center text-primary"><Loader2 className="animate-spin" /></div>;
     if (!page) return <div className="text-white">Page not found</div>;
 
+    // Navigation Handler
+    const handleBackClick = () => {
+        if (isDirty) {
+            setShowExitModal(true);
+        } else {
+            router.push('/admin/dashboard');
+        }
+    };
+
+    const handleDiscardAndExit = () => {
+        setShowExitModal(false);
+        router.push('/admin/dashboard');
+    };
+
+    const handleSaveAndExit = async () => {
+        await handleSavePrimary();
+        await handleSaveSpecs();
+        router.push('/admin/dashboard');
+    };
+
     return (
         <div className="min-h-screen bg-black text-white p-8 pb-32">
             {/* Header */}
             <header className="flex justify-between items-center mb-12 border-b border-white/10 pb-4 sticky top-0 bg-black/95 z-50 pt-4">
                 <div className="flex items-center gap-4">
-                    <Link href="/admin/dashboard" className="p-2 hover:bg-white/10 rounded-full transition-colors">
+                    <button onClick={handleBackClick} className="p-2 hover:bg-white/10 rounded-full transition-colors">
                         <ArrowLeft className="w-6 h-6" />
-                    </Link>
+                    </button>
                     <div>
                         <h1 className="text-2xl font-display font-black uppercase tracking-tighter flex items-center gap-3">
                             Editor
@@ -496,7 +545,7 @@ export default function EditorPage() {
                                     <label className="block text-[10px] uppercase text-white/30 mb-1">Product Title</label>
                                     <input
                                         value={title}
-                                        onChange={e => setTitle(e.target.value)}
+                                        onChange={e => { setTitle(e.target.value); setIsDirty(true); }}
                                         onBlur={() => {
                                             // Auto-format to Title Case on blur
                                             const formatted = title.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
@@ -511,7 +560,7 @@ export default function EditorPage() {
                                         <input
                                             type="number"
                                             value={price}
-                                            onChange={e => setPrice(e.target.value)}
+                                            onChange={e => { setPrice(e.target.value); setIsDirty(true); }}
                                             className="w-full bg-black border border-white/10 p-2 font-mono text-sm focus:border-primary outline-none rounded"
                                         />
                                     </div>
@@ -519,7 +568,7 @@ export default function EditorPage() {
                                         <label className="block text-[10px] uppercase text-white/30 mb-1">Cat.</label>
                                         <select
                                             value={category}
-                                            onChange={e => setCategory(e.target.value)}
+                                            onChange={e => { setCategory(e.target.value); setIsDirty(true); }}
                                             className="w-full bg-black border border-white/10 p-2 text-xs focus:border-primary outline-none rounded"
                                         >
                                             <option value="CASES">CASES</option>
@@ -710,6 +759,40 @@ export default function EditorPage() {
                     </div>
                 </div>
             </div>
+            {/* Unsaved Changes Modal */}
+            {showExitModal && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+                    <div className="bg-zinc-900 border border-white/20 p-6 rounded-lg max-w-md w-full shadow-2xl animate-in fade-in zoom-in duration-200">
+                        <div className="flex items-center gap-3 text-red-500 mb-4">
+                            <AlertTriangle className="w-6 h-6" />
+                            <h3 className="text-lg font-bold uppercase tracking-widest">Unsaved Changes</h3>
+                        </div>
+                        <p className="text-white/70 mb-8 font-mono text-sm leading-relaxed">
+                            You have unsaved changes in the editor. Navigating away will lose your progress.
+                        </p>
+                        <div className="flex flex-col gap-2">
+                            <button
+                                onClick={handleSaveAndExit}
+                                className="w-full bg-primary text-black font-bold uppercase tracking-widest py-3 rounded hover:bg-white transition-colors"
+                            >
+                                Save & Exit
+                            </button>
+                            <button
+                                onClick={handleDiscardAndExit}
+                                className="w-full bg-white/5 text-white/50 font-bold uppercase tracking-widest py-3 rounded hover:bg-red-900/50 hover:text-red-500 transition-colors"
+                            >
+                                Discard Changes
+                            </button>
+                            <button
+                                onClick={() => setShowExitModal(false)}
+                                className="w-full text-white/30 text-xs uppercase tracking-widest hover:text-white mt-2 py-2"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div >
     );
 }
