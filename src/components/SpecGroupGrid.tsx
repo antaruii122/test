@@ -21,7 +21,9 @@ export default function SpecGroupGrid({ specs = [] }: SpecGroupGridProps) {
         !groups.structure.includes(s) &&
         !groups.cooling.includes(s) &&
         !groups.io.includes(s) &&
-        !groups.storage.includes(s)
+        !groups.storage.includes(s) &&
+        !/moq|cant|min/i.test(s.label) && // Hide MOQ (Supported in Footer)
+        !/precio|price|fob/i.test(s.label) // Hide Price (Supported in Footer)
     );
 
     // Deduplicate: If multiple specs have exact same Label AND Value, only show one.
