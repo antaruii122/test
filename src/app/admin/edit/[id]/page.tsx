@@ -274,7 +274,7 @@ export default function EditorPage() {
             setTitle(data.title);
             setPrice(data.prices && data.prices.length > 0 ? data.prices[0].amount : '0');
             setCategory(data.category || 'CASES');
-            setSpecs(data.specifications || []);
+            setSpecs((data.specifications || []).sort((a: Specification, b: Specification) => (a.display_order || 0) - (b.display_order || 0)));
         }
         setLoading(false);
     }
