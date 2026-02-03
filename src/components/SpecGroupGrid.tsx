@@ -8,43 +8,23 @@ interface SpecGroupGridProps {
 
 export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) {
 
-    // Helper to bucketize specs
-    // Priority 1: Cooling
-    const cooling = specs.filter(s => /fan|cool|radiator|water|rgb|ventilad|trasero|frontal|arriba|top|rear|front/i.test(s.label));
+    // Helper to bucketize specs using Database Grouping
+    // We now trust the DB 'spec_group' column instead of regex guessing.
 
-    // Priority 2: I/O (Exclude Cooling) -> Fixed regex to avoid 'soporta' matching 'port'
-    const io = specs.filter(s =>
-        !cooling.includes(s) &&
-        (/usb|audio|jack/i.test(s.label) || /\bport/i.test(s.label) || /usb/i.test(s.value))
-    );
+    const cooling = specs.filter(s => s.spec_group === 'COOLING');
+    const io = specs.filter(s => s.spec_group === 'IO');
+    const storage = specs.filter(s => s.spec_group === 'STORAGE');
+    const structure = specs.filter(s => s.spec_group === 'STRUCTURE');
 
-    // Priority 3: Storage (Exclude previous)
-    const storage = specs.filter(s =>
-        !cooling.includes(s) && !io.includes(s) &&
-        /hdd|ssd|drive|bay|slot|storage|disco|almacen/i.test(s.label)
-    );
-
-    // Priority 4: Structure (Exclude previous) - Catches dimensions/materials but won't grab fans just because of 'mm'
-    // Also explicitly filtering out "Placa Madre" / "Motherboard" / "GPU" / "CPU" related items as they belong to Main Specs now
-    const structure = specs.filter(s =>
-        !cooling.includes(s) && !io.includes(s) && !storage.includes(s) &&
-        (/structure|size|dimension|mm|material|panel|chassis|peso|weight|tamaño|gabinete|caja|ancho|alto|largo/i.test(s.label) || /mm|steel|glass/i.test(s.value)) &&
-        !/placa|madre|motherboard|gpu|grafica|cpu|cooler|vga/i.test(s.label) // Exclude Main Specs items from Structure
+    // Fallback: Others (ADDITIONAL or null/undefined, excluding Main Specs if they happen to be in the list)
+    // Note: Main Specs are usually filtered out at the page level or not in this list, 
+    // but if they are, we ensure we don't double show them if they are marked MAIN.
+    const rawOthers = specs.filter(s =>
+        (s.spec_group === 'ADDITIONAL' || !s.spec_group)
     );
 
     // Group object for rendering
     const groups = { structure, cooling, io, storage };
-
-    // Fallback: Others (Exclude all groups AND Main Specs keywords)
-    const rawOthers = specs.filter(s =>
-        !groups.structure.includes(s) &&
-        !groups.cooling.includes(s) &&
-        !groups.io.includes(s) &&
-        !groups.storage.includes(s) &&
-        !/moq|cant|min/i.test(s.label) &&
-        !/precio|price|fob/i.test(s.label) &&
-        !/placa|madre|motherboard|gpu|grafica|cpu|cooler|vga|fan|ventilad|air|flujo/i.test(s.label) // STRICTLY exclude Main Specs keywords
-    );
 
     // Deduplicate: If multiple specs have exact same Label AND Value, only show one.
     const others = rawOthers.filter((spec, index, self) =>
