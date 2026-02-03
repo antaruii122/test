@@ -463,15 +463,18 @@ export default function EditorPage() {
                         {/* TOTAL SPECS COVERAGE DASHBOARD */}
                         <div className="mt-8 bg-zinc-900 border border-white/10 p-4 rounded-lg">
                             <h3 className="text-xs font-bold uppercase text-white/50 tracking-widest mb-4 border-b border-white/5 pb-2">
-                                {title} - Spec Coverage
+                                Total specs of the model
                             </h3>
+                            <h4 className="text-[10px] font-bold uppercase text-white/30 tracking-widest mb-4">
+                                {title} - Spec Coverage
+                            </h4>
 
                             <div className="space-y-4">
                                 {Object.entries({
                                     'MAIN': ['Motherboard Support', 'Max GPU Length', 'Max CPU Height', 'Power Supply Support', 'Expansion Slots'], // Example main specs
                                     'STRUCTURE': ['Structure Size', 'Case Size', 'Carton Size', 'Form Factor', 'Material', 'Net Weight / Gross Weight'],
                                     'COOLING': ['Cooling System', 'Water Cooling', 'Fan Support', 'Included Fans'],
-                                    'I/O': ['Input / Output Ports'],
+                                    'Input / Output': ['Input / Output Ports'],
                                     'STORAGE': ['Drive Bays', 'PCI Slots']
                                 }).map(([groupName, groupSpecs]) => {
                                     // Only show if relevant to category (simple filter: all for now, or refine per category)
@@ -488,18 +491,33 @@ export default function EditorPage() {
                                                 {relevantSpecs.map(s => {
                                                     const exists = specs.some(myspec => myspec.label.toLowerCase().trim() === s.toLowerCase().trim());
                                                     return (
-                                                        <span
+                                                        <button
                                                             key={s}
+                                                            onClick={(e) => {
+                                                                e.preventDefault(); // Prevent form submission if any
+                                                                if (!exists) {
+                                                                    // Determine group code for DB
+                                                                    let groupCode = 'ADDITIONAL';
+                                                                    if (groupName === 'MAIN') groupCode = 'MAIN';
+                                                                    else if (groupName === 'STRUCTURE') groupCode = 'STRUCTURE';
+                                                                    else if (groupName === 'COOLING') groupCode = 'COOLING';
+                                                                    else if (groupName === 'Input / Output') groupCode = 'INPUT_OUTPUT';
+                                                                    else if (groupName === 'STORAGE') groupCode = 'STORAGE';
+
+                                                                    handleAddSpec(groupCode, s);
+                                                                }
+                                                            }}
+                                                            disabled={exists}
                                                             className={`
-                                                                text-[10px] px-2 py-1 rounded border transition-colors cursor-default
+                                                                text-[10px] px-3 py-1.5 rounded border transition-all duration-200 font-bold uppercase tracking-wider
                                                                 ${exists
-                                                                    ? 'bg-primary/20 border-primary text-primary font-bold shadow-[0_0_10px_rgba(50,255,100,0.1)]'
-                                                                    : 'bg-white/5 border-white/10 text-white/30 hover:border-white/20'
+                                                                    ? 'bg-primary/20 border-primary text-primary shadow-[0_0_10px_rgba(50,255,100,0.1)] cursor-default'
+                                                                    : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10 hover:text-white hover:border-white/30 cursor-pointer active:scale-95'
                                                                 }
                                                             `}
                                                         >
-                                                            {s}
-                                                        </span>
+                                                            {s} {exists && <span className="ml-1">✓</span>}
+                                                        </button>
                                                     );
                                                 })}
                                             </div>
