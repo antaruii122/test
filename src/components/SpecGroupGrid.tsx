@@ -9,21 +9,38 @@ interface SpecGroupGridProps {
 export default function SpecGroupGrid({ specs = [] }: SpecGroupGridProps) {
 
     // Helper to bucketize specs
-    const groups = {
-        structure: specs.filter(s => /structure|size|dimension|mm|material|panel/i.test(s.label) || /mm|steel|glass/i.test(s.value)),
-        cooling: specs.filter(s => /fan|cool|radiator|water|rgb/i.test(s.label)),
-        io: specs.filter(s => /usb|audio|port|jack/i.test(s.label) || /usb/i.test(s.value)),
-        storage: specs.filter(s => /hdd|ssd|drive|bay|slot/i.test(s.label))
-    };
+    // Priority 1: Cooling
+    const cooling = specs.filter(s => /fan|cool|radiator|water|rgb/i.test(s.label));
 
-    // Fallback for leftovers
+    // Priority 2: I/O (Exclude Cooling) -> Fixed regex to avoid 'soporta' matching 'port'
+    const io = specs.filter(s =>
+        !cooling.includes(s) &&
+        (/usb|audio|jack/i.test(s.label) || /\bport/i.test(s.label) || /usb/i.test(s.value))
+    );
+
+    // Priority 3: Storage (Exclude previous)
+    const storage = specs.filter(s =>
+        !cooling.includes(s) && !io.includes(s) &&
+        /hdd|ssd|drive|bay|slot/i.test(s.label)
+    );
+
+    // Priority 4: Structure (Exclude previous) - Catches dimensions/materials but won't grab fans just because of 'mm'
+    const structure = specs.filter(s =>
+        !cooling.includes(s) && !io.includes(s) && !storage.includes(s) &&
+        (/structure|size|dimension|mm|material|panel|chassis|peso|weight/i.test(s.label) || /mm|steel|glass/i.test(s.value))
+    );
+
+    // Group object for rendering
+    const groups = { structure, cooling, io, storage };
+
+    // Fallback: Others (Exclude all groups)
     const rawOthers = specs.filter(s =>
         !groups.structure.includes(s) &&
         !groups.cooling.includes(s) &&
         !groups.io.includes(s) &&
         !groups.storage.includes(s) &&
-        !/moq|cant|min/i.test(s.label) && // Hide MOQ (Supported in Footer)
-        !/precio|price|fob/i.test(s.label) // Hide Price (Supported in Footer)
+        !/moq|cant|min/i.test(s.label) &&
+        !/precio|price|fob/i.test(s.label)
     );
 
     // Deduplicate: If multiple specs have exact same Label AND Value, only show one.

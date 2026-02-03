@@ -152,12 +152,28 @@ export default function EditorPage() {
     };
 
     // Spec Grouping Logic (Same as SpecGroupGrid.tsx)
-    const groupedSpecs = {
-        structure: specs.filter(s => /structure|size|dimension|mm|material|panel/i.test(s.label) || /mm|steel|glass/i.test(s.value)),
-        cooling: specs.filter(s => /fan|cool|radiator|water|rgb/i.test(s.label)),
-        io: specs.filter(s => /usb|audio|port|jack/i.test(s.label) || /usb/i.test(s.value)),
-        storage: specs.filter(s => /hdd|ssd|drive|bay|slot/i.test(s.label))
-    };
+    // Priority 1: Cooling
+    const cooling = specs.filter(s => /fan|cool|radiator|water|rgb/i.test(s.label));
+
+    // Priority 2: I/O (Exclude Cooling)
+    const io = specs.filter(s =>
+        !cooling.includes(s) &&
+        (/usb|audio|jack/i.test(s.label) || /\bport/i.test(s.label) || /usb/i.test(s.value))
+    );
+
+    // Priority 3: Storage
+    const storage = specs.filter(s =>
+        !cooling.includes(s) && !io.includes(s) &&
+        /hdd|ssd|drive|bay|slot/i.test(s.label)
+    );
+
+    // Priority 4: Structure (Catch remaining)
+    const structure = specs.filter(s =>
+        !cooling.includes(s) && !io.includes(s) && !storage.includes(s) &&
+        (/structure|size|dimension|mm|material|panel|chassis|peso|weight/i.test(s.label) || /mm|steel|glass/i.test(s.value))
+    );
+
+    const groupedSpecs = { structure, cooling, io, storage };
 
     const others = specs.filter(s =>
         !groupedSpecs.structure.includes(s) &&
