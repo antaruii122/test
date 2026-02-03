@@ -473,8 +473,7 @@ export default function EditorPage() {
                                     return (
                                         <span
                                             key={s}
-                                        <span
-                                            key={s}
+
                                             className={`
                                                 text-[10px] px-2 py-1 rounded border transition-colors cursor-default
                                                 ${exists
