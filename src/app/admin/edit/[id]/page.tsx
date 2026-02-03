@@ -158,6 +158,20 @@ export default function EditorPage() {
 
         fetchPage();
 
+        // POLL INTERVAL: Fetch every 5 seconds to ensure fresh data
+        const pollInterval = setInterval(() => {
+            // console.log('Auto-refresh polling...');
+            fetchPage();
+        }, 5000);
+
+        // WINDOW FOCUS: Fetch when window regains focus
+        const handleFocus = () => {
+            console.log('Window focused, refreshing...');
+            fetchPage();
+        };
+        window.addEventListener('focus', handleFocus);
+        window.addEventListener('visibilitychange', handleFocus);
+
         // Realtime Subscription
         const channel = supabase
             .channel(`editor-${id}`)
@@ -196,6 +210,9 @@ export default function EditorPage() {
             .subscribe();
 
         return () => {
+            clearInterval(pollInterval);
+            window.removeEventListener('focus', handleFocus);
+            window.removeEventListener('visibilitychange', handleFocus);
             supabase.removeChannel(channel);
         };
     }, [id]);
