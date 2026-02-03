@@ -138,10 +138,37 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
             </div>
             */}
 
-            {/* FOOTER */}
-            <div className="mt-auto pt-8 flex justify-between items-center text-white/30 text-xs font-display uppercase tracking-widest">
-                <span>ESGAMINGPC</span>
-                <span>Powered by High Performance</span>
+            {/* FOOTER & COMMERCIAL INFO */}
+            <div className="mt-auto pt-8">
+                {/* COMMERCIAL BADGE */}
+                <div className="flex justify-end mb-6">
+                    <div className="bg-zinc-900/80 backdrop-blur border border-white/10 p-4 px-8 rounded-lg flex items-center gap-8 shadow-2xl relative overflow-hidden group hover:border-primary/50 transition-colors">
+                        <div className="absolute top-0 right-0 w-20 h-20 bg-primary/10 blur-2xl rounded-full -translate-y-1/2 translate-x-1/2" />
+
+                        {/* PRICE */}
+                        <div className="text-right">
+                            <span className="block text-[10px] text-white/40 font-display tracking-widest mb-1 uppercase">FOB Price (USD)</span>
+                            <span className="block text-3xl font-black text-primary orbitron-title tracking-tighter">
+                                ${page.prices?.[0]?.amount || 'TBD'}
+                            </span>
+                        </div>
+
+                        <div className="w-px h-10 bg-white/10" />
+
+                        {/* MOQ */}
+                        <div className="text-right">
+                            <span className="block text-[10px] text-white/40 font-display tracking-widest mb-1 uppercase">MOQ</span>
+                            <span className="block text-xl font-bold text-white font-mono">
+                                {page.specifications?.find(s => s.label.toUpperCase().includes('MOQ'))?.value || 'See Quote'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex justify-between items-center text-white/30 text-xs font-display uppercase tracking-widest border-t border-white/5 pt-4">
+                    <span>ESGAMINGPC</span>
+                    <span>Powered by High Performance</span>
+                </div>
             </div>
 
             <ProductLightbox
