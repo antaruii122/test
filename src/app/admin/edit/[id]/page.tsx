@@ -209,6 +209,11 @@ export default function EditorPage() {
         specifications: specs,
         // Mock prices array for preview
         prices: [{ amount: parseFloat(price), currency: 'USD' }] as any,
+        max_gpu_length: maxGpu,
+        max_cpu_cooler_height: maxCpu,
+        motherboard_form_factor: mobo,
+        cooling_airflow: airflow,
+        fan_count: fanCount,
     };
 
     // Spec Grouping Logic (Same as SpecGroupGrid.tsx)
