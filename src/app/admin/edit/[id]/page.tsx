@@ -13,7 +13,8 @@ const SUGGESTED_SPECS = [
     "Model No.", "MOQ", "FOB Price", "Structure Size", "Case Size", "Carton Size",
     "Form Factor", "Material", "Motherboard Support", "PSU Support",
     "Front Panel", "Side Panel", "Cooling System", "Water Cooling",
-    "Fan Support", "Included Fans", "I/O Ports", "Drive Bays",
+    "Front Panel", "Side Panel", "Cooling System", "Water Cooling",
+    "Fan Support", "Included Fans", "Input / Output Ports", "Drive Bays",
     "PCI Slots", "Max GPU Length", "Max CPU Height", "Net Weight / Gross Weight"
 ];
 
@@ -63,14 +64,8 @@ export default function EditorPage() {
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('0');
     const [category, setCategory] = useState('CASES');
+    // Spec State
     const [specs, setSpecs] = useState<Specification[]>([]);
-
-    // Main Specs State
-    const [maxGpu, setMaxGpu] = useState('');
-    const [maxCpu, setMaxCpu] = useState('');
-    const [mobo, setMobo] = useState('');
-    const [airflow, setAirflow] = useState('');
-    const [fanCount, setFanCount] = useState('');
 
     useEffect(() => {
         if (id) fetchPage();
@@ -95,52 +90,6 @@ export default function EditorPage() {
             setPrice(data.prices && data.prices.length > 0 ? data.prices[0].amount : '0');
             setCategory(data.category || 'CASES');
             setSpecs(data.specifications || []);
-
-            // Set Main Specs
-            const gpu = data.max_gpu_length || '';
-            const cpu = data.max_cpu_cooler_height || '';
-            const m = data.motherboard_form_factor || '';
-            const air = data.cooling_airflow || '';
-            const fans = data.fan_count || '';
-
-            setMaxGpu(gpu);
-            setMaxCpu(cpu);
-            setMobo(m);
-            setAirflow(air);
-            setFanCount(fans);
-
-            // Auto-Populate if empty
-            if (!gpu && !cpu && !m && !air && !fans && data.specifications) {
-                // We delay slightly to let state settle or just run logic directly on the data
-                // Since state updates are async, we'll run the logic on local vars and updating state is fine
-                // But we need the helper function to NOT rely on state for "found" check strictly
-                // Actually, handleSmartPopulate checks 'maxGpu' state which is stale here.
-                // Let's implement a direct local pass.
-
-                let foundGpu = gpu;
-                let foundCpu = cpu;
-                let foundMobo = m;
-                let foundAir = air;
-                let foundFans = fans;
-
-                data.specifications.forEach((s: Specification) => {
-                    const l = s.label.toLowerCase();
-                    const v = s.value;
-                    if (!v || v === '...') return;
-
-                    if (!foundGpu && (/gpu|vga|grafica|graphic|largo|video/i.test(l))) foundGpu = v;
-                    if (!foundCpu && (/cpu|cooler|height|altura/i.test(l) && !/fan|ventilad/i.test(l))) foundCpu = v;
-                    if (!foundMobo && (/motherboard|placa|madre|soporte|form/i.test(l))) foundMobo = v;
-                    if (!foundAir && (/airflow|flujo|cooling|refrigeracion|system/i.test(l) && !/water|liquida/i.test(l))) foundAir = v;
-                    if (!foundFans && (/fan|ventilad|cant|count|number/i.test(l) || /fan|ventilad/i.test(v))) if (/[0-9]/.test(v)) foundFans = v;
-                });
-
-                if (foundGpu) setMaxGpu(foundGpu);
-                if (foundCpu) setMaxCpu(foundCpu);
-                if (foundMobo) setMobo(foundMobo);
-                if (foundAir) setAirflow(foundAir);
-                if (foundFans) setFanCount(foundFans);
-            }
         }
         setLoading(false);
     }
@@ -153,11 +102,6 @@ export default function EditorPage() {
                 .update({
                     title,
                     category: category.toUpperCase(),
-                    max_gpu_length: maxGpu,
-                    max_cpu_cooler_height: maxCpu,
-                    motherboard_form_factor: mobo,
-                    cooling_airflow: airflow,
-                    fan_count: fanCount
                 })
                 .eq('id', id);
 
@@ -182,47 +126,7 @@ export default function EditorPage() {
         }
     };
 
-    const handleSmartPopulate = (fromSpecs: Specification[] = specs) => {
-        let foundGpu = maxGpu;
-        let foundCpu = maxCpu;
-        let foundMobo = mobo;
-        let foundAir = airflow;
-        let foundFans = fanCount;
 
-        fromSpecs.forEach(s => {
-            const l = s.label.toLowerCase();
-            const v = s.value;
-            if (!v || v === '...') return;
-
-            // GPU
-            if (!foundGpu && (/gpu|vga|grafica|graphic|largo|video/i.test(l))) {
-                foundGpu = v;
-            }
-            // CPU
-            if (!foundCpu && (/cpu|cooler|height|altura/i.test(l) && !/fan|ventilad/i.test(l))) {
-                foundCpu = v;
-            }
-            // Motherboard
-            if (!foundMobo && (/motherboard|placa|madre|soporte|form/i.test(l))) {
-                foundMobo = v;
-            }
-            // Airflow
-            if (!foundAir && (/airflow|flujo|cooling|refrigeracion|system/i.test(l) && !/water|liquida/i.test(l))) {
-                foundAir = v;
-            }
-            // Fans
-            if (!foundFans && (/fan|ventilad|cant|count|number/i.test(l) || /fan|ventilad/i.test(v))) {
-                // Check if it looks like a count or description
-                if (/[0-9]/.test(v)) foundFans = v;
-            }
-        });
-
-        if (foundGpu !== maxGpu) setMaxGpu(foundGpu);
-        if (foundCpu !== maxCpu) setMaxCpu(foundCpu);
-        if (foundMobo !== mobo) setMobo(foundMobo);
-        if (foundAir !== airflow) setAirflow(foundAir);
-        if (foundFans !== fanCount) setFanCount(foundFans);
-    };
 
     const handleSpecChange = (index: number, field: 'label' | 'value' | 'spec_group', text: string) => {
         const newSpecs = [...specs];
@@ -303,12 +207,13 @@ export default function EditorPage() {
     // Spec Grouping Logic (Database Source of Truth)
     // We strictly filter by the 'spec_group' column now.
 
+    const main = specs.filter(s => s.spec_group === 'MAIN');
     const cooling = specs.filter(s => s.spec_group === 'COOLING');
     const inputOutput = specs.filter(s => s.spec_group === 'INPUT_OUTPUT');
     const storage = specs.filter(s => s.spec_group === 'STORAGE');
     const structure = specs.filter(s => s.spec_group === 'STRUCTURE');
 
-    const groupedSpecs = { structure, cooling, inputOutput, storage };
+    const groupedSpecs = { main, structure, cooling, inputOutput, storage };
 
     // "Others" are those explicitly marked ADDITIONAL or those with NO group (legacy/freshly added)
     const others = specs.filter(s =>
@@ -486,45 +391,7 @@ export default function EditorPage() {
 
 
                         <div className="space-y-4 mb-6 border-b border-white/10 pb-6">
-                            <div className="flex items-center gap-2 mb-2 justify-between">
-                                <div className="flex items-center gap-2">
-                                    <Target className="w-4 h-4 text-primary" />
-                                    <h3 className="font-bold text-xs uppercase text-primary tracking-widest">Main Specs</h3>
-                                </div>
-                                <button
-                                    onClick={() => handleSmartPopulate(specs)}
-                                    className="text-[10px] bg-white/10 hover:bg-white/20 px-2 py-1 rounded text-primary flex items-center gap-1 transition-colors"
-                                    title="Auto-fill from existing specs list"
-                                >
-                                    <Cable className="w-3 h-3" /> Smart Fill
-                                </button>
-                            </div>
-                            <div className="grid grid-cols-1 gap-4">
-                                <div className="grid grid-cols-2 gap-2">
-                                    <div>
-                                        <label className="block text-[10px] text-white/40 uppercase mb-1">Max GPU</label>
-                                        <AutoCompleteInput value={maxGpu} onChange={setMaxGpu} placeholder="e.g. 340mm" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-[10px] text-white/40 uppercase mb-1">Max CPU Cooler</label>
-                                        <AutoCompleteInput value={maxCpu} onChange={setMaxCpu} placeholder="e.g. 165mm" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-[10px] text-white/40 uppercase mb-1">Motherboard Support</label>
-                                    <AutoCompleteInput value={mobo} onChange={setMobo} placeholder="e.g. ATX, Micro-ATX, ITX" />
-                                </div>
-                                <div className="grid grid-cols-2 gap-2">
-                                    <div>
-                                        <label className="block text-[10px] text-white/40 uppercase mb-1">Airflow</label>
-                                        <AutoCompleteInput value={airflow} onChange={setAirflow} placeholder="e.g. High Airflow Mesh" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-[10px] text-white/40 uppercase mb-1">Fan Count</label>
-                                        <AutoCompleteInput value={fanCount} onChange={setFanCount} placeholder="e.g. 6 Fans Included" />
-                                    </div>
-                                </div>
-                            </div>
+                            {renderSpecEditor('Main Specs', <Target size={16} />, groupedSpecs.main, 'Main Spec')}
                         </div>
 
                         <div className="space-y-4 max-h-[1000px] overflow-y-auto pr-2 custom-scrollbar">
