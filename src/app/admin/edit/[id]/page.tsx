@@ -224,7 +224,7 @@ export default function EditorPage() {
         if (foundFans !== fanCount) setFanCount(foundFans);
     };
 
-    const handleSpecChange = (index: number, field: 'label' | 'value', text: string) => {
+    const handleSpecChange = (index: number, field: 'label' | 'value' | 'spec_group', text: string) => {
         const newSpecs = [...specs];
         newSpecs[index] = { ...newSpecs[index], [field]: text };
         setSpecs(newSpecs);
@@ -239,6 +239,7 @@ export default function EditorPage() {
                 page_id: id,
                 label: s.label,
                 value: s.value,
+                spec_group: s.spec_group, // Include Spec Group in save
                 display_order: i
             }));
 
@@ -299,35 +300,19 @@ export default function EditorPage() {
         fan_count: fanCount,
     };
 
-    // Spec Grouping Logic (Same as SpecGroupGrid.tsx)
-    // Priority 1: Cooling
-    const cooling = specs.filter(s => /fan|cool|radiator|water|rgb/i.test(s.label));
+    // Spec Grouping Logic (Database Source of Truth)
+    // We strictly filter by the 'spec_group' column now.
 
-    // Priority 2: I/O (Exclude Cooling)
-    const io = specs.filter(s =>
-        !cooling.includes(s) &&
-        (/usb|audio|jack/i.test(s.label) || /\bport/i.test(s.label) || /usb/i.test(s.value))
-    );
+    const cooling = specs.filter(s => s.spec_group === 'COOLING');
+    const inputOutput = specs.filter(s => s.spec_group === 'INPUT_OUTPUT');
+    const storage = specs.filter(s => s.spec_group === 'STORAGE');
+    const structure = specs.filter(s => s.spec_group === 'STRUCTURE');
 
-    // Priority 3: Storage
-    const storage = specs.filter(s =>
-        !cooling.includes(s) && !io.includes(s) &&
-        /hdd|ssd|drive|bay|slot/i.test(s.label)
-    );
+    const groupedSpecs = { structure, cooling, inputOutput, storage };
 
-    // Priority 4: Structure (Catch remaining)
-    const structure = specs.filter(s =>
-        !cooling.includes(s) && !io.includes(s) && !storage.includes(s) &&
-        (/structure|size|dimension|mm|material|panel|chassis|peso|weight/i.test(s.label) || /mm|steel|glass/i.test(s.value))
-    );
-
-    const groupedSpecs = { structure, cooling, io, storage };
-
+    // "Others" are those explicitly marked ADDITIONAL or those with NO group (legacy/freshly added)
     const others = specs.filter(s =>
-        !groupedSpecs.structure.includes(s) &&
-        !groupedSpecs.cooling.includes(s) &&
-        !groupedSpecs.io.includes(s) &&
-        !groupedSpecs.storage.includes(s)
+        (s.spec_group === 'ADDITIONAL' || !s.spec_group) // Catch null/undefined
     );
 
     const renderSpecEditor = (label: string, icon: React.ReactNode, items: Specification[], addLabel?: string) => (
@@ -352,7 +337,7 @@ export default function EditorPage() {
                     const realIndex = specs.findIndex(s => s.id === spec.id);
                     return (
                         <div key={spec.id} className="flex gap-2 items-start group">
-                            <div className="flex-1 grid grid-cols-2 gap-2">
+                            <div className="flex-1 grid grid-cols-[1fr_1fr_auto] gap-2">
                                 <AutoCompleteInput
                                     value={spec.label}
                                     onChange={(val) => handleSpecChange(realIndex, 'label', val)}
@@ -364,7 +349,19 @@ export default function EditorPage() {
                                     placeholder="Value"
                                     className="bg-black/50 border border-white/10 p-2 text-[10px] text-white focus:border-primary outline-none"
                                 />
-
+                                {/* GROUP SELECTOR */}
+                                <select
+                                    value={spec.spec_group || 'ADDITIONAL'}
+                                    onChange={(e) => handleSpecChange(realIndex, 'spec_group', e.target.value)}
+                                    className="bg-black/50 border border-white/10 p-2 text-[10px] text-white/50 focus:text-primary outline-none max-w-[100px]"
+                                >
+                                    <option value="STRUCTURE">Structure</option>
+                                    <option value="COOLING">Cooling</option>
+                                    <option value="INPUT_OUTPUT">In / Out</option>
+                                    <option value="STORAGE">Storage</option>
+                                    <option value="MAIN">Main</option>
+                                    <option value="ADDITIONAL">Other</option>
+                                </select>
                             </div>
                             <button onClick={() => deleteSpec(spec.id)} className="p-2 text-white/20 hover:text-red-500 transition-colors">
                                 <Trash2 className="w-3 h-3" />
@@ -533,7 +530,7 @@ export default function EditorPage() {
                         <div className="space-y-4 max-h-[1000px] overflow-y-auto pr-2 custom-scrollbar">
                             {renderSpecEditor('Structure', <Box size={16} />, groupedSpecs.structure, 'Panel')}
                             {renderSpecEditor('Cooling', <Fan size={16} />, groupedSpecs.cooling, 'Fan')}
-                            {renderSpecEditor('I/O', <Cable size={16} />, groupedSpecs.io, 'USB')}
+                            {renderSpecEditor('Input / Output', <Cable size={16} />, groupedSpecs.inputOutput, 'USB')}
                             {renderSpecEditor('Storage', <Monitor size={16} />, groupedSpecs.storage, 'HDD/SSD')}
 
                             {others.length > 0 && (
