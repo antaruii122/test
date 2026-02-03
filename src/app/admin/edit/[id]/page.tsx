@@ -149,6 +149,7 @@ export default function EditorPage() {
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('0');
     const [category, setCategory] = useState('CASES');
+    const [showAllSpecs, setShowAllSpecs] = useState(false); // Toggle for dashboard filter
     // Spec State
     const [specs, setSpecs] = useState<Specification[]>([]);
 
