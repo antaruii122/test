@@ -463,14 +463,16 @@ export default function EditorPage() {
                         {/* TOTAL SPECS COVERAGE DASHBOARD */}
                         <div className="mt-8 bg-zinc-900 border border-white/10 p-4 rounded-lg">
                             <h3 className="text-xs font-bold uppercase text-white/50 tracking-widest mb-4 border-b border-white/5 pb-2">
-                                Total Specs Coverage
+                                {title} - Spec Coverage
                             </h3>
                             <div className="flex flex-wrap gap-2">
-                                {SUGGESTED_SPECS.map(s => {
+                                {(SPECS_BY_CATEGORY[category] || SPECS_BY_CATEGORY['CASES']).map(s => {
                                     // Check if this suggested spec exists in ANY of our current specs
                                     const exists = specs.some(myspec => myspec.label.toLowerCase().trim() === s.toLowerCase().trim());
 
                                     return (
+                                        <span
+                                            key={s}
                                         <span
                                             key={s}
                                             className={`
