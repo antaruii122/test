@@ -9,20 +9,33 @@ import { CatalogPage, Specification } from '@/lib/types';
 import ImageUpload from '@/components/ImageUpload';
 import CatalogPageView from '@/components/CatalogPage';
 
-const SUGGESTED_SPECS = [
-    "Model No.", "MOQ", "FOB Price", "Structure Size", "Case Size", "Carton Size",
-    "Form Factor", "Material", "Motherboard Support", "PSU Support",
-    "Front Panel", "Side Panel", "Cooling System", "Water Cooling",
-    "Front Panel", "Side Panel", "Cooling System", "Water Cooling",
-    "Fan Support", "Included Fans", "Input / Output Ports", "Drive Bays",
-    "PCI Slots", "Max GPU Length", "Max CPU Height", "Net Weight / Gross Weight"
-];
+const SPECS_BY_CATEGORY: Record<string, string[]> = {
+    'CASES': [
+        "Model No.", "MOQ", "FOB Price", "Structure Size", "Case Size", "Carton Size",
+        "Form Factor", "Material", "Motherboard Support", "PSU Support",
+        "Front Panel", "Side Panel", "Cooling System", "Water Cooling",
+        "Fan Support", "Included Fans", "Input / Output Ports", "Drive Bays",
+        "PCI Slots", "Max GPU Length", "Max CPU Height", "Net Weight / Gross Weight"
+    ],
+    'MOTHERBOARDS': [
+        "Model No.", "MOQ", "FOB Price", "Chipset", "Socket", "Memory Support",
+        "Storage", "Expansion Slots", "Rear I/O", "Internal I/O", "Form Factor",
+        "LAN / Audio", "Power Phase"
+    ],
+    'KEYBOARDS': [
+        "Model No.", "MOQ", "FOB Price", "Keys", "Switch Type", "Backlight",
+        "Connectivity", "Cable Length", "Keycaps", "Dimensions", "Weight", "System Support"
+    ]
+};
 
-const AutoCompleteInput = ({ value, onChange, placeholder }: { value: string, onChange: (val: string) => void, placeholder: string }) => {
+const AutoCompleteInput = ({ value, onChange, placeholder, category }: { value: string, onChange: (val: string) => void, placeholder: string, category?: string }) => {
     const [showSuggestions, setShowSuggestions] = useState(false);
 
+    // Default to CASES if category undefined or not found
+    const validSuggestions = SPECS_BY_CATEGORY[category || 'CASES'] || SPECS_BY_CATEGORY['CASES'];
+
     // Filter suggestions based on input
-    const filtered = SUGGESTED_SPECS.filter(s => s.toLowerCase().includes(value.toLowerCase()));
+    const filtered = validSuggestions.filter(s => s.toLowerCase().includes(value.toLowerCase()));
 
     return (
         <div className="relative">
