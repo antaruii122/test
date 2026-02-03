@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useParams, useRouter } from 'next/navigation';
-import { Loader2, ArrowLeft, Save, Plus, Trash2, Image as ImageIcon, Box, Fan, Cable, Monitor } from 'lucide-react';
+import { Loader2, ArrowLeft, Save, Plus, Trash2, Image as ImageIcon, Box, Fan, Cable, Monitor, Target } from 'lucide-react';
 import Link from 'next/link';
 import { CatalogPage, Specification } from '@/lib/types';
 import ImageUpload from '@/components/ImageUpload';
@@ -65,6 +65,13 @@ export default function EditorPage() {
     const [category, setCategory] = useState('CASES');
     const [specs, setSpecs] = useState<Specification[]>([]);
 
+    // Main Specs State
+    const [maxGpu, setMaxGpu] = useState('');
+    const [maxCpu, setMaxCpu] = useState('');
+    const [mobo, setMobo] = useState('');
+    const [airflow, setAirflow] = useState('');
+    const [fanCount, setFanCount] = useState('');
+
     useEffect(() => {
         if (id) fetchPage();
     }, [id]);
@@ -88,6 +95,13 @@ export default function EditorPage() {
             setPrice(data.prices && data.prices.length > 0 ? data.prices[0].amount : '0');
             setCategory(data.category || 'CASES');
             setSpecs(data.specifications || []);
+
+            // Set Main Specs
+            setMaxGpu(data.max_gpu_length || '');
+            setMaxCpu(data.max_cpu_cooler_height || '');
+            setMobo(data.motherboard_form_factor || '');
+            setAirflow(data.cooling_airflow || '');
+            setFanCount(data.fan_count || '');
         }
         setLoading(false);
     }
@@ -99,7 +113,12 @@ export default function EditorPage() {
                 .from('esgaming_pages')
                 .update({
                     title,
-                    category: category.toUpperCase()
+                    category: category.toUpperCase(),
+                    max_gpu_length: maxGpu,
+                    max_cpu_cooler_height: maxCpu,
+                    motherboard_form_factor: mobo,
+                    cooling_airflow: airflow,
+                    fan_count: fanCount
                 })
                 .eq('id', id);
 
@@ -378,6 +397,40 @@ export default function EditorPage() {
                             <button onClick={() => addNewSpec()} className="text-xs bg-primary text-black hover:bg-white px-3 py-1 font-bold rounded flex items-center gap-1 transition-colors">
                                 <Plus className="w-3 h-3" /> Add Any Spec
                             </button>
+                        </div>
+
+
+                        <div className="space-y-4 mb-6 border-b border-white/10 pb-6">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Target className="w-4 h-4 text-primary" />
+                                <h3 className="font-bold text-xs uppercase text-primary tracking-widest">Main Specs</h3>
+                            </div>
+                            <div className="grid grid-cols-1 gap-4">
+                                <div className="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label className="block text-[10px] text-white/40 uppercase mb-1">Max GPU</label>
+                                        <input value={maxGpu} onChange={e => setMaxGpu(e.target.value)} placeholder="e.g. 340mm" className="w-full bg-black/50 border border-white/10 p-2 text-xs text-white focus:border-primary outline-none" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] text-white/40 uppercase mb-1">Max CPU Cooler</label>
+                                        <input value={maxCpu} onChange={e => setMaxCpu(e.target.value)} placeholder="e.g. 165mm" className="w-full bg-black/50 border border-white/10 p-2 text-xs text-white focus:border-primary outline-none" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] text-white/40 uppercase mb-1">Motherboard Support</label>
+                                    <input value={mobo} onChange={e => setMobo(e.target.value)} placeholder="e.g. ATX, Micro-ATX, ITX" className="w-full bg-black/50 border border-white/10 p-2 text-xs text-white focus:border-primary outline-none" />
+                                </div>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label className="block text-[10px] text-white/40 uppercase mb-1">Airflow</label>
+                                        <input value={airflow} onChange={e => setAirflow(e.target.value)} placeholder="e.g. High Airflow Mesh" className="w-full bg-black/50 border border-white/10 p-2 text-xs text-white focus:border-primary outline-none" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] text-white/40 uppercase mb-1">Fan Count</label>
+                                        <input value={fanCount} onChange={e => setFanCount(e.target.value)} placeholder="e.g. 6 Fans Included" className="w-full bg-black/50 border border-white/10 p-2 text-xs text-white focus:border-primary outline-none" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="space-y-4 max-h-[1000px] overflow-y-auto pr-2 custom-scrollbar">

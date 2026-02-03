@@ -1,12 +1,12 @@
-import React from 'react';
-import { Specification } from '@/lib/types';
-import { Box, Fan, Cable, Monitor } from 'lucide-react';
+import { CatalogPage, Specification } from '@/lib/types';
+import { Box, Fan, Cable, Monitor, Cpu, Target } from 'lucide-react';
 
 interface SpecGroupGridProps {
     specs?: Specification[];
+    page?: CatalogPage; // Added page to access main specs
 }
 
-export default function SpecGroupGrid({ specs = [] }: SpecGroupGridProps) {
+export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) {
 
     // Helper to bucketize specs
     // Priority 1: Cooling
@@ -74,6 +74,49 @@ export default function SpecGroupGrid({ specs = [] }: SpecGroupGridProps) {
     // Changed from grid-cols-4 to grid-cols-2 for wider viewing experience
     return (
         <div className="flex flex-col gap-6 mt-8">
+            {/* MAIN SPECS (NEW TOP SECTION) */}
+            {(page?.max_gpu_length || page?.max_cpu_cooler_height || page?.motherboard_form_factor || page?.cooling_airflow || page?.fan_count) && (
+                <div className="bg-gradient-to-r from-primary/10 to-transparent border border-primary/20 p-6 rounded-lg mb-8 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl -translate-y-1/2 translate-x-1/2" />
+                    <div className="flex items-center gap-3 mb-6 text-primary">
+                        <Target className="w-6 h-6" />
+                        <h4 className="font-display font-bold uppercase tracking-wider text-xl">Main Specs</h4>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-8">
+                        {page.max_gpu_length && (
+                            <div className="flex justify-between border-b border-primary/10 pb-2">
+                                <span className="text-primary/60 text-xs font-bold uppercase">Max GPU Length</span>
+                                <span className="text-white font-mono">{page.max_gpu_length}</span>
+                            </div>
+                        )}
+                        {page.max_cpu_cooler_height && (
+                            <div className="flex justify-between border-b border-primary/10 pb-2">
+                                <span className="text-primary/60 text-xs font-bold uppercase">Max CPU Cooler</span>
+                                <span className="text-white font-mono">{page.max_cpu_cooler_height}</span>
+                            </div>
+                        )}
+                        {page.motherboard_form_factor && (
+                            <div className="flex justify-between border-b border-primary/10 pb-2">
+                                <span className="text-primary/60 text-xs font-bold uppercase">Motherboard</span>
+                                <span className="text-white font-mono">{page.motherboard_form_factor}</span>
+                            </div>
+                        )}
+                        {page.cooling_airflow && (
+                            <div className="flex justify-between border-b border-primary/10 pb-2">
+                                <span className="text-primary/60 text-xs font-bold uppercase">Airflow</span>
+                                <span className="text-white font-mono">{page.cooling_airflow}</span>
+                            </div>
+                        )}
+                        {page.fan_count && (
+                            <div className="flex justify-between border-b border-primary/10 pb-2">
+                                <span className="text-primary/60 text-xs font-bold uppercase">Fan Count</span>
+                                <span className="text-white font-mono">{page.fan_count}</span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                 {/* LEFT COLUMN: STRUCTURE (TALL) */}
                 <div className="h-full">
