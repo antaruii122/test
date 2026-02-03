@@ -209,8 +209,33 @@ export default function EditorPage() {
                                     value={spec.label}
                                     onChange={(e) => handleSpecChange(realIndex, 'label', e.target.value)}
                                     placeholder="Label"
+                                    list="common-specs"
                                     className="bg-black/50 border border-white/10 p-2 text-[10px] font-bold text-white/70 focus:text-primary focus:border-primary outline-none"
                                 />
+                                <datalist id="common-specs">
+                                    <option value="Model No." />
+                                    <option value="MOQ" />
+                                    <option value="FOB Price" />
+                                    <option value="Structure Size" />
+                                    <option value="Case Size" />
+                                    <option value="Carton Size" />
+                                    <option value="Form Factor" />
+                                    <option value="Material" />
+                                    <option value="Motherboard Support" />
+                                    <option value="PSU Support" />
+                                    <option value="Front Panel" />
+                                    <option value="Side Panel" />
+                                    <option value="Cooling System" />
+                                    <option value="Water Cooling" />
+                                    <option value="Fan Support" />
+                                    <option value="Included Fans" />
+                                    <option value="I/O Ports" />
+                                    <option value="Drive Bays" />
+                                    <option value="PCI Slots" />
+                                    <option value="Max GPU Length" />
+                                    <option value="Max CPU Height" />
+                                    <option value="Net Weight / Gross Weight" />
+                                </datalist>
                                 <input
                                     value={spec.value}
                                     onChange={(e) => handleSpecChange(realIndex, 'value', e.target.value)}
