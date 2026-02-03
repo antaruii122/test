@@ -27,7 +27,7 @@ export interface Specification {
   label: string;
   value: string;
   display_order: number;
-  spec_group?: 'MAIN' | 'STRUCTURE' | 'COOLING' | 'IO' | 'STORAGE' | 'ADDITIONAL';
+  spec_group?: 'MAIN' | 'STRUCTURE' | 'COOLING' | 'INPUT_OUTPUT' | 'STORAGE' | 'ADDITIONAL';
 }
 
 export interface Price {
