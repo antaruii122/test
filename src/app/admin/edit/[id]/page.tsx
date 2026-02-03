@@ -446,6 +446,34 @@ export default function EditorPage() {
                             )}
                         </div>
 
+                        {/* TOTAL SPECS COVERAGE DASHBOARD */}
+                        <div className="mt-8 bg-zinc-900 border border-white/10 p-4 rounded-lg">
+                            <h3 className="text-xs font-bold uppercase text-white/50 tracking-widest mb-4 border-b border-white/5 pb-2">
+                                Total Specs Coverage
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                                {SUGGESTED_SPECS.map(s => {
+                                    // Check if this suggested spec exists in ANY of our current specs
+                                    const exists = specs.some(myspec => myspec.label.toLowerCase().trim() === s.toLowerCase().trim());
+
+                                    return (
+                                        <span
+                                            key={s}
+                                            className={`
+                                                text-[10px] px-2 py-1 rounded border transition-colors cursor-default
+                                                ${exists
+                                                    ? 'bg-primary/20 border-primary text-primary font-bold shadow-[0_0_10px_rgba(50,255,100,0.1)]'
+                                                    : 'bg-white/5 border-white/10 text-white/30 hover:border-white/20'
+                                                }
+                                            `}
+                                        >
+                                            {s}
+                                        </span>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
                         <div className="mt-6 pt-4 border-t border-white/10 sticky bottom-0 bg-zinc-900/90 p-4 -m-4">
                             <button onClick={handleSaveSpecs} className="w-full py-4 bg-primary text-black font-black uppercase text-xs tracking-[0.2em] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
                                 <Save className="w-4 h-4" /> Finalize & Push Specs
