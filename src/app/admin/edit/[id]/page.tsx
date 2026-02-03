@@ -220,6 +220,23 @@ export default function EditorPage() {
         if (data) setSpecs([...specs, data]);
     };
 
+    const handleAddSpec = async (group: string, label: string) => {
+        const { data, error } = await supabase
+            .from('esgaming_specifications')
+            .insert({
+                page_id: id,
+                spec_group: group,
+                label: label,
+                value: '-' // Default placeholder value
+            })
+            .select()
+            .single();
+
+        if (data) {
+            setSpecs([...specs, data]);
+        }
+    };
+
     const deleteSpec = async (specId: string) => {
         // Optimistic update for UI feel, but actual logic awaits DB
         const { error } = await supabase.from('esgaming_specifications').delete().eq('id', specId);
