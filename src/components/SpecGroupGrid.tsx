@@ -77,43 +77,49 @@ export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) 
     // Changed from grid-cols-4 to grid-cols-2 for wider viewing experience
     return (
         <div className="flex flex-col gap-6 mt-8">
-            {/* MAIN SPECS (NEW TOP SECTION) */}
+            {/* MAIN SPECS (PREMIUM GRID LAYOUT) */}
             {(page?.max_gpu_length || page?.max_cpu_cooler_height || page?.motherboard_form_factor || page?.cooling_airflow || page?.fan_count) && (
-                <div className="bg-gradient-to-r from-primary/10 to-transparent border border-primary/20 p-6 rounded-lg mb-8 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl -translate-y-1/2 translate-x-1/2" />
-                    <div className="flex items-center gap-3 mb-6 text-primary">
-                        <Target className="w-6 h-6" />
-                        <h4 className="font-display font-bold uppercase tracking-wider text-xl">Main Specs</h4>
+                <div className="bg-gradient-to-br from-primary/5 to-transparent border border-white/10 p-8 rounded-xl mb-8 relative overflow-hidden group">
+                    {/* Decorative background elements */}
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[100px] -translate-y-1/2 translate-x-1/3" />
+                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-primary/5 blur-[80px] translate-y-1/2 -translate-x-1/3" />
+
+                    <div className="flex items-center gap-3 mb-8 relative z-10">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                            <Target className="w-5 h-5 text-primary" />
+                        </div>
+                        <h4 className="font-display font-bold uppercase tracking-[0.2em] text-lg text-white">Main Specs</h4>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-8">
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-8 relative z-10">
                         {page.max_gpu_length && (
-                            <div className="flex justify-between border-b border-primary/10 pb-2">
-                                <span className="text-primary/60 text-xs font-bold uppercase">Max GPU Length</span>
-                                <span className="text-white font-mono">{page.max_gpu_length}</span>
+                            <div className="flex flex-col group/item">
+                                <span className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2 group-hover/item:text-primary/70 transition-colors">Max GPU Length</span>
+                                <span className="text-white font-mono text-lg tracking-tight border-l-2 border-primary/30 pl-3 leading-none py-1">{page.max_gpu_length}</span>
                             </div>
                         )}
                         {page.max_cpu_cooler_height && (
-                            <div className="flex justify-between border-b border-primary/10 pb-2">
-                                <span className="text-primary/60 text-xs font-bold uppercase">Max CPU Cooler</span>
-                                <span className="text-white font-mono">{page.max_cpu_cooler_height}</span>
+                            <div className="flex flex-col group/item">
+                                <span className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2 group-hover/item:text-primary/70 transition-colors">Max CPU Cooler</span>
+                                <span className="text-white font-mono text-lg tracking-tight border-l-2 border-primary/30 pl-3 leading-none py-1">{page.max_cpu_cooler_height}</span>
                             </div>
                         )}
                         {page.motherboard_form_factor && (
-                            <div className="flex justify-between border-b border-primary/10 pb-2">
-                                <span className="text-primary/60 text-xs font-bold uppercase">Motherboard</span>
-                                <span className="text-white font-mono">{page.motherboard_form_factor}</span>
+                            <div className="flex flex-col group/item">
+                                <span className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2 group-hover/item:text-primary/70 transition-colors">Motherboard</span>
+                                <span className="text-white font-mono text-lg tracking-tight border-l-2 border-primary/30 pl-3 leading-none py-1">{page.motherboard_form_factor}</span>
                             </div>
                         )}
                         {page.cooling_airflow && (
-                            <div className="flex justify-between border-b border-primary/10 pb-2">
-                                <span className="text-primary/60 text-xs font-bold uppercase">Airflow</span>
-                                <span className="text-white font-mono">{page.cooling_airflow}</span>
+                            <div className="flex flex-col group/item">
+                                <span className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2 group-hover/item:text-primary/70 transition-colors">Airflow</span>
+                                <span className="text-white font-mono text-lg tracking-tight border-l-2 border-primary/30 pl-3 leading-none py-1">{page.cooling_airflow}</span>
                             </div>
                         )}
                         {page.fan_count && (
-                            <div className="flex justify-between border-b border-primary/10 pb-2">
-                                <span className="text-primary/60 text-xs font-bold uppercase">Fan Count</span>
-                                <span className="text-white font-mono">{page.fan_count}</span>
+                            <div className="flex flex-col group/item">
+                                <span className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2 group-hover/item:text-primary/70 transition-colors">Fan Count</span>
+                                <span className="text-white font-mono text-lg tracking-tight border-l-2 border-primary/30 pl-3 leading-none py-1">{page.fan_count}</span>
                             </div>
                         )}
                     </div>
