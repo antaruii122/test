@@ -10,7 +10,7 @@ export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) 
 
     // Helper to bucketize specs
     // Priority 1: Cooling
-    const cooling = specs.filter(s => /fan|cool|radiator|water|rgb/i.test(s.label));
+    const cooling = specs.filter(s => /fan|cool|radiator|water|rgb|ventilad|trasero|frontal|arriba|top|rear|front/i.test(s.label));
 
     // Priority 2: I/O (Exclude Cooling) -> Fixed regex to avoid 'soporta' matching 'port'
     const io = specs.filter(s =>
@@ -21,26 +21,29 @@ export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) 
     // Priority 3: Storage (Exclude previous)
     const storage = specs.filter(s =>
         !cooling.includes(s) && !io.includes(s) &&
-        /hdd|ssd|drive|bay|slot/i.test(s.label)
+        /hdd|ssd|drive|bay|slot|storage|disco|almacen/i.test(s.label)
     );
 
     // Priority 4: Structure (Exclude previous) - Catches dimensions/materials but won't grab fans just because of 'mm'
+    // Also explicitly filtering out "Placa Madre" / "Motherboard" / "GPU" / "CPU" related items as they belong to Main Specs now
     const structure = specs.filter(s =>
         !cooling.includes(s) && !io.includes(s) && !storage.includes(s) &&
-        (/structure|size|dimension|mm|material|panel|chassis|peso|weight/i.test(s.label) || /mm|steel|glass/i.test(s.value))
+        (/structure|size|dimension|mm|material|panel|chassis|peso|weight|tamaño|gabinete|caja|ancho|alto|largo/i.test(s.label) || /mm|steel|glass/i.test(s.value)) &&
+        !/placa|madre|motherboard|gpu|grafica|cpu|cooler|vga/i.test(s.label) // Exclude Main Specs items from Structure
     );
 
     // Group object for rendering
     const groups = { structure, cooling, io, storage };
 
-    // Fallback: Others (Exclude all groups)
+    // Fallback: Others (Exclude all groups AND Main Specs keywords)
     const rawOthers = specs.filter(s =>
         !groups.structure.includes(s) &&
         !groups.cooling.includes(s) &&
         !groups.io.includes(s) &&
         !groups.storage.includes(s) &&
         !/moq|cant|min/i.test(s.label) &&
-        !/precio|price|fob/i.test(s.label)
+        !/precio|price|fob/i.test(s.label) &&
+        !/placa|madre|motherboard|gpu|grafica|cpu|cooler|vga|fan|ventilad|air|flujo/i.test(s.label) // STRICTLY exclude Main Specs keywords
     );
 
     // Deduplicate: If multiple specs have exact same Label AND Value, only show one.
