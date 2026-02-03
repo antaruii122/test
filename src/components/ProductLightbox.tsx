@@ -64,53 +64,57 @@ export default function ProductLightbox({ images, initialIndex, isOpen, onClose 
 
     return (
         <div
-            className="fixed inset-0 z-[99999] bg-black/95 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-200"
+            className="fixed inset-0 z-[99999] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center animate-in fade-in duration-200"
             onClick={onClose}
         >
-            {/* Top Bar controls */}
-            <div className="absolute top-4 right-4 flex gap-4 z-20">
+            {/* Top Toolbar - Pure Safety Zone */}
+            <div className="absolute top-0 left-0 right-0 h-16 flex items-center justify-end px-6 z-50 pointer-events-none">
                 <button
                     onClick={onClose}
-                    className="p-2 bg-white/10 hover:bg-red-600 text-white rounded-full transition-colors"
+                    className="pointer-events-auto bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-full font-bold uppercase tracking-widest text-xs shadow-lg transition-transform active:scale-95 flex items-center gap-2"
                 >
-                    <X className="w-6 h-6" />
+                    <X className="w-4 h-4" /> Close Viewer
                 </button>
             </div>
 
             {/* Navigation Left */}
             <button
                 onClick={handlePrev}
-                className="absolute left-4 p-3 hidden md:flex text-white/50 hover:text-white hover:bg-white/10 rounded-full transition-all z-20"
+                className="absolute left-4 top-1/2 -translate-y-1/2 p-4 hidden md:flex text-white/50 hover:text-primary hover:bg-black/50 rounded-full transition-all z-20"
             >
-                <ChevronLeft className="w-8 h-8" />
+                <ChevronLeft className="w-10 h-10" />
             </button>
 
-            {/* Main Image Container */}
+            {/* Main Image Container - constrained to ensure it never touches edges */}
             <div
-                className="relative w-full h-full flex items-center justify-center p-4 md:p-12"
+                className="relative w-full h-full flex items-center justify-center p-8 md:p-20"
                 onClick={(e) => e.stopPropagation()}
             >
                 <img
                     src={currentImage.url}
                     alt="Product"
                     style={{ transform: `scale(${zoom})` }}
-                    className="max-h-full max-w-full object-contain transition-transform duration-200 select-none"
+                    className="max-h-[85vh] max-w-[90vw] object-contain transition-transform duration-200 select-none shadow-2xl drop-shadow-[0_0_50px_rgba(255,255,255,0.1)]"
                 />
             </div>
 
             {/* Navigation Right */}
             <button
                 onClick={handleNext}
-                className="absolute right-4 p-3 hidden md:flex text-white/50 hover:text-white hover:bg-white/10 rounded-full transition-all z-20"
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-4 hidden md:flex text-white/50 hover:text-primary hover:bg-black/50 rounded-full transition-all z-20"
             >
-                <ChevronRight className="w-8 h-8" />
+                <ChevronRight className="w-10 h-10" />
             </button>
 
             {/* Bottom Counter & Info */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-black/50 px-4 py-2 rounded-full border border-white/10 backdrop-blur-sm z-20">
-                <span className="text-white/70 font-mono text-xs">
-                    {currentIndex + 1} / {images.length}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-zinc-900/90 px-6 py-3 rounded-full border border-white/10 backdrop-blur-sm z-20" onClick={(e) => e.stopPropagation()}>
+                <span className="text-white/70 font-mono text-xs tracking-widest">
+                    IMAGE {currentIndex + 1} / {images.length}
                 </span>
+                <div className="w-px h-4 bg-white/10 mx-2" />
+                <button onClick={() => setZoom(z => Math.max(0.5, z - 0.5))} className="p-1 hover:text-primary transition-colors"><ZoomOut size={16} /></button>
+                <span className="text-primary font-bold text-xs w-8 text-center">{Math.round(zoom * 100)}%</span>
+                <button onClick={() => setZoom(z => Math.min(3, z + 0.5))} className="p-1 hover:text-primary transition-colors"><ZoomIn size={16} /></button>
             </div>
         </div>
     );
