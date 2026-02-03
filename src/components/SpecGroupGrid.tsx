@@ -17,11 +17,19 @@ export default function SpecGroupGrid({ specs = [] }: SpecGroupGridProps) {
     };
 
     // Fallback for leftovers
-    const others = specs.filter(s =>
+    const rawOthers = specs.filter(s =>
         !groups.structure.includes(s) &&
         !groups.cooling.includes(s) &&
         !groups.io.includes(s) &&
         !groups.storage.includes(s)
+    );
+
+    // Deduplicate: If multiple specs have exact same Label AND Value, only show one.
+    const others = rawOthers.filter((spec, index, self) =>
+        index === self.findIndex((t) => (
+            t.label.trim().toLowerCase() === spec.label.trim().toLowerCase() &&
+            t.value.trim().toLowerCase() === spec.value.trim().toLowerCase()
+        ))
     );
 
     const renderGroup = (title: string, icon: React.ReactNode, items: Specification[]) => {
