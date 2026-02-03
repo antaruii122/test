@@ -49,7 +49,50 @@ const AutoCompleteInput = ({ value, onChange, placeholder, category }: { value: 
             />
             {showSuggestions && filtered.length > 0 && (
                 <div className="absolute top-full left-0 w-full bg-zinc-900 border border-white/20 z-50 max-h-48 overflow-y-auto shadow-xl rounded-b-md">
-                    {filtered.map((suggestion) => (
+                </div>
+            ))}
+        </div>
+    )
+}
+        </div >
+    );
+};
+
+// NEW: Autocomplete but for VALUES based on existing DB entries for that specific Label
+const ValueAutoComplete = ({ label, value, onChange, placeholder }: { label: string, value: string, onChange: (val: string) => void, placeholder: string }) => {
+    const [suggestions, setSuggestions] = useState<string[]>([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+
+    // Fetch unique values for this label when focused
+    const fetchSuggestions = async () => {
+        if (!label) return;
+        const { data } = await supabase
+            .from('esgaming_specifications')
+            .select('value')
+            .ilike('label', label) // Case insensitive match on label
+            .not('value', 'is', null)
+            .limit(50);
+
+        if (data) {
+            // Uniq
+            const unique = Array.from(new Set(data.map(d => d.value).filter(v => v !== '-' && v !== '...')));
+            setSuggestions(unique);
+        }
+    };
+
+    return (
+        <div className="relative">
+            <input
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                onFocus={() => { setShowSuggestions(true); fetchSuggestions(); }}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                placeholder={placeholder}
+                className="w-full bg-black/50 border border-white/10 p-2 text-[10px] text-white focus:border-primary outline-none"
+            />
+            {showSuggestions && suggestions.length > 0 && (
+                <div className="absolute top-full left-0 w-full bg-zinc-900 border border-white/20 z-50 max-h-48 overflow-y-auto shadow-xl rounded-b-md">
+                    {suggestions.map((suggestion) => (
                         <div
                             key={suggestion}
                             onMouseDown={() => { onChange(suggestion); setShowSuggestions(false); }}
@@ -62,7 +105,7 @@ const AutoCompleteInput = ({ value, onChange, placeholder, category }: { value: 
             )}
         </div>
     );
-};
+}
 
 
 const DeleteConfirmButton = ({ onDelete }: { onDelete: () => void }) => {
@@ -320,11 +363,11 @@ export default function EditorPage() {
                                     placeholder="Label"
                                     category={category}  // Pass dynamic category
                                 />
-                                <input
+                                <ValueAutoComplete
+                                    label={spec.label}
                                     value={spec.value}
-                                    onChange={(e) => handleSpecChange(realIndex, 'value', e.target.value)}
+                                    onChange={(val) => handleSpecChange(realIndex, 'value', val)}
                                     placeholder="Value"
-                                    className="bg-black/50 border border-white/10 p-2 text-[10px] text-white focus:border-primary outline-none"
                                 />
                                 {/* GROUP SELECTOR */}
                                 <select
