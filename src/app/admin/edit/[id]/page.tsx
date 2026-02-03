@@ -197,11 +197,13 @@ export default function EditorPage() {
         specifications: specs,
         // Mock prices array for preview
         prices: [{ amount: parseFloat(price), currency: 'USD' }] as any,
-        max_gpu_length: maxGpu,
-        max_cpu_cooler_height: maxCpu,
-        motherboard_form_factor: mobo,
-        cooling_airflow: airflow,
-        fan_count: fanCount,
+        // Legacy fields for type compatibility (if needed by other components, though SpecGroupGrid uses specs now)
+        // Set to undefined or empty strings since they are no longer managed here
+        max_gpu_length: undefined,
+        max_cpu_cooler_height: undefined,
+        motherboard_form_factor: undefined,
+        cooling_airflow: undefined,
+        fan_count: undefined,
     };
 
     // Spec Grouping Logic (Database Source of Truth)
