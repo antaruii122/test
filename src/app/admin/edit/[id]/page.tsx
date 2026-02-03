@@ -418,6 +418,11 @@ export default function EditorPage() {
                                     <input
                                         value={title}
                                         onChange={e => setTitle(e.target.value)}
+                                        onBlur={() => {
+                                            // Auto-format to Title Case on blur
+                                            const formatted = title.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                                            setTitle(formatted);
+                                        }}
                                         className="w-full bg-black border border-white/10 p-2 font-bold text-sm focus:border-primary outline-none transition-colors rounded"
                                     />
                                 </div>
@@ -531,41 +536,24 @@ export default function EditorPage() {
                                     const validForCategory = (SPECS_BY_CATEGORY[category] || SPECS_BY_CATEGORY['CASES']);
                                     const relevantSpecs = groupSpecs.filter(s => validForCategory.includes(s) || validForCategory.some(v => v.includes(s)));
 
-                                    if (relevantSpecs.length === 0) return null;
+                                    // FILTER: Only show specs that ACTUALLY EXIST for this SKU (User Request)
+                                    const activeSpecs = relevantSpecs.filter(s => specs.some(myspec => myspec.label.toLowerCase().trim() === s.toLowerCase().trim()));
+
+                                    if (activeSpecs.length === 0) return null;
 
                                     return (
                                         <div key={groupName}>
                                             <h4 className="text-[10px] font-bold text-primary/70 mb-2 uppercase">{groupName}</h4>
                                             <div className="flex flex-wrap gap-2">
-                                                {relevantSpecs.map(s => {
-                                                    const exists = specs.some(myspec => myspec.label.toLowerCase().trim() === s.toLowerCase().trim());
+                                                {activeSpecs.map(s => {
+                                                    const exists = true; // By definition, since we filtered
                                                     return (
                                                         <button
                                                             key={s}
-                                                            onClick={(e) => {
-                                                                e.preventDefault(); // Prevent form submission if any
-                                                                if (!exists) {
-                                                                    // Determine group code for DB
-                                                                    let groupCode = 'ADDITIONAL';
-                                                                    if (groupName === 'MAIN') groupCode = 'MAIN';
-                                                                    else if (groupName === 'STRUCTURE') groupCode = 'STRUCTURE';
-                                                                    else if (groupName === 'COOLING') groupCode = 'COOLING';
-                                                                    else if (groupName === 'Input / Output') groupCode = 'INPUT_OUTPUT';
-                                                                    else if (groupName === 'STORAGE') groupCode = 'STORAGE';
-
-                                                                    handleAddSpec(groupCode, s);
-                                                                }
-                                                            }}
-                                                            disabled={exists}
-                                                            className={`
-                                                                text-[10px] px-3 py-1.5 rounded border transition-all duration-200 font-bold uppercase tracking-wider
-                                                                ${exists
-                                                                    ? 'bg-primary/20 border-primary text-primary shadow-[0_0_10px_rgba(50,255,100,0.1)] cursor-default'
-                                                                    : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10 hover:text-white hover:border-white/30 cursor-pointer active:scale-95'
-                                                                }
-                                                            `}
+                                                            onClick={(e) => e.preventDefault()}
+                                                            className="text-[10px] px-3 py-1.5 rounded border transition-all duration-200 font-bold uppercase tracking-wider bg-primary/20 border-primary text-primary shadow-[0_0_10px_rgba(50,255,100,0.1)] cursor-default"
                                                         >
-                                                            {s} {exists && <span className="ml-1">✓</span>}
+                                                            {s} <span className="ml-1">✓</span>
                                                         </button>
                                                     );
                                                 })}
