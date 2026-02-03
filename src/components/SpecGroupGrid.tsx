@@ -12,7 +12,7 @@ export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) 
     // We now trust the DB 'spec_group' column instead of regex guessing.
 
     const cooling = specs.filter(s => s.spec_group === 'COOLING');
-    const io = specs.filter(s => s.spec_group === 'IO');
+    const inputOutput = specs.filter(s => s.spec_group === 'INPUT_OUTPUT');
     const storage = specs.filter(s => s.spec_group === 'STORAGE');
     const structure = specs.filter(s => s.spec_group === 'STRUCTURE');
 
@@ -24,7 +24,7 @@ export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) 
     );
 
     // Group object for rendering
-    const groups = { structure, cooling, io, storage };
+    const groups = { structure, cooling, inputOutput, storage };
 
     // Deduplicate: If multiple specs have exact same Label AND Value, only show one.
     const others = rawOthers.filter((spec, index, self) =>
@@ -115,7 +115,7 @@ export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) 
                 {/* RIGHT COLUMN: COOLING + I/O + STORAGE */}
                 <div className="flex flex-col gap-6">
                     {renderGroup('Cooling System', <Fan className="w-6 h-6" />, groups.cooling)}
-                    {renderGroup('I/O Connectivity', <Cable className="w-6 h-6" />, groups.io)}
+                    {renderGroup('Input / Output', <Cable className="w-6 h-6" />, groups.inputOutput)}
                     {renderGroup('Storage / Expansion', <Monitor className="w-6 h-6" />, groups.storage)}
                 </div>
             </div>
