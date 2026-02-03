@@ -288,6 +288,7 @@ export default function EditorPage() {
                                     value={spec.label}
                                     onChange={(val) => handleSpecChange(realIndex, 'label', val)}
                                     placeholder="Label"
+                                    category={category}  // Pass dynamic category
                                 />
                                 <input
                                     value={spec.value}
