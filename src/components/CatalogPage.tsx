@@ -121,7 +121,7 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
                         </h2>
                     </div>
 
-                    <SpecGroupGrid specs={page.specifications} />
+                    <SpecGroupGrid specs={page.specifications} page={page} />
                 </div>
             </div>
 
