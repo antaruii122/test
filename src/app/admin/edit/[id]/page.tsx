@@ -9,6 +9,47 @@ import { CatalogPage, Specification } from '@/lib/types';
 import ImageUpload from '@/components/ImageUpload';
 import CatalogPageView from '@/components/CatalogPage';
 
+const SUGGESTED_SPECS = [
+    "Model No.", "MOQ", "FOB Price", "Structure Size", "Case Size", "Carton Size",
+    "Form Factor", "Material", "Motherboard Support", "PSU Support",
+    "Front Panel", "Side Panel", "Cooling System", "Water Cooling",
+    "Fan Support", "Included Fans", "I/O Ports", "Drive Bays",
+    "PCI Slots", "Max GPU Length", "Max CPU Height", "Net Weight / Gross Weight"
+];
+
+const AutoCompleteInput = ({ value, onChange, placeholder }: { value: string, onChange: (val: string) => void, placeholder: string }) => {
+    const [showSuggestions, setShowSuggestions] = useState(false);
+
+    // Filter suggestions based on input
+    const filtered = SUGGESTED_SPECS.filter(s => s.toLowerCase().includes(value.toLowerCase()));
+
+    return (
+        <div className="relative">
+            <input
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} // Delay to allow click
+                placeholder={placeholder}
+                className="w-full bg-black/50 border border-white/10 p-2 text-[10px] font-bold text-white/70 focus:text-primary focus:border-primary outline-none"
+            />
+            {showSuggestions && filtered.length > 0 && (
+                <div className="absolute top-full left-0 w-full bg-zinc-900 border border-white/20 z-50 max-h-48 overflow-y-auto shadow-xl rounded-b-md">
+                    {filtered.map((suggestion) => (
+                        <div
+                            key={suggestion}
+                            onMouseDown={() => { onChange(suggestion); setShowSuggestions(false); }}
+                            className="p-2 hover:bg-primary/20 hover:text-white text-[10px] text-white/70 cursor-pointer transition-colors border-b border-white/5 last:border-0"
+                        >
+                            {suggestion}
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
 export default function EditorPage() {
     const params = useParams();
     const router = useRouter();
@@ -205,43 +246,18 @@ export default function EditorPage() {
                     return (
                         <div key={spec.id} className="flex gap-2 items-start group">
                             <div className="flex-1 grid grid-cols-2 gap-2">
-                                <input
+                                <AutoCompleteInput
                                     value={spec.label}
-                                    onChange={(e) => handleSpecChange(realIndex, 'label', e.target.value)}
+                                    onChange={(val) => handleSpecChange(realIndex, 'label', val)}
                                     placeholder="Label"
-                                    list="common-specs"
-                                    className="bg-black/50 border border-white/10 p-2 text-[10px] font-bold text-white/70 focus:text-primary focus:border-primary outline-none"
                                 />
-                                <datalist id="common-specs">
-                                    <option value="Model No." />
-                                    <option value="MOQ" />
-                                    <option value="FOB Price" />
-                                    <option value="Structure Size" />
-                                    <option value="Case Size" />
-                                    <option value="Carton Size" />
-                                    <option value="Form Factor" />
-                                    <option value="Material" />
-                                    <option value="Motherboard Support" />
-                                    <option value="PSU Support" />
-                                    <option value="Front Panel" />
-                                    <option value="Side Panel" />
-                                    <option value="Cooling System" />
-                                    <option value="Water Cooling" />
-                                    <option value="Fan Support" />
-                                    <option value="Included Fans" />
-                                    <option value="I/O Ports" />
-                                    <option value="Drive Bays" />
-                                    <option value="PCI Slots" />
-                                    <option value="Max GPU Length" />
-                                    <option value="Max CPU Height" />
-                                    <option value="Net Weight / Gross Weight" />
-                                </datalist>
                                 <input
                                     value={spec.value}
                                     onChange={(e) => handleSpecChange(realIndex, 'value', e.target.value)}
                                     placeholder="Value"
                                     className="bg-black/50 border border-white/10 p-2 text-[10px] text-white focus:border-primary outline-none"
                                 />
+
                             </div>
                             <button onClick={() => deleteSpec(spec.id)} className="p-2 text-white/20 hover:text-red-500 transition-colors">
                                 <Trash2 className="w-3 h-3" />
