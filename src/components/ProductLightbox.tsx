@@ -18,7 +18,15 @@ export default function ProductLightbox({ images, initialIndex, isOpen, onClose 
         if (isOpen) {
             setCurrentIndex(initialIndex);
             setZoom(1);
+            // Lock Scroll
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
         }
+
+        return () => {
+            document.body.style.overflow = '';
+        };
     }, [isOpen, initialIndex]);
 
     // Keyboard Navigation
@@ -56,7 +64,7 @@ export default function ProductLightbox({ images, initialIndex, isOpen, onClose 
 
     return (
         <div
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-200"
+            className="fixed inset-0 z-[99999] bg-black/95 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-200"
             onClick={onClose}
         >
             {/* Top Bar controls */}
