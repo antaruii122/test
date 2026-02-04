@@ -176,7 +176,7 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
             {/* Desktop Table View */}
             <div className="hidden md:block bg-black/40 border border-primary/20 rounded-lg overflow-hidden">
                 {/* Table Header */}
-                <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_1fr_1fr_auto] gap-4 bg-primary/10 border-b-2 border-primary p-4 font-display text-xs uppercase tracking-widest text-white/70">
+                <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1.2fr_1.2fr_1.2fr_auto] gap-6 bg-primary/10 border-b-2 border-primary p-4 font-display text-xs uppercase tracking-widest text-white/70">
                     <button
                         onClick={() => handleSort('name')}
                         className="flex items-center gap-2 hover:text-primary transition-colors text-left"
@@ -193,9 +193,18 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
                         FOB Price
                         <ArrowUpDown className="w-3 h-3" />
                     </button>
-                    <div className="text-right">Landed Cost</div>
-                    <div className="text-right">Net Price</div>
-                    <div className="text-right text-primary">Market Price</div>
+                    <div className="text-right">
+                        <div>Landed Cost</div>
+                        <div className="text-primary/60 text-[10px] mt-0.5">+{landedParam}% freight</div>
+                    </div>
+                    <div className="text-right">
+                        <div>Net Price</div>
+                        <div className="text-green-400/60 text-[10px] mt-0.5">+{marginParam}% margin</div>
+                    </div>
+                    <div className="text-right text-primary">
+                        <div>Market Price</div>
+                        <div className="text-cyan-400/60 text-[10px] mt-0.5">{selectedCountry?.currency_code} + {(selectedCountry?.vat_rate ? selectedCountry.vat_rate * 100 : 0).toFixed(0)}% VAT</div>
+                    </div>
                     <div className="text-center">Details</div>
                 </div>
 
@@ -209,7 +218,7 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
                         return (
                             <div key={page.id} className="hover:bg-white/5 transition-colors">
                                 {/* Main Row */}
-                                <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_1fr_1fr_auto] gap-4 p-4 items-center">
+                                <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1.2fr_1.2fr_1.2fr_auto] gap-6 p-4 items-center">
                                     {/* Product Name */}
                                     <div className="flex items-center gap-3">
                                         {isEditMode && (
@@ -252,14 +261,34 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
                                         const { landed, net, market } = calculatePrices(fob);
                                         return (
                                             <>
-                                                <div className="text-right text-white/60 text-sm">
-                                                    ${landed.toFixed(2)}
+                                                {/* Landed Cost */}
+                                                <div className="text-right">
+                                                    <div className="text-white/80 font-bold text-sm">
+                                                        ${landed.toFixed(2)}
+                                                    </div>
+                                                    <div className="text-white/40 text-[10px] mt-0.5">
+                                                        ${fob} + {landedParam}%
+                                                    </div>
                                                 </div>
-                                                <div className="text-right text-white/80 font-bold text-sm">
-                                                    ${net.toFixed(2)}
+
+                                                {/* Net Price */}
+                                                <div className="text-right">
+                                                    <div className="text-white/90 font-bold text-sm">
+                                                        ${net.toFixed(2)}
+                                                    </div>
+                                                    <div className="text-green-400/40 text-[10px] mt-0.5">
+                                                        ${landed.toFixed(2)} + {marginParam}%
+                                                    </div>
                                                 </div>
-                                                <div className="text-right text-primary font-display font-black text-lg">
-                                                    {selectedCountry?.currency_symbol}{market.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+
+                                                {/* Market Price */}
+                                                <div className="text-right">
+                                                    <div className="text-primary font-display font-black text-base">
+                                                        {selectedCountry?.currency_symbol}{market.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                                    </div>
+                                                    <div className="text-cyan-400/40 text-[10px] mt-0.5">
+                                                        ${net.toFixed(2)} × {selectedCountry?.exchange_rate}
+                                                    </div>
                                                 </div>
                                             </>
                                         );
