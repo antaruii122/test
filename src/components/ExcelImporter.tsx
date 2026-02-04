@@ -1,20 +1,67 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import { supabase } from '@/lib/supabaseClient';
-import { FileUp, Table, Check, AlertCircle, Loader2 } from 'lucide-react';
+import { FileUp, Table, Check, AlertCircle, Loader2, Plus } from 'lucide-react';
 import ColumnMapper from './ColumnMapper';
+import PreviewTable, { ImportRow } from './PreviewTable';
+import { sanitizeText, sanitizeNumericField } from '@/lib/sanitization';
+import { isBase64Image, base64ToFile } from '@/lib/imageHelpers';
+
 
 interface ExcelImporterProps {
     onComplete: () => void;
 }
 
+interface Category {
+    name: string;
+    display_name: string;
+}
+
 export default function ExcelImporter({ onComplete }: ExcelImporterProps) {
-    const [data, setData] = useState<any[]>([]);
-    const [step, setStep] = useState<'upload' | 'mapping' | 'importing'>('upload');
+    const [step, setStep] = useState<'category' | 'upload' | 'mapping' | 'preview' | 'importing'>('category');
     const [loading, setLoading] = useState(false);
     const [dragActive, setDragActive] = useState(false);
+
+    // Data States
+    const [rawFile, setRawFile] = useState<any[]>([]);
+    const [previewData, setPreviewData] = useState<ImportRow[]>([]);
+
+    // Category States
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const [customCategory, setCustomCategory] = useState<string>('');
+    const [isCustomCategory, setIsCustomCategory] = useState(false);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const { data } = await supabase
+                .from('esgaming_categories')
+                .select('name, display_name')
+                .eq('is_active', true)
+                .order('display_name');
+            setCategories(data || []);
+        };
+        fetchCategories();
+    }, []);
+
+    const handleCategorySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const val = e.target.value;
+        if (val === 'CUSTOM') {
+            setIsCustomCategory(true);
+            setSelectedCategory('');
+        } else {
+            setIsCustomCategory(false);
+            setSelectedCategory(val);
+        }
+    };
+
+    const handleCategoryConfirm = () => {
+        if (isCustomCategory && !customCategory) return;
+        if (!isCustomCategory && !selectedCategory) return;
+        setStep('upload');
+    };
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -31,7 +78,7 @@ export default function ExcelImporter({ onComplete }: ExcelImporterProps) {
             const ws = wb.Sheets[wsname];
             const json = XLSX.utils.sheet_to_json(ws);
             if (json.length > 0) {
-                setData(json);
+                setRawFile(json);
                 setStep('mapping');
             } else {
                 alert('File appears to be empty');
@@ -40,123 +87,317 @@ export default function ExcelImporter({ onComplete }: ExcelImporterProps) {
         reader.readAsBinaryString(file);
     };
 
-    const handleImportWithMapping = async (mapping: Record<string, string>) => {
-        if (data.length === 0) return;
+    // Transform raw Excel data into structured ImportRow format
+    const processMapping = (mapping: Record<string, string>) => {
+        const processed: ImportRow[] = [];
 
+        rawFile.forEach((row, index) => {
+            let title = '';
+            let sku = '';
+            let price = 0;
+            let imageUrl = '';
+            const specs: { label: string; value: string; spec_group?: string }[] = [];
+
+            Object.entries(mapping).forEach(([header, type]) => {
+                const rawValue = row[header];
+                if (rawValue === undefined || rawValue === null) return;
+
+                const valStr = String(rawValue);
+
+                if (type === 'model') {
+                    title = sanitizeText(valStr);
+                } else if (type === 'sku') {
+                    sku = sanitizeText(valStr);
+                } else if (type === 'price') {
+                    price = sanitizeNumericField(valStr);
+                } else if (type === 'image') {
+                    imageUrl = sanitizeText(valStr);
+                } else if (type.startsWith('spec:')) {
+                    // Format: spec:HEADER:GROUP or spec:HEADER
+                    const parts = type.split(':');
+                    const label = parts[1] || header;
+                    const group = parts[2] || 'MAIN_SPECS'; // Default group if not specified
+                    const normalizedValue = sanitizeText(valStr); // Maybe normalizeUnit later if we detect dimensions?
+
+                    if (normalizedValue) {
+                        specs.push({
+                            label,
+                            value: normalizedValue,
+                            spec_group: group
+                        });
+                    }
+                }
+            });
+
+            // If missing SKU, maybe generate one or duplicate check won't work well?
+            // For now, we allow empty SKU but it's risky. PreviewTable warns about it if we want.
+
+            if (title || price > 0 || sku) {
+                processed.push({
+                    title,
+                    sku,
+                    price,
+                    image_url: imageUrl,
+                    specs,
+                    category: isCustomCategory ? customCategory.toUpperCase().trim() : selectedCategory,
+                    originalIndex: index
+                });
+            }
+        });
+
+        setPreviewData(processed);
+        setStep('preview');
+    };
+
+    const handleImportConfirm = async (rowsToImport: ImportRow[]) => {
         try {
             setLoading(true);
             setStep('importing');
 
-            for (const row of data) {
-                // Identify fields based on user mapping
-                let title = 'Untitled Case';
-                let priceAmount = 0;
-                let imageUrl = '';
+            // 1. Handle Custom Category Creation if needed
+            let finalCategory = selectedCategory;
+            if (isCustomCategory) {
+                const catName = customCategory.toUpperCase().trim();
+                const displayName = customCategory.trim();
 
-                // Main Specs
-                let maxGpu = '';
-                let maxCpu = '';
-                let mobo = '';
-                let airflow = '';
-                let fanCount = '';
-
-                const specs: { label: string; value: string }[] = [];
-
-                Object.entries(mapping).forEach(([header, type]) => {
-                    const value = row[header];
-                    if (!value) return;
-                    const strValue = String(value).trim();
-                    if (!strValue) return;
-
-                    if (type === 'model') title = strValue;
-                    else if (type === 'price') priceAmount = parseFloat(strValue.replace(/[^0-9.]/g, '')) || 0;
-                    else if (type === 'image') imageUrl = strValue;
-
-                    // Main Specs Mapping
-                    else if (type === 'max_gpu_length') maxGpu = strValue;
-                    else if (type === 'max_cpu_cooler_height') maxCpu = strValue;
-                    else if (type === 'motherboard_form_factor') mobo = strValue;
-                    else if (type === 'cooling_airflow') airflow = strValue;
-                    else if (type === 'fan_count') fanCount = strValue;
-
-                    else if (type.startsWith('spec:')) {
-                        // Extract the original header name if possible, or use the mapping suffix
-                        const specLabel = type.replace('spec:', '');
-                        specs.push({ label: specLabel, value: strValue });
-                    }
-                });
-
-                // 1. Create Page (with Main Specs)
-                const { data: page, error: pError } = await supabase
-                    .from('esgaming_pages')
-                    .insert({
-                        title,
-                        category: 'CASES', // Default category
-                        max_gpu_length: maxGpu || null,
-                        max_cpu_cooler_height: maxCpu || null,
-                        motherboard_form_factor: mobo || null,
-                        cooling_airflow: airflow || null,
-                        fan_count: fanCount || null
-                    })
-                    .select()
+                // Check if exists
+                const { data: existingCat } = await supabase
+                    .from('esgaming_categories')
+                    .select('name')
+                    .eq('name', catName)
                     .single();
 
-                if (pError) throw pError;
+                if (!existingCat) {
+                    await supabase
+                        .from('esgaming_categories')
+                        .insert({ name: catName, display_name: displayName });
+                }
+                finalCategory = catName;
+            }
 
-                // 2. Add Price
-                if (priceAmount > 0) {
-                    await supabase.from('esgaming_prices').insert({
-                        page_id: page.id,
-                        amount: priceAmount,
-                        currency: 'USD'
-                    });
+            // 2. Process Rows
+            let processedCount = 0;
+            for (const row of rowsToImport) {
+                if (!row.title || row.price <= 0) continue; // Skip invalid rows just in case
+
+                // Check for existing product by SKU (if provided) or fallback to Title?
+                // Plan says SKU.
+                let pageId = '';
+
+                if (row.sku) {
+                    const { data: existingPage } = await supabase
+                        .from('esgaming_pages')
+                        .select('id')
+                        .eq('sku_interno', row.sku)
+                        .single();
+
+                    if (existingPage) {
+                        pageId = existingPage.id;
+                        // Update existing page
+                        await supabase
+                            .from('esgaming_pages')
+                            .update({
+                                title: row.title,
+                                category: finalCategory,
+                                updated_at: new Date().toISOString()
+                            })
+                            .eq('id', pageId);
+                    }
                 }
 
-                // 3. Add Image
-                if (imageUrl) {
-                    await supabase.from('esgaming_images').insert({
-                        page_id: page.id,
-                        url: imageUrl,
-                        display_order: 0
-                    });
+                // If no page found (or no SKU), create new
+                if (!pageId) {
+                    const { data: newPage, error } = await supabase
+                        .from('esgaming_pages')
+                        .insert({
+                            title: row.title,
+                            sku_interno: row.sku || null,
+                            category: finalCategory
+                        })
+                        .select()
+                        .single();
+
+                    if (error) {
+                        console.error('Error creating page:', error);
+                        continue;
+                    }
+                    pageId = newPage.id;
                 }
 
-                // 4. Add Specs
-                if (specs.length > 0) {
-                    const specsPayload = specs.map((s, idx) => ({
-                        page_id: page.id,
+                // Update Price
+                // Delete old price? Or just insert new one? 
+                // Usually we want *current* price. The table might be historic.
+                // For simplicity as per current app structure (assumed 1-1 mostly), we insert.
+                // Wait, previous code was inserting blind.
+                // Let's check `esgaming_prices`.
+                // Ideally we update if exists?
+                // Let's clean up old price for this page to clear confusion or just insert new/update?
+                // Let's insert new for history tracking if architecture supports it, IDK.
+                // Assuming simple current price update: delete old, insert new.
+                await supabase.from('esgaming_prices').delete().eq('page_id', pageId);
+                await supabase.from('esgaming_prices').insert({
+                    page_id: pageId,
+                    amount: row.price,
+                    currency: 'USD'
+                });
+
+                // Update Price
+                await supabase.from('esgaming_prices').delete().eq('page_id', pageId);
+                await supabase.from('esgaming_prices').insert({
+                    page_id: pageId,
+                    amount: row.price,
+                    currency: 'USD'
+                });
+
+                // Images
+                if (row.image_url) {
+                    let finalImageUrl = row.image_url;
+
+                    // AUTO-UPLOAD LOGIC: Check if Base64
+                    if (isBase64Image(row.image_url)) {
+                        try {
+                            const uniqueId = Math.random().toString(36).substring(2, 15);
+                            const filename = `upload_${Date.now()}_${uniqueId}.png`;
+                            const file = base64ToFile(row.image_url, filename);
+                            const storagePath = `imported/${filename}`;
+
+                            const { data: uploadData, error: uploadError } = await supabase.storage
+                                .from('product-images')
+                                .upload(storagePath, file);
+
+                            if (uploadError) {
+                                console.error('Image Upload Failed:', uploadError);
+                                finalImageUrl = '';
+                            } else {
+                                const { data: publicUrlData } = supabase.storage
+                                    .from('product-images')
+                                    .getPublicUrl(storagePath);
+
+                                finalImageUrl = publicUrlData.publicUrl;
+                            }
+                        } catch (imgErr) {
+                            console.error('Base64 Conversion Error:', imgErr);
+                            finalImageUrl = '';
+                        }
+                    }
+
+                    if (finalImageUrl) {
+                        await supabase.from('esgaming_images').delete().eq('page_id', pageId);
+                        await supabase.from('esgaming_images').insert({
+                            page_id: pageId,
+                            url: finalImageUrl,
+                            display_order: 0
+                        });
+                    }
+                }
+
+                // Specs
+                // Delete old specs to avoid "stacking" specs on re-import
+                await supabase.from('esgaming_specifications').delete().eq('page_id', pageId);
+
+                if (row.specs.length > 0) {
+                    const specsPayload = row.specs.map((s, idx) => ({
+                        page_id: pageId,
                         label: s.label,
                         value: s.value,
+                        spec_group: s.spec_group,
                         display_order: idx
                     }));
                     await supabase.from('esgaming_specifications').insert(specsPayload);
                 }
+
+                processedCount++;
             }
 
-            setData([]);
-            setStep('upload');
+            setRawFile([]);
+            setPreviewData([]);
+            setStep('category'); // Reset to start
             onComplete();
-            alert('Import successful!');
+            alert(`Successfully processed ${processedCount} products!`);
+
         } catch (err) {
             console.error(err);
-            alert('Import failed. Check console for details.');
-            setStep('mapping'); // Go back to mapping on error
+            alert('Import failed. Check console.');
+            setStep('preview');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="bg-background-alt border border-primary/30 p-6 rounded-lg shadow-xl max-w-4xl mx-auto my-8">
+        <div className="bg-background-alt border border-primary/30 p-6 rounded-lg shadow-xl max-w-5xl mx-auto my-8">
             <div className="flex items-center gap-4 mb-6 border-b border-primary/20 pb-4">
                 <div className="p-2 bg-primary rounded">
                     <FileUp className="text-black w-6 h-6" />
                 </div>
                 <h2 className="font-display text-2xl uppercase tracking-widest text-white">Excel <span className="text-primary italic">Importer</span></h2>
+
+                {/* Steps Indicator */}
+                <div className="ml-auto flex items-center gap-2 text-xs font-mono text-white/40">
+                    <span className={step === 'category' ? 'text-primary' : ''}>Category</span>
+                    <span>→</span>
+                    <span className={step === 'upload' ? 'text-primary' : ''}>Upload</span>
+                    <span>→</span>
+                    <span className={step === 'mapping' ? 'text-primary' : ''}>Map</span>
+                    <span>→</span>
+                    <span className={step === 'preview' ? 'text-primary' : ''}>Preview</span>
+                </div>
             </div>
 
+            {/* STEP 0: CATEGORY SELECTION */}
+            {step === 'category' && (
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
+                    <div className="text-center space-y-2">
+                        <h3 className="text-xl text-white font-display">Select Target Category</h3>
+                        <p className="text-text-gray text-sm">Where should these products be imported?</p>
+                    </div>
+
+                    <div className="max-w-md mx-auto space-y-4">
+                        <select
+                            value={isCustomCategory ? 'CUSTOM' : selectedCategory}
+                            onChange={handleCategorySelect}
+                            className="w-full bg-black border border-white/20 p-3 rounded text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                        >
+                            <option value="">-- Select Category --</option>
+                            {categories.map(cat => (
+                                <option key={cat.name} value={cat.name}>{cat.display_name}</option>
+                            ))}
+                            <option value="CUSTOM">+ Create New Category</option>
+                        </select>
+
+                        {isCustomCategory && (
+                            <div className="space-y-2 pt-2 border-t border-white/10">
+                                <label className="text-xs uppercase text-primary font-bold">New Category Name</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. POWER_SUPPLIES"
+                                    value={customCategory}
+                                    onChange={e => setCustomCategory(e.target.value)}
+                                    className="w-full bg-black border border-primary/50 p-3 rounded text-white"
+                                />
+                                <p className="text-xs text-white/50">Internal name will be uppercase (e.g., "POWER_SUPPLIES")</p>
+                            </div>
+                        )}
+
+                        <button
+                            onClick={handleCategoryConfirm}
+                            disabled={!isCustomCategory && !selectedCategory}
+                            className="w-full py-3 bg-primary text-black font-bold uppercase rounded hover:bg-white transition-colors disabled:opacity-50 disabled:hover:bg-primary"
+                        >
+                            Next: Upload File
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* STEP 1: UPLOAD */}
             {step === 'upload' && (
-                <>
+                <div className="animate-in fade-in zoom-in duration-300">
+                    <div className="mb-4 text-center">
+                        <span className="text-sm text-primary font-mono bg-primary/10 px-2 py-1 rounded border border-primary/20">
+                            Target: {isCustomCategory ? customCategory : selectedCategory}
+                        </span>
+                    </div>
                     <label
                         className={`flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer transition-all ${dragActive ? 'border-primary bg-primary/10' : 'border-white/10 hover:border-primary/50 hover:bg-white/5'
                             }`}
@@ -178,28 +419,44 @@ export default function ExcelImporter({ onComplete }: ExcelImporterProps) {
                         </div>
                         <input type="file" className="hidden" accept=".xlsx, .xls, .csv" onChange={handleFileUpload} />
                     </label>
-                    <div className="mt-6 flex items-start gap-2 p-3 bg-blue-500/10 border border-blue-500/20 rounded">
-                        <AlertCircle className="w-5 h-5 text-blue-400 shrink-0" />
-                        <p className="text-xs text-blue-200/80 leading-relaxed">
-                            Upload your price list or catalog. You will be able to map columns in the next step.
-                        </p>
+
+                    <div className="mt-4 text-center">
+                        <button onClick={() => setStep('category')} className="text-xs text-red-400 hover:underline">
+                            ← Change Category
+                        </button>
                     </div>
-                </>
+                </div>
             )}
 
+            {/* STEP 2: MAPPING */}
             {step === 'mapping' && (
                 <ColumnMapper
-                    data={data}
-                    onConfirm={handleImportWithMapping}
-                    onCancel={() => { setData([]); setStep('upload'); }}
+                    data={rawFile}
+                    onConfirm={processMapping}
+                    onCancel={() => { setRawFile([]); setStep('upload'); }}
                 />
             )}
 
+            {/* STEP 3: PREVIEW */}
+            {step === 'preview' && (
+                <PreviewTable
+                    data={previewData}
+                    onConfirm={handleImportConfirm}
+                    onCancel={() => setStep('mapping')}
+                    onDeleteRow={(idx) => {
+                        const newData = [...previewData];
+                        newData.splice(idx, 1);
+                        setPreviewData(newData);
+                    }}
+                />
+            )}
+
+            {/* STEP 4: IMPORTING */}
             {step === 'importing' && (
-                <div className="flex flex-col items-center justify-center py-20">
+                <div className="flex flex-col items-center justify-center py-20 animate-in fade-in">
                     <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
                     <h3 className="text-xl font-display text-white uppercase tracking-widest">Importing Products...</h3>
-                    <p className="text-text-gray text-sm mt-2">Please wait, this might take a moment.</p>
+                    <p className="text-text-gray text-sm mt-2">Updating database and sanitizing entries.</p>
                 </div>
             )}
         </div>

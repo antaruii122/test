@@ -24,6 +24,8 @@ export default function ColumnMapper({ data, onConfirm, onCancel }: ColumnMapper
                 initialMapping[header] = 'model';
             } else if (lower.includes('price') || lower.includes('cost') || lower.includes('fob')) {
                 initialMapping[header] = 'price';
+            } else if (lower.includes('sku') || lower.includes('isbn') || lower.includes('code')) {
+                initialMapping[header] = 'sku';
             } else if (lower.includes('image') || lower.includes('photo') || lower.includes('url')) {
                 initialMapping[header] = 'image';
             } else {
@@ -79,19 +81,18 @@ export default function ColumnMapper({ data, onConfirm, onCancel }: ColumnMapper
                                                 }`}
                                         >
                                             <option value="model">📌 Model Name (Required)</option>
+                                            <option value="sku">🔑 SKU (Internal)</option>
                                             <option value="price">💰 Price (Required)</option>
                                             <option value="image">🖼️ Image URL</option>
                                             <option value="ignore">🚫 Ignore</option>
-                                            <optgroup label="Main Specs (Top Priority)">
-                                                <option value="max_gpu_length">🎮 Max GPU Length</option>
-                                                <option value="max_cpu_cooler_height">❄️ Max CPU Cooler Height</option>
-                                                <option value="motherboard_form_factor">🔌 Motherboard Support</option>
-                                                <option value="cooling_airflow">💨 Airflow / Cooling</option>
-                                                <option value="fan_count">🌀 Fan Count</option>
-                                            </optgroup>
+
                                             <optgroup label="Specifications">
-                                                <option value={`spec:${header}`}>🔧 Spec: {header}</option>
-                                                {/* We could allow custom spec names here in future */}
+                                                <option value={`spec:${header}:MAIN_SPECS`}>⭐ Main Spec: {header}</option>
+                                                <option value={`spec:${header}:STRUCTURE`}>🏗️ Structure: {header}</option>
+                                                <option value={`spec:${header}:COOLING`}>❄️ Cooling: {header}</option>
+                                                <option value={`spec:${header}:CONNECTIVITY`}>🔌 Connectivity: {header}</option>
+                                                <option value={`spec:${header}:STORAGE`}>💾 Storage: {header}</option>
+                                                <option value={`spec:${header}`}>🔧 Other Spec: {header}</option>
                                             </optgroup>
                                         </select>
                                     </div>
