@@ -53,22 +53,27 @@ export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) 
                     {icon}
                     <h4 className="font-display font-bold uppercase tracking-wider text-lg text-white">{title}</h4>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-4">
                     {Object.entries(groupedByLabel).map(([label, specs]) => (
-                        <div key={label} className="grid grid-cols-[1fr_auto] gap-4 text-sm border-b border-white/5 pb-2 last:border-0 hover:bg-white/5 px-2 -mx-2 rounded">
-                            <span className="text-white/40 font-semibold text-xs uppercase self-start">{label}</span>
+                        <div key={label} className="border-b border-white/5 pb-3 last:border-0">
                             {specs.length === 1 ? (
-                                // Single value: display normally
-                                <span className="text-white font-medium text-right">{specs[0].value}</span>
+                                // Single value: traditional two-column layout
+                                <div className="grid grid-cols-[1fr_auto] gap-6 items-center">
+                                    <span className="text-white/40 font-semibold text-xs uppercase">{label}</span>
+                                    <span className="text-white font-medium text-right text-sm">{specs[0].value}</span>
+                                </div>
                             ) : (
-                                // Multiple values: display as bulleted list
-                                <div className="text-white font-medium text-right space-y-1">
-                                    {specs.map((s, idx) => (
-                                        <div key={s.id} className="flex items-start justify-end gap-2">
-                                            <span className="text-primary/50 text-xs mt-0.5">•</span>
-                                            <span>{s.value}</span>
-                                        </div>
-                                    ))}
+                                // Multiple values: label on top, values below with proper indentation
+                                <div className="space-y-2">
+                                    <div className="text-white/40 font-semibold text-xs uppercase mb-3">{label}</div>
+                                    <div className="pl-4 space-y-2">
+                                        {specs.map((s) => (
+                                            <div key={s.id} className="flex items-start gap-3 text-sm hover:bg-white/5 -ml-2 pl-2 pr-2 py-1.5 rounded transition-colors">
+                                                <span className="text-primary font-bold text-base leading-none mt-0.5 shrink-0">•</span>
+                                                <span className="text-white/90 font-medium leading-relaxed">{s.value}</span>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             )}
                         </div>
