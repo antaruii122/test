@@ -24,14 +24,24 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
 
     useEffect(() => {
         const fetchCountries = async () => {
-            const { data, error } = await supabase
-                .from('es_gaming_countries')
-                .select('*')
-                .order('country_name');
+            try {
+                const { data, error } = await supabase
+                    .from('es_gaming_countries')
+                    .select('*')
+                    .order('country_name');
 
-            if (data && data.length > 0) {
-                setCountries(data);
-                setSelectedCountry(data[0]);
+                if (error) {
+                    console.error('Error fetching countries:', error);
+                    return;
+                }
+
+                if (data && data.length > 0) {
+                    console.log('Countries fetched:', data.length);
+                    setCountries(data);
+                    setSelectedCountry(data[0]);
+                }
+            } catch (err) {
+                console.error('Unexpected error fetching countries:', err);
             }
         };
         fetchCountries();
@@ -86,61 +96,69 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
     return (
         <div className="w-full max-w-[1400px] mx-auto px-4">
             {/* Table Header */}
-            <div className="relative z-10 bg-gradient-to-r from-primary to-purple-600 p-4 mb-6 skew-x-[-2deg] flex flex-col md:flex-row items-center justify-between gap-4">
-                <h2 className="font-display font-black text-white text-2xl uppercase skew-x-[2deg] tracking-wider text-center md:text-left">
-                    Professional Specs View
-                </h2>
+            <div className="relative mb-6 p-4">
+                {/* Skewed Background Layer */}
+                <div className="absolute inset-0 bg-gradient-to-r from-primary to-purple-600 skew-x-[-2deg] rounded-lg shadow-lg"></div>
 
-                {/* Calculator Controls */}
-                <div className="relative z-20 flex flex-wrap items-center gap-4 skew-x-[2deg] bg-black/20 p-2 rounded-lg backdrop-blur-sm">
-                    {/* Country Selector */}
-                    <div className="relative">
-                        <select
-                            className="appearance-none bg-black/60 border border-white/20 text-white text-sm rounded px-3 py-1.5 pr-8 focus:border-primary focus:outline-none cursor-pointer hover:border-white/40 transition-colors"
-                            value={selectedCountry?.id || ''}
-                            onChange={(e) => {
-                                const countryId = e.target.value;
-                                const country = countries.find(c => c.id === countryId);
-                                console.log('Selected Country:', country);
-                                setSelectedCountry(country || null);
-                            }}
-                        >
-                            <option value="" className="bg-black text-white">Select Country</option>
-                            {countries.map(c => (
-                                <option key={c.id} value={c.id} className="bg-black text-white">
-                                    {c.country_name} ({c.currency_code})
-                                </option>
-                            ))}
-                        </select>
-                        <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
-                    </div>
+                {/* Content Layer (No Skew) */}
+                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <h2 className="font-display font-black text-white text-2xl uppercase tracking-wider text-center md:text-left drop-shadow-md">
+                        Professional Specs View
+                    </h2>
 
-                    {/* Landed Cost Input */}
-                    <div className="flex items-center gap-2">
-                        <label className="text-white/70 text-xs font-bold uppercase">Landed %</label>
-                        <input
-                            type="number"
-                            className="w-16 bg-black/40 border border-white/20 text-white text-sm rounded px-2 py-1 focus:border-primary focus:outline-none text-right"
-                            value={landedParam}
-                            onChange={(e) => {
-                                const val = parseFloat(e.target.value);
-                                setLandedParam(isNaN(val) ? 0 : val);
-                            }}
-                        />
-                    </div>
+                    {/* Calculator Controls */}
+                    <div className="flex flex-wrap items-center gap-4 bg-black/30 p-2 rounded-lg backdrop-blur-md border border-white/10 shadow-inner">
+                        {/* Country Selector */}
+                        <div className="relative">
+                            <select
+                                className="appearance-none bg-black/60 border border-white/20 text-white text-sm rounded px-3 py-1.5 pr-8 focus:border-primary focus:outline-none cursor-pointer hover:border-white/40 transition-colors min-w-[150px]"
+                                value={selectedCountry?.id || ''}
+                                onChange={(e) => {
+                                    const countryId = e.target.value;
+                                    const country = countries.find(c => c.id === countryId);
+                                    console.log('Selected Country:', country);
+                                    setSelectedCountry(country || null);
+                                }}
+                            >
+                                <option value="" className="bg-black text-white">Select Country</option>
+                                {countries.map(c => (
+                                    <option key={c.id} value={c.id} className="bg-black text-white">
+                                        {c.country_name} ({c.currency_code})
+                                    </option>
+                                ))}
+                            </select>
+                            <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
+                        </div>
 
-                    {/* Margin Input */}
-                    <div className="flex items-center gap-2">
-                        <label className="text-white/70 text-xs font-bold uppercase">Margin %</label>
-                        <input
-                            type="number"
-                            className="w-16 bg-black/40 border border-white/20 text-white text-sm rounded px-2 py-1 focus:border-primary focus:outline-none text-right"
-                            value={marginParam}
-                            onChange={(e) => {
-                                const val = parseFloat(e.target.value);
-                                setMarginParam(isNaN(val) ? 0 : val);
-                            }}
-                        />
+                        {/* Landed Cost Input */}
+                        <div className="flex items-center gap-2">
+                            <label className="text-white/90 text-xs font-bold uppercase drop-shadow-sm">Landed %</label>
+                            <input
+                                type="number"
+                                className="w-16 bg-black/50 border border-white/20 text-white text-sm rounded px-2 py-1 focus:border-primary focus:outline-none text-right font-mono"
+                                value={landedParam}
+                                onChange={(e) => {
+                                    const val = parseFloat(e.target.value);
+                                    setLandedParam(isNaN(val) ? 0 : val);
+                                }}
+                                onFocus={(e) => e.target.select()}
+                            />
+                        </div>
+
+                        {/* Margin Input */}
+                        <div className="flex items-center gap-2">
+                            <label className="text-white/90 text-xs font-bold uppercase drop-shadow-sm">Margin %</label>
+                            <input
+                                type="number"
+                                className="w-16 bg-black/50 border border-white/20 text-white text-sm rounded px-2 py-1 focus:border-primary focus:outline-none text-right font-mono"
+                                value={marginParam}
+                                onChange={(e) => {
+                                    const val = parseFloat(e.target.value);
+                                    setMarginParam(isNaN(val) ? 0 : val);
+                                }}
+                                onFocus={(e) => e.target.select()}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
