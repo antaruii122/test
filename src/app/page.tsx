@@ -140,10 +140,8 @@ export default function Home() {
 
   const totalPages = Math.ceil(filteredPages.length / ITEMS_PER_PAGE);
 
-  // Show all products in grid view, paginate in list view
-  const visiblePages = viewMode === 'grid'
-    ? filteredPages
-    : filteredPages.slice(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE);
+  // Show all products in both grid view and list view (no pagination)
+  const visiblePages = filteredPages;
 
   return (
     <main className="min-h-screen pb-20">
