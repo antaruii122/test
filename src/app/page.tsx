@@ -24,7 +24,7 @@ export default function Home() {
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
 
   const [selectedCategory, setSelectedCategory] = useState('CASES');
-  const CATEGORIES = ['CASES', 'MOTHERBOARDS', 'KEYBOARDS'];
+  const CATEGORIES = ['CASES', 'MOTHERBOARDS', 'KEYBOARDS', 'WATER_COOLING'];
 
   const ITEMS_PER_PAGE = 5;
 
