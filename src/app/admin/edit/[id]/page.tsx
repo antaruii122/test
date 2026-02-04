@@ -38,6 +38,46 @@ const LABELS_BY_SPEC_GROUP: Record<string, string[]> = {
     'ADDITIONAL': ['Color', 'Warranty', 'Model No.', 'MOQ', 'FOB Price']
 };
 
+// Standard specs for PC Cases organized by spec_group (for coverage calculation)
+const STANDARD_SPECS_BY_GROUP: Record<string, string[]> = {
+    'MAIN': [
+        'Motherboard Support',
+        'Max GPU Length',
+        'Max CPU Height',
+        'PSU Support',
+        'Form Factor',
+        'Power Supply Support',
+        'Expansion Slots'
+    ],
+    'STRUCTURE': [
+        'Structure Size',
+        'Case Size',
+        'Carton Size',
+        'Material',
+        'Net Weight / Gross Weight',
+        'Side Panel',
+        'Front Panel'
+    ],
+    'COOLING': [
+        'Cooling System',
+        'Water Cooling',
+        'Fan Support',
+        'Included Fans',
+        'Radiator Support'
+    ],
+    'INPUT_OUTPUT': [
+        'Input / Output Ports',
+        'Front Panel',
+        'USB Ports'
+    ],
+    'STORAGE': [
+        'Drive Bays',
+        'PCI Slots',
+        'SSD Support',
+        'HDD Support'
+    ]
+};
+
 const AutoCompleteInput = ({ value, onChange, placeholder, category, specGroup }: { value: string, onChange: (val: string) => void, placeholder: string, category?: string, specGroup?: string }) => {
     const [showSuggestions, setShowSuggestions] = useState(false);
 
@@ -660,86 +700,91 @@ export default function EditorPage() {
 
                         {/* TOTAL SPECS COVERAGE DASHBOARD */}
                         <div className="mt-8 bg-zinc-900 border border-white/10 p-4 rounded-lg">
-                            <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
-                                <div>
-                                    <h3 className="text-xs font-bold uppercase text-white/50 tracking-widest">
-                                        Total specs of the model
-                                    </h3>
-                                    <h4 className="text-[10px] font-bold uppercase text-white/30 tracking-widest mt-1">
-                                        {title} - Spec Coverage
-                                    </h4>
-                                </div>
-                                <button
-                                    onClick={() => setShowAllSpecs(!showAllSpecs)}
-                                    className={`text-[10px] px-3 py-1 rounded font-bold uppercase tracking-wider border transition-colors ${showAllSpecs ? 'bg-primary text-black border-primary' : 'bg-transparent text-white/50 border-white/20 hover:border-white'}`}
-                                >
-                                    {showAllSpecs ? 'Showing All Options' : 'Showing Active Only'}
-                                </button>
-                            </div>
-
-                            <div className="space-y-4">
-                                {Object.entries({
-                                    'MAIN': ['Motherboard Support', 'Max GPU Length', 'Max CPU Height', 'Power Supply Support', 'Expansion Slots'],
-                                    'STRUCTURE': ['Structure Size', 'Case Size', 'Carton Size', 'Form Factor', 'Material', 'Net Weight / Gross Weight'],
-                                    'COOLING': ['Cooling System', 'Water Cooling', 'Fan Support', 'Included Fans'],
-                                    'Input / Output': ['Input / Output Ports'],
-                                    'STORAGE': ['Drive Bays', 'PCI Slots']
-                                }).map(([groupName, groupSpecs]) => {
-                                    // 1. Get all valid specs for this category (e.g. CASES)
-                                    const validForCategory = (SPECS_BY_CATEGORY[category] || SPECS_BY_CATEGORY['CASES']);
-                                    const relevantSpecs = groupSpecs.filter(s => validForCategory.includes(s) || validForCategory.some(v => v.includes(s)));
-
-                                    // 2. Filter based on Toggle State
-                                    // If showAllSpecs is TRUE: Show everything in relevantSpecs
-                                    // If showAllSpecs is FALSE: Only show specs that exist in the DB for this product
-                                    const activeSpecs = showAllSpecs
-                                        ? relevantSpecs
-                                        : relevantSpecs.filter(s => specs.some(myspec => myspec.label.toLowerCase().trim() === s.toLowerCase().trim()));
-
-                                    if (activeSpecs.length === 0) return null;
-
-                                    return (
-                                        <div key={groupName}>
-                                            <h4 className="text-[10px] font-bold text-primary/70 mb-2 uppercase">{groupName}</h4>
-                                            <div className="flex flex-wrap gap-2">
-                                                {activeSpecs.map(s => {
-                                                    const exists = specs.some(myspec => myspec.label.toLowerCase().trim() === s.toLowerCase().trim());
-                                                    return (
-                                                        <button
-                                                            key={s}
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                // Only allow clicking if it doesn't exist (to add it). If it exists, they should use the editor above to remove.
-                                                                if (!exists) {
-                                                                    // Determine group code for DB
-                                                                    let groupCode = 'ADDITIONAL';
-                                                                    if (groupName === 'MAIN') groupCode = 'MAIN';
-                                                                    else if (groupName === 'STRUCTURE') groupCode = 'STRUCTURE';
-                                                                    else if (groupName === 'COOLING') groupCode = 'COOLING';
-                                                                    else if (groupName === 'Input / Output') groupCode = 'INPUT_OUTPUT';
-                                                                    else if (groupName === 'STORAGE') groupCode = 'STORAGE';
-
-                                                                    handleAddSpec(groupCode, s);
-                                                                }
-                                                            }}
-                                                            disabled={exists}
-                                                            className={`
-                                                                text-[10px] px-3 py-1.5 rounded border transition-all duration-200 font-bold uppercase tracking-wider
-                                                                ${exists
-                                                                    ? 'bg-primary/20 border-primary text-primary shadow-[0_0_10px_rgba(50,255,100,0.1)] cursor-default'
-                                                                    : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10 hover:text-white hover:border-white/30 cursor-pointer active:scale-95'
-                                                                }
-                                                            `}
-                                                        >
-                                                            {s} {exists && <span className="ml-1">✓</span>}
-                                                        </button>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
+                            {(() => {
+                                // Calculate coverage percentage
+                                const totalStandardSpecs = Object.values(STANDARD_SPECS_BY_GROUP).flat().length;
+                                const presentSpecs = specs.filter(spec =>
+                                    Object.values(STANDARD_SPECS_BY_GROUP).flat().some(
+                                        standardSpec => standardSpec.toLowerCase().trim() === spec.label.toLowerCase().trim()
                                     )
-                                })}
-                            </div>
+                                ).length;
+                                const coveragePercentage = totalStandardSpecs > 0 ? Math.round((presentSpecs / totalStandardSpecs) * 100) : 0;
+
+                                return (
+                                    <>
+                                        <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
+                                            <div>
+                                                <h3 className="text-xs font-bold uppercase text-white/50 tracking-widest">
+                                                    Total specs of the model
+                                                </h3>
+                                                <h4 className="text-[10px] font-bold uppercase text-white/30 tracking-widest mt-1">
+                                                    {title} - Spec Coverage: <span className="text-primary">{coveragePercentage}%</span> ({presentSpecs}/{totalStandardSpecs})
+                                                </h4>
+                                            </div>
+                                            <button
+                                                onClick={() => setShowAllSpecs(!showAllSpecs)}
+                                                className={`text-[10px] px-3 py-1 rounded font-bold uppercase tracking-wider border transition-colors ${showAllSpecs ? 'bg-primary text-black border-primary' : 'bg-transparent text-white/50 border-white/20 hover:border-white'}`}
+                                            >
+                                                {showAllSpecs ? 'Showing All Options' : 'Showing Active Only'}
+                                            </button>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            {Object.entries(STANDARD_SPECS_BY_GROUP).map(([groupName, groupSpecs]) => {
+                                                // Filter based on Toggle State
+                                                // If showAllSpecs is TRUE: Show all standard specs
+                                                // If showAllSpecs is FALSE: Only show specs that exist in the DB for this product
+                                                const activeSpecs = showAllSpecs
+                                                    ? groupSpecs
+                                                    : groupSpecs.filter(s => specs.some(myspec => myspec.label.toLowerCase().trim() === s.toLowerCase().trim()));
+
+                                                if (activeSpecs.length === 0) return null;
+
+                                                return (
+                                                    <div key={groupName}>
+                                                        <h4 className="text-[10px] font-bold text-primary/70 mb-2 uppercase">{groupName}</h4>
+                                                        <div className="flex flex-wrap gap-2">
+                                                            {activeSpecs.map(s => {
+                                                                const exists = specs.some(myspec => myspec.label.toLowerCase().trim() === s.toLowerCase().trim());
+                                                                return (
+                                                                    <button
+                                                                        key={s}
+                                                                        onClick={(e) => {
+                                                                            e.preventDefault();
+                                                                            // Only allow clicking if it doesn't exist (to add it)
+                                                                            if (!exists) {
+                                                                                // Determine group code for DB
+                                                                                let groupCode = 'ADDITIONAL';
+                                                                                if (groupName === 'MAIN') groupCode = 'MAIN';
+                                                                                else if (groupName === 'STRUCTURE') groupCode = 'STRUCTURE';
+                                                                                else if (groupName === 'COOLING') groupCode = 'COOLING';
+                                                                                else if (groupName === 'INPUT_OUTPUT') groupCode = 'INPUT_OUTPUT';
+                                                                                else if (groupName === 'STORAGE') groupCode = 'STORAGE';
+
+                                                                                handleAddSpec(groupCode, s);
+                                                                            }
+                                                                        }}
+                                                                        disabled={exists}
+                                                                        className={`
+                                                                            text-[10px] px-3 py-1.5 rounded border transition-all duration-200 font-bold uppercase tracking-wider
+                                                                            ${exists
+                                                                                ? 'bg-primary/20 border-primary text-primary shadow-[0_0_10px_rgba(50,255,100,0.1)] cursor-default'
+                                                                                : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10 hover:text-white hover:border-white/30 cursor-pointer active:scale-95'
+                                                                            }
+                                                                        `}
+                                                                    >
+                                                                        {s} {exists ? <span className="ml-1">✓</span> : <span className="ml-1 text-red-500">✗</span>}
+                                                                    </button>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
+                                    </>
+                                );
+                            })()}
                         </div>
 
                         <div className="mt-6 pt-4 border-t border-white/10 sticky bottom-0 bg-zinc-900/90 p-4 -m-4">
