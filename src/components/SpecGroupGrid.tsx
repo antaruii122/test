@@ -36,6 +36,17 @@ export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) 
 
     const renderGroup = (title: string, icon: React.ReactNode, items: Specification[]) => {
         if (items.length === 0) return null;
+
+        // Group specs by label to avoid repetition
+        const groupedByLabel = items.reduce((acc, spec) => {
+            const key = spec.label.trim();
+            if (!acc[key]) {
+                acc[key] = [];
+            }
+            acc[key].push(spec);
+            return acc;
+        }, {} as Record<string, Specification[]>);
+
         return (
             <div className="bg-white/5 border-t-2 border-primary/50 hover:border-primary p-6 transition-all hover:bg-white/10 group">
                 <div className="flex items-center gap-3 mb-4 text-white/50 group-hover:text-primary transition-colors">
@@ -43,16 +54,30 @@ export default function SpecGroupGrid({ specs = [], page }: SpecGroupGridProps) 
                     <h4 className="font-display font-bold uppercase tracking-wider text-lg text-white">{title}</h4>
                 </div>
                 <div className="space-y-3">
-                    {items.map(s => (
-                        <div key={s.id} className="grid grid-cols-[1fr_auto] gap-4 text-sm border-b border-white/5 pb-2 last:border-0 hover:bg-white/5 px-2 -mx-2 rounded">
-                            <span className="text-white/40 font-semibold text-xs uppercase self-center">{s.label}</span>
-                            <span className="text-white font-medium text-right">{s.value}</span>
+                    {Object.entries(groupedByLabel).map(([label, specs]) => (
+                        <div key={label} className="grid grid-cols-[1fr_auto] gap-4 text-sm border-b border-white/5 pb-2 last:border-0 hover:bg-white/5 px-2 -mx-2 rounded">
+                            <span className="text-white/40 font-semibold text-xs uppercase self-start">{label}</span>
+                            {specs.length === 1 ? (
+                                // Single value: display normally
+                                <span className="text-white font-medium text-right">{specs[0].value}</span>
+                            ) : (
+                                // Multiple values: display as bulleted list
+                                <div className="text-white font-medium text-right space-y-1">
+                                    {specs.map((s, idx) => (
+                                        <div key={s.id} className="flex items-start justify-end gap-2">
+                                            <span className="text-primary/50 text-xs mt-0.5">•</span>
+                                            <span>{s.value}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
             </div>
         );
     };
+
 
     // Changed from grid-cols-4 to grid-cols-2 for wider viewing experience
     return (
