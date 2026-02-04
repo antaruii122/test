@@ -102,9 +102,16 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
 
                 {/* Content Layer (No Skew) */}
                 <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <h2 className="font-display font-black text-white text-2xl uppercase tracking-wider text-center md:text-left drop-shadow-md">
-                        Professional Specs View
-                    </h2>
+                    <div>
+                        <h2 className="font-display font-black text-white text-2xl uppercase tracking-wider text-center md:text-left drop-shadow-md">
+                            Professional Specs View
+                        </h2>
+                        {selectedCountry && (
+                            <p className="text-primary/80 text-xs font-display tracking-wide text-center md:text-left mt-1">
+                                📍 {selectedCountry.country_name} • {selectedCountry.currency_code} ({selectedCountry.currency_symbol}) • VAT: {(selectedCountry.vat_rate * 100).toFixed(0)}%
+                            </p>
+                        )}
+                    </div>
 
                     {/* Calculator Controls */}
                     <div className="flex flex-wrap items-center gap-4 bg-black/30 p-2 rounded-lg backdrop-blur-md border border-white/10 shadow-inner">
@@ -120,12 +127,15 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
                                     setSelectedCountry(country || null);
                                 }}
                             >
-                                <option value="" className="bg-black text-white">Select Country</option>
-                                {countries.map(c => (
-                                    <option key={c.id} value={c.id} className="bg-black text-white">
-                                        {c.country_name} ({c.currency_code})
-                                    </option>
-                                ))}
+                                {countries.length === 0 ? (
+                                    <option value="" className="bg-black text-white">Loading countries...</option>
+                                ) : (
+                                    countries.map(c => (
+                                        <option key={c.id} value={c.id} className="bg-black text-white">
+                                            {c.country_name} ({c.currency_code})
+                                        </option>
+                                    ))
+                                )}
                             </select>
                             <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
                         </div>
