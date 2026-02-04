@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CatalogPage as PageType } from '@/lib/types';
 import { ChevronDown, ChevronUp, Edit, ArrowUpDown } from 'lucide-react';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabaseClient';
 
 interface ProductListViewProps {
     pages: PageType[];
@@ -14,6 +15,42 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
     const [expandedRow, setExpandedRow] = useState<string | null>(null);
     const [sortBy, setSortBy] = useState<'name' | 'price'>('name');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+    // Pricing Calculator State
+    const [countries, setCountries] = useState<any[]>([]);
+    const [selectedCountry, setSelectedCountry] = useState<any>(null);
+    const [landedParam, setLandedParam] = useState<number>(0);
+    const [marginParam, setMarginParam] = useState<number>(0);
+
+    useEffect(() => {
+        const fetchCountries = async () => {
+            const { data, error } = await supabase
+                .from('es_gaming_countries')
+                .select('*')
+                .order('country_name');
+
+            if (data && data.length > 0) {
+                setCountries(data);
+                setSelectedCountry(data[0]);
+            }
+        };
+        fetchCountries();
+    }, []);
+
+    const calculatePrices = (fobPrice: number) => {
+        if (!fobPrice || !selectedCountry) return { landed: 0, net: 0, market: 0 };
+
+        const landedCost = fobPrice * (1 + landedParam / 100);
+        // Avoid division by zero if margin is 100%
+        const netPrice = marginParam === 100 ? 0 : landedCost / (1 - marginParam / 100);
+        const marketPrice = netPrice * selectedCountry.exchange_rate * (1 + selectedCountry.vat_rate);
+
+        return {
+            landed: landedCost,
+            net: netPrice,
+            market: marketPrice
+        };
+    };
 
     const toggleRow = (id: string) => {
         setExpandedRow(expandedRow === id ? null : id);
@@ -49,16 +86,54 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
     return (
         <div className="w-full max-w-[1400px] mx-auto px-4">
             {/* Table Header */}
-            <div className="bg-gradient-to-r from-primary to-purple-600 p-4 mb-6 skew-x-[-2deg]">
-                <h2 className="font-display font-black text-white text-2xl uppercase skew-x-[2deg] text-center tracking-wider">
+            <div className="bg-gradient-to-r from-primary to-purple-600 p-4 mb-6 skew-x-[-2deg] flex flex-col md:flex-row items-center justify-between gap-4">
+                <h2 className="font-display font-black text-white text-2xl uppercase skew-x-[2deg] tracking-wider text-center md:text-left">
                     Professional Specs View
                 </h2>
+
+                {/* Calculator Controls */}
+                <div className="flex flex-wrap items-center gap-4 skew-x-[2deg] bg-black/20 p-2 rounded-lg backdrop-blur-sm">
+                    {/* Country Selector */}
+                    <select
+                        className="bg-black/40 border border-white/20 text-white text-sm rounded px-3 py-1.5 focus:border-primary focus:outline-none"
+                        value={selectedCountry?.id || ''}
+                        onChange={(e) => setSelectedCountry(countries.find(c => c.id === e.target.value) || null)}
+                    >
+                        {countries.map(c => (
+                            <option key={c.id} value={c.id}>
+                                {c.country_name} ({c.currency_code})
+                            </option>
+                        ))}
+                    </select>
+
+                    {/* Landed Cost Input */}
+                    <div className="flex items-center gap-2">
+                        <label className="text-white/70 text-xs font-bold uppercase">Landed %</label>
+                        <input
+                            type="number"
+                            className="w-16 bg-black/40 border border-white/20 text-white text-sm rounded px-2 py-1 focus:border-primary focus:outline-none text-right"
+                            value={landedParam}
+                            onChange={(e) => setLandedParam(Number(e.target.value))}
+                        />
+                    </div>
+
+                    {/* Margin Input */}
+                    <div className="flex items-center gap-2">
+                        <label className="text-white/70 text-xs font-bold uppercase">Margin %</label>
+                        <input
+                            type="number"
+                            className="w-16 bg-black/40 border border-white/20 text-white text-sm rounded px-2 py-1 focus:border-primary focus:outline-none text-right"
+                            value={marginParam}
+                            onChange={(e) => setMarginParam(Number(e.target.value))}
+                        />
+                    </div>
+                </div>
             </div>
 
             {/* Desktop Table View */}
             <div className="hidden md:block bg-black/40 border border-primary/20 rounded-lg overflow-hidden">
                 {/* Table Header */}
-                <div className="grid grid-cols-[2fr_1fr_2fr_auto_auto] gap-4 bg-primary/10 border-b-2 border-primary p-4 font-display text-xs uppercase tracking-widest text-white/70">
+                <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_1fr_1fr_auto] gap-4 bg-primary/10 border-b-2 border-primary p-4 font-display text-xs uppercase tracking-widest text-white/70">
                     <button
                         onClick={() => handleSort('name')}
                         className="flex items-center gap-2 hover:text-primary transition-colors text-left"
@@ -72,9 +147,12 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
                         onClick={() => handleSort('price')}
                         className="flex items-center gap-2 hover:text-primary transition-colors"
                     >
-                        Price
+                        FOB Price
                         <ArrowUpDown className="w-3 h-3" />
                     </button>
+                    <div className="text-right">Landed Cost</div>
+                    <div className="text-right">Net Price</div>
+                    <div className="text-right text-primary">Market Price</div>
                     <div className="text-center">Details</div>
                 </div>
 
@@ -88,7 +166,7 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
                         return (
                             <div key={page.id} className="hover:bg-white/5 transition-colors">
                                 {/* Main Row */}
-                                <div className="grid grid-cols-[2fr_1fr_2fr_auto_auto] gap-4 p-4 items-center">
+                                <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1fr_1fr_1fr_auto] gap-4 p-4 items-center">
                                     {/* Product Name */}
                                     <div className="flex items-center gap-3">
                                         {isEditMode && (
@@ -120,10 +198,29 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
                                         {cooling > 0 ? `${cooling} cooling specs` : 'No cooling info'}
                                     </div>
 
-                                    {/* Price */}
-                                    <div className="text-primary font-display font-black text-lg">
-                                        ${page.prices?.[0]?.amount || 'TBD'}
+                                    {/* FOB Price */}
+                                    <div className="text-white/70 font-display font-bold text-sm">
+                                        ${page.prices?.[0]?.amount || 0}
                                     </div>
+
+                                    {/* Calculated Prices */}
+                                    {(() => {
+                                        const fob = page.prices?.[0]?.amount || 0;
+                                        const { landed, net, market } = calculatePrices(fob);
+                                        return (
+                                            <>
+                                                <div className="text-right text-white/60 text-sm">
+                                                    ${landed.toFixed(2)}
+                                                </div>
+                                                <div className="text-right text-white/80 font-bold text-sm">
+                                                    ${net.toFixed(2)}
+                                                </div>
+                                                <div className="text-right text-primary font-display font-black text-lg">
+                                                    {selectedCountry?.currency_symbol}{market.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                                </div>
+                                            </>
+                                        );
+                                    })()}
 
                                     {/* Expand Button */}
                                     <button
