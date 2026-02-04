@@ -30,12 +30,64 @@ const SPECS_BY_CATEGORY: Record<string, string[]> = {
 };
 
 const LABELS_BY_SPEC_GROUP: Record<string, string[]> = {
-    'MAIN': ['Motherboard Support', 'Max GPU Length', 'Max CPU Height', 'PSU Support', 'Form Factor', 'Power Supply Support', 'Expansion Slots'],
-    'STRUCTURE': ['Structure Size', 'Case Size', 'Carton Size', 'Material', 'Net Weight / Gross Weight', 'Side Panel', 'Front Panel'],
-    'COOLING': ['Cooling System', 'Water Cooling', 'Fan Support', 'Included Fans'],
-    'INPUT_OUTPUT': ['Input / Output Ports', 'Front Panel', 'USB Ports'],
-    'STORAGE': ['Drive Bays', 'PCI Slots', 'SSD Support'],
-    'ADDITIONAL': ['Color', 'Warranty', 'Model No.', 'MOQ', 'FOB Price']
+    'MAIN': [
+        'Motherboard Support',
+        'PSU Support',
+        'Max GPU Length',
+        'Max CPU Height',
+        'Model No.',
+        'Form Factor',
+        'Power Supply Support',
+        'Expansion Slots',
+        'Posicion Fuente De Poder',
+        'Tamaño Maximo De Placa'
+    ],
+    'STRUCTURE': [
+        'Case Size',
+        'Carton Size',
+        'Structure Size',
+        'Material',
+        'Side Panel',
+        'Front Panel',
+        'Net Weight / Gross Weight',
+        'Panel Izquierdo Y Frontal',
+        'Cobertura Superior',
+        'Chasis',
+        'Tamaño Del Producto',
+        'Tamaño Maximo De La Grafica',
+        'Color'
+    ],
+    'COOLING': [
+        'Cooling System',
+        'Water Cooling',
+        'Fan Support',
+        'Fan Slots',
+        'Included Fans',
+        'Ventiladores ARGB + Control Remoto',
+        'Water Cooling Que Soporta',
+        'Tamaño Maximo Del Ventilador De Aire'
+    ],
+    'STORAGE': [
+        'Drive Bays',
+        'PCI Slots',
+        'SSD Support',
+        'HDD Support',
+        'Slot PCI',
+        'Bahías Para Discos Duros'
+    ],
+    'INPUT_OUTPUT': [
+        'Input / Output Ports',
+        'Front Panel',
+        'USB Ports',
+        'USB3.0+Audio, USB 3.0, USB C'
+    ],
+    'ADDITIONAL': [
+        'Color',
+        'Warranty',
+        'Model No.',
+        'MOQ',
+        'FOB Price'
+    ]
 };
 
 // Standard specs for PC Cases organized by spec_group (for coverage calculation)
