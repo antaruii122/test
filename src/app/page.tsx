@@ -139,7 +139,11 @@ export default function Home() {
   });
 
   const totalPages = Math.ceil(filteredPages.length / ITEMS_PER_PAGE);
-  const visiblePages = filteredPages.slice(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE);
+
+  // Show all products in grid view, paginate in list view
+  const visiblePages = viewMode === 'grid'
+    ? filteredPages
+    : filteredPages.slice(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE);
 
   return (
     <main className="min-h-screen pb-20">
@@ -232,7 +236,7 @@ export default function Home() {
       <ViewControls
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        totalPages={totalPages}
+        totalPages={viewMode === 'table' ? totalPages : 0}
         viewMode={viewMode}
         setViewMode={setViewMode}
       />
