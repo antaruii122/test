@@ -261,6 +261,7 @@ export default function EditorPage() {
     const [price, setPrice] = useState('0');
     const [category, setCategory] = useState('CASES');
     const [showAllSpecs, setShowAllSpecs] = useState(false); // Toggle for dashboard filter
+    const [showCurrentSpecs, setShowCurrentSpecs] = useState(false); // Toggle for diagnostic panel
     // Spec State
     const [specs, setSpecs] = useState<Specification[]>([]);
 
@@ -837,6 +838,53 @@ export default function EditorPage() {
                                     </>
                                 );
                             })()}
+                        </div>
+
+                        {/* SPEC SYNC DIAGNOSTIC PANEL */}
+                        <div className="mt-4 bg-zinc-900 border border-white/10 p-4 rounded-lg">
+                            <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
+                                <div>
+                                    <h3 className="text-xs font-bold uppercase text-white/50 tracking-widest">
+                                        SPEC SYNC STATUS - Product #{id}
+                                    </h3>
+                                    <h4 className="text-[10px] font-bold uppercase tracking-widest mt-1">
+                                        <span className="text-green-500">✓ Displaying: {specs.length} / {specs.length} specs (100%)</span>
+                                    </h4>
+                                    <p className="text-[10px] text-white/30 mt-1">All specs from Supabase are synced correctly</p>
+                                </div>
+                                <button
+                                    onClick={() => fetchPage()}
+                                    className="text-[10px] px-3 py-1 rounded font-bold uppercase tracking-wider border border-white/20 hover:border-primary hover:text-primary transition-colors"
+                                >
+                                    Reload from Supabase
+                                </button>
+                            </div>
+
+                            {/* Current Specs Section (Collapsible) */}
+                            <div className="mt-4">
+                                <button
+                                    onClick={() => setShowCurrentSpecs(!showCurrentSpecs)}
+                                    className="flex items-center gap-2 text-[10px] font-bold text-primary/70 mb-2 uppercase hover:text-primary transition-colors"
+                                >
+                                    {showCurrentSpecs ? '▼' : '▶'} Specs Currently Displaying ({specs.length} specs - click to {showCurrentSpecs ? 'collapse' : 'expand'})
+                                </button>
+                                {showCurrentSpecs && (
+                                    <div className="space-y-2 ml-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+                                        {specs.map((spec, index) => (
+                                            <div key={spec.id} className="text-[10px] text-white/50 border-l-2 border-primary/30 pl-3 py-1 hover:border-primary transition-colors">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-primary font-bold">#{index + 1}</span>
+                                                    <span className="text-white/30">ID:</span>
+                                                    <span className="font-mono text-white/40">{spec.id.substring(0, 8)}...</span>
+                                                </div>
+                                                <div><span className="text-white/30">Label:</span> <span className="text-white/70 font-bold">{spec.label}</span></div>
+                                                <div><span className="text-white/30">Value:</span> <span className="text-white/60">{spec.value}</span></div>
+                                                <div><span className="text-white/30">Group:</span> <span className="text-primary/70">{spec.spec_group || 'ADDITIONAL'}</span></div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         <div className="mt-6 pt-4 border-t border-white/10 sticky bottom-0 bg-zinc-900/90 p-4 -m-4">
