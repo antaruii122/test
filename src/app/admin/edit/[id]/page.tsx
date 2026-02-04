@@ -29,11 +29,25 @@ const SPECS_BY_CATEGORY: Record<string, string[]> = {
     ]
 };
 
-const AutoCompleteInput = ({ value, onChange, placeholder, category }: { value: string, onChange: (val: string) => void, placeholder: string, category?: string }) => {
+const LABELS_BY_SPEC_GROUP: Record<string, string[]> = {
+    'MAIN': ['Motherboard Support', 'Max GPU Length', 'Max CPU Height', 'PSU Support', 'Form Factor', 'Power Supply Support', 'Expansion Slots'],
+    'STRUCTURE': ['Structure Size', 'Case Size', 'Carton Size', 'Material', 'Net Weight / Gross Weight', 'Side Panel', 'Front Panel'],
+    'COOLING': ['Cooling System', 'Water Cooling', 'Fan Support', 'Included Fans'],
+    'INPUT_OUTPUT': ['Input / Output Ports', 'Front Panel', 'USB Ports'],
+    'STORAGE': ['Drive Bays', 'PCI Slots', 'SSD Support'],
+    'ADDITIONAL': ['Color', 'Warranty', 'Model No.', 'MOQ', 'FOB Price']
+};
+
+const AutoCompleteInput = ({ value, onChange, placeholder, category, specGroup }: { value: string, onChange: (val: string) => void, placeholder: string, category?: string, specGroup?: string }) => {
     const [showSuggestions, setShowSuggestions] = useState(false);
 
-    // Default to CASES if category undefined or not found
-    const validSuggestions = SPECS_BY_CATEGORY[category || 'CASES'] || SPECS_BY_CATEGORY['CASES'];
+    // If specGroup is provided, use LABELS_BY_SPEC_GROUP, otherwise fall back to SPECS_BY_CATEGORY
+    let validSuggestions: string[] = [];
+    if (specGroup && LABELS_BY_SPEC_GROUP[specGroup]) {
+        validSuggestions = LABELS_BY_SPEC_GROUP[specGroup];
+    } else {
+        validSuggestions = SPECS_BY_CATEGORY[category || 'CASES'] || SPECS_BY_CATEGORY['CASES'];
+    }
 
     // Filter suggestions based on input
     const filtered = validSuggestions.filter(s => s.toLowerCase().includes(value.toLowerCase()));
@@ -454,6 +468,7 @@ export default function EditorPage() {
                                     onChange={(val) => handleSpecChange(realIndex, 'label', val)}
                                     placeholder="Label"
                                     category={category}  // Pass dynamic category
+                                    specGroup={spec.spec_group}  // Pass spec_group for filtering
                                 />
                                 <ValueAutoComplete
                                     label={spec.label}
