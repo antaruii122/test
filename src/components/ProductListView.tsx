@@ -179,29 +179,29 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
                 <div className="grid grid-cols-[2fr_1fr_2fr_1fr_1.2fr_1.2fr_1.2fr_auto] gap-6 bg-primary/10 border-b-2 border-primary p-4 font-display text-xs uppercase tracking-widest text-white/70">
                     <button
                         onClick={() => handleSort('name')}
-                        className="flex items-center gap-2 hover:text-primary transition-colors text-left"
+                        className="flex items-center justify-center gap-2 hover:text-primary transition-colors"
                     >
                         Product Name
                         <ArrowUpDown className="w-3 h-3" />
                     </button>
-                    <div>Structure</div>
-                    <div>Cooling Specs</div>
+                    <div className="text-center">Structure</div>
+                    <div className="text-center">Cooling Specs</div>
                     <button
                         onClick={() => handleSort('price')}
-                        className="flex items-center gap-2 hover:text-primary transition-colors"
+                        className="flex items-center justify-center gap-2 hover:text-primary transition-colors"
                     >
                         FOB Price
                         <ArrowUpDown className="w-3 h-3" />
                     </button>
-                    <div className="text-right">
+                    <div className="text-center">
                         <div>Landed Cost</div>
                         <div className="text-primary/60 text-[10px] mt-0.5">+{landedParam}% freight</div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-center">
                         <div>Net Price</div>
                         <div className="text-green-400/60 text-[10px] mt-0.5">+{marginParam}% margin</div>
                     </div>
-                    <div className="text-right text-primary">
+                    <div className="text-center text-primary">
                         <div>Market Price</div>
                         <div className="text-cyan-400/60 text-[10px] mt-0.5">{selectedCountry?.currency_code} + {(selectedCountry?.vat_rate ? selectedCountry.vat_rate * 100 : 0).toFixed(0)}% VAT</div>
                     </div>
@@ -241,17 +241,17 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
                                     </div>
 
                                     {/* Structure */}
-                                    <div className="text-white/70 text-sm">
+                                    <div className="text-white/70 text-sm text-center">
                                         {structure || 'N/A'}
                                     </div>
 
                                     {/* Cooling Summary */}
-                                    <div className="text-white/70 text-sm">
+                                    <div className="text-white/70 text-sm text-center">
                                         {cooling > 0 ? `${cooling} cooling specs` : 'No cooling info'}
                                     </div>
 
                                     {/* FOB Price */}
-                                    <div className="text-white/70 font-display font-bold text-sm">
+                                    <div className="text-white/70 font-display font-bold text-sm text-center">
                                         ${page.prices?.[0]?.amount || 0}
                                     </div>
 
@@ -262,7 +262,7 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
                                         return (
                                             <>
                                                 {/* Landed Cost */}
-                                                <div className="text-right">
+                                                <div className="text-center">
                                                     <div className="text-white/80 font-bold text-sm">
                                                         ${landed.toFixed(2)}
                                                     </div>
@@ -272,7 +272,7 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
                                                 </div>
 
                                                 {/* Net Price */}
-                                                <div className="text-right">
+                                                <div className="text-center">
                                                     <div className="text-white/90 font-bold text-sm">
                                                         ${net.toFixed(2)}
                                                     </div>
@@ -282,12 +282,12 @@ export default function ProductListView({ pages, isEditMode }: ProductListViewPr
                                                 </div>
 
                                                 {/* Market Price */}
-                                                <div className="text-right">
+                                                <div className="text-center">
                                                     <div className="text-primary font-display font-black text-base">
                                                         {selectedCountry?.currency_symbol}{market.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                                     </div>
                                                     <div className="text-cyan-400/40 text-[10px] mt-0.5">
-                                                        ${net.toFixed(2)} × {selectedCountry?.exchange_rate}
+                                                        ${net.toFixed(2)} × {selectedCountry?.exchange_rate} × {(1 + (selectedCountry?.vat_rate || 0)).toFixed(2)}
                                                     </div>
                                                 </div>
                                             </>
