@@ -909,7 +909,6 @@ export default function EditorPage() {
                         <div className="max-w-[1000px] mx-auto bg-zinc-950 rounded-lg shadow-[0_0_100px_rgba(0,0,0,1)]">
                             <CatalogPageView
                                 page={previewData}
-                                zoomLevel={1}
                             />
                         </div>
                         <div className="mt-8 flex justify-center gap-8 text-[10px] text-white/20 uppercase tracking-[0.3em]">
