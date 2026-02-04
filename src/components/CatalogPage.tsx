@@ -16,10 +16,9 @@ interface CatalogPageProps {
     isEditMode?: boolean;
     onDelete?: () => void;
     onRefresh?: () => void;
-    zoomLevel: number;
 }
 
-export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoomLevel }: CatalogPageProps) {
+export default function CatalogPage({ page, isEditMode, onDelete, onRefresh }: CatalogPageProps) {
 
     // Scale container based on zoom (1=800px, 2=1000px, 3=1200px approx width logic handled by max-w wrapper in parent)
     // Actually, zoomLevel can scale the font/padding inside? 
@@ -70,8 +69,8 @@ export default function CatalogPage({ page, isEditMode, onDelete, onRefresh, zoo
             <div className="flex flex-col xl:flex-row gap-8">
 
                 {/* LEFT: IMAGES */}
-                <div className={`transition-all ${zoomLevel === 1 ? 'xl:w-[30%]' : 'xl:w-[38%]'} print:w-1/2`}>
-                    <div className={`grid gap-4 ${zoomLevel === 3 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                <div className="xl:w-[35%] print:w-1/2">
+                    <div className="grid gap-4 grid-cols-1">
                         {/* Main Hero Image */}
                         {page.images?.[0] && (
                             <div className="relative w-full aspect-square border-2 border-white/10 bg-black/40 p-2">

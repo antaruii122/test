@@ -1,9 +1,7 @@
 import React from 'react';
-import { ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Grid, List } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Grid, List } from 'lucide-react';
 
 interface ViewControlsProps {
-    zoomLevel: number;
-    setZoomLevel: (level: number) => void;
     currentPage: number;
     setCurrentPage: (page: number) => void;
     totalPages: number;
@@ -12,8 +10,6 @@ interface ViewControlsProps {
 }
 
 export default function ViewControls({
-    zoomLevel,
-    setZoomLevel,
     currentPage,
     setCurrentPage,
     totalPages,
@@ -23,9 +19,8 @@ export default function ViewControls({
     return (
         <div className="sticky top-[76px] z-40 bg-black/90 backdrop-blur border-b border-primary/20 py-3 px-8 flex flex-wrap gap-6 items-center justify-between">
 
-            {/* View Mode & Zoom */}
+            {/* View Mode Toggle */}
             <div className="flex items-center gap-6">
-                {/* Mode Toggle */}
                 <div className="flex bg-white/5 rounded-lg p-1 border border-white/10">
                     <button
                         onClick={() => setViewMode('grid')}
@@ -37,38 +32,11 @@ export default function ViewControls({
                     <button
                         onClick={() => setViewMode('table')}
                         className={`p-2 rounded transition-all ${viewMode === 'table' ? 'bg-primary text-black' : 'text-white/50 hover:text-white'}`}
-                        title="Excel List View"
+                        title="List View"
                     >
                         <List className="w-5 h-5" />
                     </button>
                 </div>
-
-                {/* Zoom Slider */}
-                {viewMode === 'grid' && (
-                    <div className="flex items-center gap-3">
-                        <button
-                            onClick={() => setZoomLevel(Math.max(1, zoomLevel - 1))}
-                            className="text-white/50 hover:text-primary transition-colors"
-                        >
-                            <ZoomOut className="w-4 h-4" />
-                        </button>
-                        <input
-                            type="range"
-                            min="1"
-                            max="3"
-                            step="1"
-                            value={zoomLevel}
-                            onChange={(e) => setZoomLevel(parseInt(e.target.value))}
-                            className="w-24 accent-primary cursor-pointer"
-                        />
-                        <button
-                            onClick={() => setZoomLevel(Math.min(3, zoomLevel + 1))}
-                            className="text-white/50 hover:text-primary transition-colors"
-                        >
-                            <ZoomIn className="w-4 h-4" />
-                        </button>
-                    </div>
-                )}
             </div>
 
             {/* Pagination */}

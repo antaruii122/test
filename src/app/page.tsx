@@ -10,6 +10,7 @@ import { Loader2, Settings, Download, PlusCircle, FileSpreadsheet, GripVertical,
 import Link from 'next/link';
 import { Reorder, useDragControls } from 'framer-motion';
 import ViewControls from '@/components/ViewControls';
+import ProductListView from '@/components/ProductListView';
 
 export default function Home() {
   const [pages, setPages] = useState<PageType[]>([]);
@@ -19,7 +20,6 @@ export default function Home() {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [hasAdminAccess, setHasAdminAccess] = useState(false);
 
-  const [zoomLevel, setZoomLevel] = useState(2);
   const [currentPage, setCurrentPage] = useState(0);
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
 
@@ -230,8 +230,6 @@ export default function Home() {
 
       {/* NEW: View Controls */}
       <ViewControls
-        zoomLevel={zoomLevel}
-        setZoomLevel={setZoomLevel}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         totalPages={totalPages}
@@ -249,34 +247,40 @@ export default function Home() {
       {/* Pages View */}
       <div className="catalog-container pt-8">
         {pages.length > 0 ? (
-          <Reorder.Group
-            axis="y"
-            values={visiblePages}
-            onReorder={handleReorder} // Reorder works locally on the slice, not ideal but functional for V1
-            className="w-full flex flex-col items-center gap-12"
-          >
-            {visiblePages.map((page) => (
-              <Reorder.Item
-                key={page.id}
-                value={page}
-                className="relative w-full max-w-[1400px]" // Allow wider container
-                dragListener={isEditMode}
-              >
-                {isEditMode && (
-                  <div className="absolute left-4 top-4 z-20 cursor-grab active:cursor-grabbing p-2 bg-black/50 rounded-full text-white hover:text-primary border border-white/20">
-                    <GripVertical className="w-5 h-5" />
-                  </div>
-                )}
-                <CatalogPage
-                  page={page}
-                  isEditMode={isEditMode}
-                  onDelete={() => handleDeletePage(page.id)}
-                  onRefresh={fetchPages}
-                  zoomLevel={zoomLevel}
-                />
-              </Reorder.Item>
-            ))}
-          </Reorder.Group>
+          viewMode === 'grid' ? (
+            <Reorder.Group
+              axis="y"
+              values={visiblePages}
+              onReorder={handleReorder} // Reorder works locally on the slice, not ideal but functional for V1
+              className="w-full flex flex-col items-center gap-12"
+            >
+              {visiblePages.map((page) => (
+                <Reorder.Item
+                  key={page.id}
+                  value={page}
+                  className="relative w-full max-w-[1400px]" // Allow wider container
+                  dragListener={isEditMode}
+                >
+                  {isEditMode && (
+                    <div className="absolute left-4 top-4 z-20 cursor-grab active:cursor-grabbing p-2 bg-black/50 rounded-full text-white hover:text-primary border border-white/20">
+                      <GripVertical className="w-5 h-5" />
+                    </div>
+                  )}
+                  <CatalogPage
+                    page={page}
+                    isEditMode={isEditMode}
+                    onDelete={() => handleDeletePage(page.id)}
+                    onRefresh={fetchPages}
+                  />
+                </Reorder.Item>
+              ))}
+            </Reorder.Group>
+          ) : (
+            <ProductListView
+              pages={visiblePages}
+              isEditMode={isEditMode}
+            />
+          )
         ) : (
           <div className="text-center py-20">
             <h2 className="font-display text-4xl text-white/20 opacity-50 mb-4">CATALOG EMPTY</h2>
