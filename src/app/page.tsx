@@ -236,7 +236,7 @@ export default function Home() {
       <ViewControls
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        totalPages={viewMode === 'table' ? totalPages : 0}
+        totalPages={0}
         viewMode={viewMode}
         setViewMode={setViewMode}
       />
