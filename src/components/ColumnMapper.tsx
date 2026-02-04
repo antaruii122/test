@@ -5,15 +5,30 @@ import { ArrowRight, Check, AlertCircle } from 'lucide-react';
 
 interface ColumnMapperProps {
     data: any[];
+    category: string;
     onConfirm: (mapping: Record<string, string>) => void;
     onCancel: () => void;
 }
 
 export type MappingType = 'model' | 'price' | 'image' | 'ignore' | string; // string for 'spec:NAME'
 
-export default function ColumnMapper({ data, onConfirm, onCancel }: ColumnMapperProps) {
+// Define spec groups per category
+const CAT_SPEC_GROUPS: Record<string, string[]> = {
+    'CASES': ['MAIN_SPECS', 'STRUCTURE', 'COOLING', 'CONNECTIVITY', 'STORAGE', 'EXTRA'],
+    'MOTHERBOARDS': ['MAIN_SPECS', 'PROCESSOR', 'CHIPSET', 'MEMORY', 'GRAPHICS', 'STORAGE', 'LAN', 'AUDIO', 'USB', 'INTERNAL_IO', 'BACK_PANEL_IO'],
+    'WATER_COOLING': ['MAIN_SPECS', 'RADIATOR', 'PUMP', 'FAN', 'COMPATIBILITY', 'TUBE'],
+    'KEYBOARDS': ['MAIN_SPECS', 'SWITCHES', 'KEYCAPS', 'CONNECTIVITY', 'DIMENSIONS', 'LIGHTING'],
+    // Generic fallback
+    'DEFAULT': ['MAIN_SPECS', 'GENERAL', 'TECHNICAL', 'PHYSICAL', 'FEATURES']
+};
+
+export default function ColumnMapper({ data, category, onConfirm, onCancel }: ColumnMapperProps) {
     const headers = Object.keys(data[0] || {});
     const [mapping, setMapping] = useState<Record<string, string>>({});
+
+    // Determine spec groups for this category
+    const validCategory = category ? category.toUpperCase() : 'DEFAULT';
+    const specGroups = CAT_SPEC_GROUPS[validCategory] || CAT_SPEC_GROUPS['DEFAULT'];
 
     // Auto-guess mapping based on header names
     useEffect(() => {
@@ -29,11 +44,12 @@ export default function ColumnMapper({ data, onConfirm, onCancel }: ColumnMapper
             } else if (lower.includes('image') || lower.includes('photo') || lower.includes('url')) {
                 initialMapping[header] = 'image';
             } else {
-                initialMapping[header] = `spec:${header}`; // Default to spec with header name
+                // Default to first spec group available
+                initialMapping[header] = `spec:${header}:${specGroups[0]}`;
             }
         });
         setMapping(initialMapping);
-    }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [data, specGroups]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleMappingChange = (header: string, value: string) => {
         setMapping(prev => ({ ...prev, [header]: value }));
@@ -52,7 +68,7 @@ export default function ColumnMapper({ data, onConfirm, onCancel }: ColumnMapper
                         Map <span className="text-primary">Columns</span>
                     </h3>
                     <p className="text-sm text-text-gray mt-1">
-                        Assign each Excel column to a database field.
+                        Assign each Excel column to a database field for <span className="text-primary font-bold">{category}</span>.
                     </p>
                 </div>
                 <div className="flex gap-2">
@@ -86,13 +102,16 @@ export default function ColumnMapper({ data, onConfirm, onCancel }: ColumnMapper
                                             <option value="image">🖼️ Image URL</option>
                                             <option value="ignore">🚫 Ignore</option>
 
-                                            <optgroup label="Specifications">
-                                                <option value={`spec:${header}:MAIN_SPECS`}>⭐ Main Spec: {header}</option>
-                                                <option value={`spec:${header}:STRUCTURE`}>🏗️ Structure: {header}</option>
-                                                <option value={`spec:${header}:COOLING`}>❄️ Cooling: {header}</option>
-                                                <option value={`spec:${header}:CONNECTIVITY`}>🔌 Connectivity: {header}</option>
-                                                <option value={`spec:${header}:STORAGE`}>💾 Storage: {header}</option>
-                                                <option value={`spec:${header}`}>🔧 Other Spec: {header}</option>
+                                            <optgroup label="Smart Parsing">
+                                                <option value="description_auto">✨ Description (Auto-Specs)</option>
+                                            </optgroup>
+                                            <optgroup label={`Specs for ${category}`}>
+                                                {specGroups.map(group => (
+                                                    <option key={group} value={`spec:${header}:${group}`}>
+                                                        🔧 {group.replace(/_/g, ' ')}: {header}
+                                                    </option>
+                                                ))}
+                                                <option value={`spec:${header}:OTHER`}>❓ Other Spec: {header}</option>
                                             </optgroup>
                                         </select>
                                     </div>

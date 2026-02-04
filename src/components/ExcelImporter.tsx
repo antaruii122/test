@@ -76,8 +76,38 @@ export default function ExcelImporter({ onComplete }: ExcelImporterProps) {
             const wb = XLSX.read(bstr, { type: 'binary' });
             const wsname = wb.SheetNames[0];
             const ws = wb.Sheets[wsname];
-            const json = XLSX.utils.sheet_to_json(ws);
+
+            // Default parse
+            let json = XLSX.utils.sheet_to_json(ws);
+
+            // AUTO-HEADER-DETECTION:
+            // Sometims the first few rows are empty or metadata. 
+            // We look for a row that resembles a header (has 'Model' or 'Price' or many columns)
             if (json.length > 0) {
+                const firstRowKeys = Object.keys(json[0] as object);
+                // If keys look like __EMPTY, try to find real header
+                if (firstRowKeys.some(k => k.includes('__EMPTY'))) {
+                    console.log('Detecting weird headers...', firstRowKeys);
+                    // Convert back to array of arrays to find the header row
+                    const aoa = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
+                    let headerIndex = -1;
+
+                    for (let i = 0; i < Math.min(aoa.length, 10); i++) {
+                        const row = aoa[i];
+                        const rowStr = row.join(' ').toLowerCase();
+                        if (rowStr.includes('model') || rowStr.includes('price') || rowStr.includes('name')) {
+                            headerIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (headerIndex !== -1) {
+                        // Re-parse with identified header row
+                        // range: headerIndex means start from that row
+                        json = XLSX.utils.sheet_to_json(ws, { range: headerIndex });
+                    }
+                }
+
                 setRawFile(json);
                 setStep('mapping');
             } else {
@@ -112,6 +142,26 @@ export default function ExcelImporter({ onComplete }: ExcelImporterProps) {
                     price = sanitizeNumericField(valStr);
                 } else if (type === 'image') {
                     imageUrl = sanitizeText(valStr);
+                } else if (type === 'description_auto') {
+                    // Smart Parse Logic
+                    // 1. Split by newline or common delimiters
+                    const lines = valStr.split(/[\r\n]+/);
+                    lines.forEach(line => {
+                        // Look for "Label: Value" pattern
+                        // Regex: Start of line, capture label (non-colons), colon, capture value
+                        const match = line.match(/^([^:]+):(.+)$/);
+                        if (match) {
+                            const label = match[1].trim();
+                            const value = sanitizeText(match[2]);
+                            if (label && value) {
+                                specs.push({
+                                    label: label,
+                                    value: value,
+                                    spec_group: 'MAIN_SPECS' // Default group for auto-parsed
+                                });
+                            }
+                        }
+                    });
                 } else if (type.startsWith('spec:')) {
                     // Format: spec:HEADER:GROUP or spec:HEADER
                     const parts = type.split(':');
@@ -432,6 +482,7 @@ export default function ExcelImporter({ onComplete }: ExcelImporterProps) {
             {step === 'mapping' && (
                 <ColumnMapper
                     data={rawFile}
+                    category={isCustomCategory ? customCategory : selectedCategory}
                     onConfirm={processMapping}
                     onCancel={() => { setRawFile([]); setStep('upload'); }}
                 />
