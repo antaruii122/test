@@ -18,6 +18,10 @@ each ~2–3 seconds, no bouncing.
 
 *Proposed: 1 round of the sequence, 2–3x/day. Adjust once tried.*
 
+**Videos:**
+- [Median Nerve Gliding/Sliding Exercises (YouTube)](https://www.youtube.com/watch?v=lr5_Yfdb9oM) — full 6-position sequence demonstrated step by step.
+- [3 Stretches To Prevent or Relieve Carpal Tunnel (Cleveland Clinic, article + video)](https://health.clevelandclinic.org/worried-about-carpal-tunnel-try-these-3-stretches-video)
+
 ## 2. Wrist mobility / stretches
 
 - **Prayer stretch**: palms together at chest height, lower hands while keeping
@@ -28,6 +32,10 @@ each ~2–3 seconds, no bouncing.
   back with the other hand.
 
 *Proposed: hold 15–20s each, 2–3x/day, especially before/after computer sessions.*
+
+**Videos:**
+- [Standing Prayer Wrist and Fingers Stretch (YouTube)](https://www.youtube.com/watch?v=vYU_washb7I)
+- [9 Exercises for Carpal Tunnel that May Relieve Pain and Numbness (WebMD, photos of flexor/extensor stretch)](https://www.webmd.com/pain-management/carpal-tunnel/best-exercises-carpal-tunnel)
 
 ## 3. Strengthening
 
@@ -45,6 +53,10 @@ general hand/forearm strength.
 
 *Proposed: start light, 2–3x/week, progress load only if no next-day flare-up.*
 
+**Videos:**
+- [Banded Finger Extension (YouTube)](https://www.youtube.com/watch?v=rbV3rOvKUZM) — rubber band finger/thumb extension.
+- [How to Do Dumbbell Reverse Wrist Curls (YouTube)](https://www.youtube.com/watch?v=krZ6pWGZ8xo) — also shows the standard (palm-up) wrist curl setup for the flexor side.
+
 ## 4. Circulation warm-ups
 
 - Arm swings / shaking out the hands.
@@ -54,6 +66,9 @@ general hand/forearm strength.
 - General cardio — even just consistent movement during the day — helps overall
   circulation, not just local hand work.
 
+**Videos:**
+- [How to Do Wrist Circles (YouTube)](https://www.youtube.com/watch?v=IJvS9bYl_cs)
+
 ## 5. Push-up wrist tolerance progression
 
 Since closed-fist push-ups are already comfortable and open-hand push-ups still
@@ -61,14 +76,25 @@ cause some wrist discomfort, the idea is a gradual bridge rather than jumping
 straight back to full open-hand push-ups:
 
 1. Push-ups on closed fists (current comfortable baseline).
+   - Video: [How to do Knuckle Push Ups | Learn Knuckle Push Up Technique (YouTube)](https://www.youtube.com/watch?v=y-Wt8Dinqvw)
+   - Video: [Knuckle Push Ups Tutorial For Hands Of Steel | 4 Variations Covered (YouTube)](https://www.youtube.com/watch?v=WZm6B1pCTac)
 2. Push-ups on parallettes / dumbbells / push-up handles — hands stay in a
    neutral (not extended) grip, but off closed fists.
+   - Guide: [Push Ups on Parallettes: Technique, Benefits & Progressions](https://www.wilddynamics.eu/blogs/calisthenics-lifestyle/push-ups-on-parallettes-technique-benefits-progressions)
 3. Push-ups with fingertips only — partial extension, controlled.
+   - Guide: [Fingertip Push Ups: Video Exercise Guide & Tips](https://www.muscleandstrength.com/exercises/fingertip-pushups)
 4. Open-hand push-ups on an incline (less wrist extension angle than flat ground).
 5. Open-hand push-ups on flat ground.
 
 *Proposed: only move to the next step once the current one is fully comfortable for
 a couple of sessions. No need to rush this.*
+
+## Note on the video links
+
+Web search was used to find these (not guessed), pulling real titles from indexed
+pages. This sandboxed environment blocks direct access to youtube.com, so each
+link could not be opened here to double-check playback — if any link is dead or
+doesn't match, say so and it'll get swapped for another one immediately.
 
 ## Notes
 

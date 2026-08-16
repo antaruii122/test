@@ -7,8 +7,11 @@ issue that has come and gone over roughly the last 4 years.
 
 - `assessment.md` — initial analysis of the symptom pattern and working hypothesis.
 - `exercise-plan.md` — draft exercises for strength and circulation (nerve gliding,
-  wrist strengthening, push-up wrist progression). To be refined together.
+  wrist strengthening, push-up wrist progression), each with linked demonstration
+  videos. To be refined together.
 - `ergonomics.md` — computer workstation and daily-use adjustments.
+- `nutrition.md` — foods/nutrients relevant to nerve health, inflammation, and
+  fluid retention (background support, not a fix by itself).
 - `progress-log.md` — dated log of symptoms, exercises done, and how things felt.
 
 ## How this folder is meant to be used
