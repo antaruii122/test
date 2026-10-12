@@ -3,13 +3,15 @@
 Goal: post 1 animated vertical short per day for 60 days (YouTube Shorts as the main platform, plus TikTok, Instagram Reels and Facebook) and earn from ads, affiliate links and brand deals.
 Base: New Zealand, so YouTube Partner Program applies. TikTok Creator Rewards does not cover NZ [VERIFY in TikTok Studio].
 
-## Series (3 niches)
+## Series
+
+Only Series 1 is agreed. Series 2 and 3 are Claude's proposals and are NOT decided. Ricardo decides.
 
 | # | Series | Format | Money lever | Status |
 |---|--------|--------|-------------|--------|
 | 1 | **The Story of…** (brand origin stories) | 61–70s, cartoon, voice | Ads (business niche) + selling "your brand story" videos to companies | Ep01 Instagram done, Ep02 Nintendo in progress |
-| 2 | **How It Works** (tech explained: monitors, GPUs, Wi-Fi, chips, batteries) | 61s, cartoon diagrams | Affiliate links (Amazon Associates / Mercado Libre [VERIFY programs]) + tech RPM | Planned |
-| 3 | **Map Facts** (geography: "Why do most Kiwis live in the North Island?") | 61s, map + neon regions | Ads (education niche) + virality; reuses the MapReel research | Planned |
+| 2 (proposal) | **How It Works** (tech explained: monitors, GPUs, Wi-Fi, chips, batteries) | 61s, cartoon diagrams | Affiliate links (Amazon Associates / Mercado Libre [VERIFY programs]) + tech RPM | Proposal, not decided |
+| 3 (proposal) | **Map Facts** (geography: "Why do most Kiwis live in the North Island?") | 61s, map + neon regions | Ads (education niche) + virality; reuses the MapReel research | Proposal, not decided |
 
 ## Hook rules (every video)
 1. The first words name the topic: "The story of X:", "How does X work?", or "Why does X…?". The topic is also on screen from frame 0.
@@ -32,7 +34,7 @@ Base: New Zealand, so YouTube Partner Program applies. TikTok Creator Rewards do
 
 ## 60-day schedule
 - **Weeks 1–2:** Story-of episodes 1–10, posted daily.
-- **Week 3:** launch How It Works and alternate the series (Story, Tech, Map…).
+- **Week 3:** add a second series, once Ricardo picks one.
 - **Week 3:** start pitching "your brand's story in 60s" to 20–30 companies, using the channel as the portfolio.
 - **Day 30:** review "Viewed vs. Swiped Away" and average view duration per series. Double down on the best series and drop the worst.
 - **Day 60:** decide whether to continue, based on subscribers, affiliate clicks and inbound requests.
