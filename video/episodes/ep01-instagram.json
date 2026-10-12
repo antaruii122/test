@@ -1,0 +1,71 @@
+{
+  "id": "ep01",
+  "title": "Instagram",
+  "voice": "af_heart",
+  "speed": 0.97,
+  "hooks": {
+    "A": "Thirteen employees. One billion dollars. In just eighteen months.",
+    "B": "Instagram started as an app that nobody wanted.",
+    "C": "Facebook paid one billion dollars for a company with thirteen people."
+  },
+  "lines": [
+    {
+      "scene": "flop",
+      "text": "But this app started as a total flop."
+    },
+    {
+      "scene": "burbn",
+      "text": "In 2010, Kevin Systrom built an app called Burbn."
+    },
+    {
+      "scene": "money",
+      "text": "He even raised five hundred thousand dollars from investors to build it."
+    },
+    {
+      "scene": "burbn",
+      "text": "You could check in to places, make plans, and share photos."
+    },
+    {
+      "scene": "confused",
+      "text": "The problem? It was confusing, and it didn't take off."
+    },
+    {
+      "scene": "duo",
+      "text": "Then he teamed up with Mike Krieger, and they noticed something."
+    },
+    {
+      "scene": "photos",
+      "text": "People ignored the check-ins. But they loved sharing photos."
+    },
+    {
+      "scene": "cut",
+      "text": "So they cut everything else. Just photos, filters, and likes."
+    },
+    {
+      "scene": "launch",
+      "text": "They renamed it Instagram, and launched on the iPhone in October 2010."
+    },
+    {
+      "scene": "users",
+      "text": "It exploded. By 2012, around thirty million people were using it."
+    },
+    {
+      "scene": "deal",
+      "text": "In April 2012, Facebook agreed to buy Instagram for about one billion dollars."
+    },
+    {
+      "scene": "team",
+      "text": "For a company with just thirteen employees."
+    },
+    {
+      "scene": "loop",
+      "text": "And it all started with a failed app called Burbn."
+    }
+  ],
+  "sources": [
+    "https://www.britannica.com/money/Instagram",
+    "https://www.aljazeera.com/economy/2012/4/10/facebook-updates-status-with-instagram-deal",
+    "https://seedtable.com/exits/instagram",
+    "https://www.businessinsider.nl/instagram-first-13-employees-full-list-2020-4"
+  ]
+}

@@ -1,0 +1,938 @@
+{
+ "id": "ep01",
+ "title": "Instagram",
+ "hooks": {
+  "A": {
+   "file": "ep01/hookA.wav",
+   "text": "Thirteen employees. One billion dollars. In just eighteen months.",
+   "dur": 3.837,
+   "words": [
+    {
+     "w": "Thirteen",
+     "start": 0.0,
+     "end": 0.46
+    },
+    {
+     "w": "employees.",
+     "start": 0.46,
+     "end": 1.177
+    },
+    {
+     "w": "One",
+     "start": 1.177,
+     "end": 1.381
+    },
+    {
+     "w": "billion",
+     "start": 1.381,
+     "end": 1.791
+    },
+    {
+     "w": "dollars.",
+     "start": 1.791,
+     "end": 2.404
+    },
+    {
+     "w": "In",
+     "start": 2.404,
+     "end": 2.558
+    },
+    {
+     "w": "just",
+     "start": 2.558,
+     "end": 2.814
+    },
+    {
+     "w": "eighteen",
+     "start": 2.814,
+     "end": 3.274
+    },
+    {
+     "w": "months.",
+     "start": 3.274,
+     "end": 3.837
+    }
+   ]
+  },
+  "B": {
+   "file": "ep01/hookB.wav",
+   "text": "Instagram started as an app that nobody wanted.",
+   "dur": 2.897,
+   "words": [
+    {
+     "w": "Instagram",
+     "start": 0.0,
+     "end": 0.568
+    },
+    {
+     "w": "started",
+     "start": 0.568,
+     "end": 1.022
+    },
+    {
+     "w": "as",
+     "start": 1.022,
+     "end": 1.193
+    },
+    {
+     "w": "an",
+     "start": 1.193,
+     "end": 1.363
+    },
+    {
+     "w": "app",
+     "start": 1.363,
+     "end": 1.59
+    },
+    {
+     "w": "that",
+     "start": 1.59,
+     "end": 1.874
+    },
+    {
+     "w": "nobody",
+     "start": 1.874,
+     "end": 2.272
+    },
+    {
+     "w": "wanted.",
+     "start": 2.272,
+     "end": 2.897
+    }
+   ]
+  },
+  "C": {
+   "file": "ep01/hookC.wav",
+   "text": "Facebook paid one billion dollars for a company with thirteen people.",
+   "dur": 3.933,
+   "words": [
+    {
+     "w": "Facebook",
+     "start": 0.0,
+     "end": 0.485
+    },
+    {
+     "w": "paid",
+     "start": 0.485,
+     "end": 0.754
+    },
+    {
+     "w": "one",
+     "start": 0.754,
+     "end": 0.97
+    },
+    {
+     "w": "billion",
+     "start": 0.97,
+     "end": 1.401
+    },
+    {
+     "w": "dollars",
+     "start": 1.401,
+     "end": 1.832
+    },
+    {
+     "w": "for",
+     "start": 1.832,
+     "end": 2.047
+    },
+    {
+     "w": "a",
+     "start": 2.047,
+     "end": 2.155
+    },
+    {
+     "w": "company",
+     "start": 2.155,
+     "end": 2.586
+    },
+    {
+     "w": "with",
+     "start": 2.586,
+     "end": 2.855
+    },
+    {
+     "w": "thirteen",
+     "start": 2.855,
+     "end": 3.34
+    },
+    {
+     "w": "people.",
+     "start": 3.34,
+     "end": 3.933
+    }
+   ]
+  }
+ },
+ "lines": [
+  {
+   "scene": "flop",
+   "file": "ep01/line00.wav",
+   "text": "But this app started as a total flop.",
+   "dur": 1.992,
+   "words": [
+    {
+     "w": "But",
+     "start": 0.0,
+     "end": 0.194
+    },
+    {
+     "w": "this",
+     "start": 0.194,
+     "end": 0.437
+    },
+    {
+     "w": "app",
+     "start": 0.437,
+     "end": 0.631
+    },
+    {
+     "w": "started",
+     "start": 0.631,
+     "end": 1.02
+    },
+    {
+     "w": "as",
+     "start": 1.02,
+     "end": 1.166
+    },
+    {
+     "w": "a",
+     "start": 1.166,
+     "end": 1.263
+    },
+    {
+     "w": "total",
+     "start": 1.263,
+     "end": 1.554
+    },
+    {
+     "w": "flop.",
+     "start": 1.554,
+     "end": 1.992
+    }
+   ]
+  },
+  {
+   "scene": "burbn",
+   "file": "ep01/line01.wav",
+   "text": "In 2010, Kevin Systrom built an app called Burbn.",
+   "dur": 3.705,
+   "words": [
+    {
+     "w": "In",
+     "start": 0.0,
+     "end": 0.198
+    },
+    {
+     "w": "2010,",
+     "start": 0.198,
+     "end": 0.794
+    },
+    {
+     "w": "Kevin",
+     "start": 0.794,
+     "end": 1.191
+    },
+    {
+     "w": "Systrom",
+     "start": 1.191,
+     "end": 1.72
+    },
+    {
+     "w": "built",
+     "start": 1.72,
+     "end": 2.117
+    },
+    {
+     "w": "an",
+     "start": 2.117,
+     "end": 2.316
+    },
+    {
+     "w": "app",
+     "start": 2.316,
+     "end": 2.58
+    },
+    {
+     "w": "called",
+     "start": 2.58,
+     "end": 3.044
+    },
+    {
+     "w": "Burbn.",
+     "start": 3.044,
+     "end": 3.705
+    }
+   ]
+  },
+  {
+   "scene": "money",
+   "file": "ep01/line02.wav",
+   "text": "He even raised five hundred thousand dollars from investors to build it.",
+   "dur": 3.983,
+   "words": [
+    {
+     "w": "He",
+     "start": 0.0,
+     "end": 0.157
+    },
+    {
+     "w": "even",
+     "start": 0.157,
+     "end": 0.419
+    },
+    {
+     "w": "raised",
+     "start": 0.419,
+     "end": 0.786
+    },
+    {
+     "w": "five",
+     "start": 0.786,
+     "end": 1.048
+    },
+    {
+     "w": "hundred",
+     "start": 1.048,
+     "end": 1.467
+    },
+    {
+     "w": "thousand",
+     "start": 1.467,
+     "end": 1.939
+    },
+    {
+     "w": "dollars",
+     "start": 1.939,
+     "end": 2.358
+    },
+    {
+     "w": "from",
+     "start": 2.358,
+     "end": 2.62
+    },
+    {
+     "w": "investors",
+     "start": 2.62,
+     "end": 3.144
+    },
+    {
+     "w": "to",
+     "start": 3.144,
+     "end": 3.301
+    },
+    {
+     "w": "build",
+     "start": 3.301,
+     "end": 3.616
+    },
+    {
+     "w": "it.",
+     "start": 3.616,
+     "end": 3.983
+    }
+   ]
+  },
+  {
+   "scene": "burbn",
+   "file": "ep01/line03.wav",
+   "text": "You could check in to places, make plans, and share photos.",
+   "dur": 3.345,
+   "words": [
+    {
+     "w": "You",
+     "start": 0.0,
+     "end": 0.194
+    },
+    {
+     "w": "could",
+     "start": 0.194,
+     "end": 0.485
+    },
+    {
+     "w": "check",
+     "start": 0.485,
+     "end": 0.776
+    },
+    {
+     "w": "in",
+     "start": 0.776,
+     "end": 0.921
+    },
+    {
+     "w": "to",
+     "start": 0.921,
+     "end": 1.066
+    },
+    {
+     "w": "places,",
+     "start": 1.066,
+     "end": 1.6
+    },
+    {
+     "w": "make",
+     "start": 1.6,
+     "end": 1.842
+    },
+    {
+     "w": "plans,",
+     "start": 1.842,
+     "end": 2.327
+    },
+    {
+     "w": "and",
+     "start": 2.327,
+     "end": 2.521
+    },
+    {
+     "w": "share",
+     "start": 2.521,
+     "end": 2.811
+    },
+    {
+     "w": "photos.",
+     "start": 2.811,
+     "end": 3.345
+    }
+   ]
+  },
+  {
+   "scene": "confused",
+   "file": "ep01/line04.wav",
+   "text": "The problem? It was confusing, and it didn't take off.",
+   "dur": 2.993,
+   "words": [
+    {
+     "w": "The",
+     "start": 0.0,
+     "end": 0.187
+    },
+    {
+     "w": "problem?",
+     "start": 0.187,
+     "end": 0.748
+    },
+    {
+     "w": "It",
+     "start": 0.748,
+     "end": 0.889
+    },
+    {
+     "w": "was",
+     "start": 0.889,
+     "end": 1.076
+    },
+    {
+     "w": "confusing,",
+     "start": 1.076,
+     "end": 1.731
+    },
+    {
+     "w": "and",
+     "start": 1.731,
+     "end": 1.918
+    },
+    {
+     "w": "it",
+     "start": 1.918,
+     "end": 2.058
+    },
+    {
+     "w": "didn't",
+     "start": 2.058,
+     "end": 2.385
+    },
+    {
+     "w": "take",
+     "start": 2.385,
+     "end": 2.619
+    },
+    {
+     "w": "off.",
+     "start": 2.619,
+     "end": 2.993
+    }
+   ]
+  },
+  {
+   "scene": "duo",
+   "file": "ep01/line05.wav",
+   "text": "Then he teamed up with Mike Krieger, and they noticed something.",
+   "dur": 2.914,
+   "words": [
+    {
+     "w": "Then",
+     "start": 0.0,
+     "end": 0.205
+    },
+    {
+     "w": "he",
+     "start": 0.205,
+     "end": 0.328
+    },
+    {
+     "w": "teamed",
+     "start": 0.328,
+     "end": 0.616
+    },
+    {
+     "w": "up",
+     "start": 0.616,
+     "end": 0.739
+    },
+    {
+     "w": "with",
+     "start": 0.739,
+     "end": 0.944
+    },
+    {
+     "w": "Mike",
+     "start": 0.944,
+     "end": 1.149
+    },
+    {
+     "w": "Krieger,",
+     "start": 1.149,
+     "end": 1.642
+    },
+    {
+     "w": "and",
+     "start": 1.642,
+     "end": 1.806
+    },
+    {
+     "w": "they",
+     "start": 1.806,
+     "end": 2.011
+    },
+    {
+     "w": "noticed",
+     "start": 2.011,
+     "end": 2.339
+    },
+    {
+     "w": "something.",
+     "start": 2.339,
+     "end": 2.914
+    }
+   ]
+  },
+  {
+   "scene": "photos",
+   "file": "ep01/line06.wav",
+   "text": "People ignored the check-ins. But they loved sharing photos.",
+   "dur": 3.545,
+   "words": [
+    {
+     "w": "People",
+     "start": 0.0,
+     "end": 0.37
+    },
+    {
+     "w": "ignored",
+     "start": 0.37,
+     "end": 0.794
+    },
+    {
+     "w": "the",
+     "start": 0.794,
+     "end": 1.005
+    },
+    {
+     "w": "check-ins.",
+     "start": 1.005,
+     "end": 1.746
+    },
+    {
+     "w": "But",
+     "start": 1.746,
+     "end": 1.958
+    },
+    {
+     "w": "they",
+     "start": 1.958,
+     "end": 2.222
+    },
+    {
+     "w": "loved",
+     "start": 2.222,
+     "end": 2.54
+    },
+    {
+     "w": "sharing",
+     "start": 2.54,
+     "end": 2.963
+    },
+    {
+     "w": "photos.",
+     "start": 2.963,
+     "end": 3.545
+    }
+   ]
+  },
+  {
+   "scene": "cut",
+   "file": "ep01/line07.wav",
+   "text": "So they cut everything else. Just photos, filters, and likes.",
+   "dur": 3.745,
+   "words": [
+    {
+     "w": "So",
+     "start": 0.0,
+     "end": 0.152
+    },
+    {
+     "w": "they",
+     "start": 0.152,
+     "end": 0.405
+    },
+    {
+     "w": "cut",
+     "start": 0.405,
+     "end": 0.607
+    },
+    {
+     "w": "everything",
+     "start": 0.607,
+     "end": 1.164
+    },
+    {
+     "w": "else.",
+     "start": 1.164,
+     "end": 1.619
+    },
+    {
+     "w": "Just",
+     "start": 1.619,
+     "end": 1.873
+    },
+    {
+     "w": "photos,",
+     "start": 1.873,
+     "end": 2.429
+    },
+    {
+     "w": "filters,",
+     "start": 2.429,
+     "end": 3.037
+    },
+    {
+     "w": "and",
+     "start": 3.037,
+     "end": 3.239
+    },
+    {
+     "w": "likes.",
+     "start": 3.239,
+     "end": 3.745
+    }
+   ]
+  },
+  {
+   "scene": "launch",
+   "file": "ep01/line08.wav",
+   "text": "They renamed it Instagram, and launched on the iPhone in October 2010.",
+   "dur": 4.859,
+   "words": [
+    {
+     "w": "They",
+     "start": 0.0,
+     "end": 0.316
+    },
+    {
+     "w": "renamed",
+     "start": 0.316,
+     "end": 0.82
+    },
+    {
+     "w": "it",
+     "start": 0.82,
+     "end": 1.01
+    },
+    {
+     "w": "Instagram,",
+     "start": 1.01,
+     "end": 1.893
+    },
+    {
+     "w": "and",
+     "start": 1.893,
+     "end": 2.146
+    },
+    {
+     "w": "launched",
+     "start": 2.146,
+     "end": 2.714
+    },
+    {
+     "w": "on",
+     "start": 2.714,
+     "end": 2.903
+    },
+    {
+     "w": "the",
+     "start": 2.903,
+     "end": 3.155
+    },
+    {
+     "w": "iPhone",
+     "start": 3.155,
+     "end": 3.597
+    },
+    {
+     "w": "in",
+     "start": 3.597,
+     "end": 3.786
+    },
+    {
+     "w": "October",
+     "start": 3.786,
+     "end": 4.291
+    },
+    {
+     "w": "2010.",
+     "start": 4.291,
+     "end": 4.859
+    }
+   ]
+  },
+  {
+   "scene": "users",
+   "file": "ep01/line09.wav",
+   "text": "It exploded. By 2012, around thirty million people were using it.",
+   "dur": 4.819,
+   "words": [
+    {
+     "w": "It",
+     "start": 0.0,
+     "end": 0.193
+    },
+    {
+     "w": "exploded.",
+     "start": 0.193,
+     "end": 1.028
+    },
+    {
+     "w": "By",
+     "start": 1.028,
+     "end": 1.221
+    },
+    {
+     "w": "2012,",
+     "start": 1.221,
+     "end": 1.799
+    },
+    {
+     "w": "around",
+     "start": 1.799,
+     "end": 2.249
+    },
+    {
+     "w": "thirty",
+     "start": 2.249,
+     "end": 2.699
+    },
+    {
+     "w": "million",
+     "start": 2.699,
+     "end": 3.213
+    },
+    {
+     "w": "people",
+     "start": 3.213,
+     "end": 3.663
+    },
+    {
+     "w": "were",
+     "start": 3.663,
+     "end": 3.984
+    },
+    {
+     "w": "using",
+     "start": 3.984,
+     "end": 4.369
+    },
+    {
+     "w": "it.",
+     "start": 4.369,
+     "end": 4.819
+    }
+   ]
+  },
+  {
+   "scene": "deal",
+   "file": "ep01/line10.wav",
+   "text": "In April 2012, Facebook agreed to buy Instagram for about one billion dollars.",
+   "dur": 5.734,
+   "words": [
+    {
+     "w": "In",
+     "start": 0.0,
+     "end": 0.202
+    },
+    {
+     "w": "April",
+     "start": 0.202,
+     "end": 0.607
+    },
+    {
+     "w": "2012,",
+     "start": 0.607,
+     "end": 1.214
+    },
+    {
+     "w": "Facebook",
+     "start": 1.214,
+     "end": 1.821
+    },
+    {
+     "w": "agreed",
+     "start": 1.821,
+     "end": 2.293
+    },
+    {
+     "w": "to",
+     "start": 2.293,
+     "end": 2.496
+    },
+    {
+     "w": "buy",
+     "start": 2.496,
+     "end": 2.766
+    },
+    {
+     "w": "Instagram",
+     "start": 2.766,
+     "end": 3.44
+    },
+    {
+     "w": "for",
+     "start": 3.44,
+     "end": 3.71
+    },
+    {
+     "w": "about",
+     "start": 3.71,
+     "end": 4.115
+    },
+    {
+     "w": "one",
+     "start": 4.115,
+     "end": 4.385
+    },
+    {
+     "w": "billion",
+     "start": 4.385,
+     "end": 4.924
+    },
+    {
+     "w": "dollars.",
+     "start": 4.924,
+     "end": 5.734
+    }
+   ]
+  },
+  {
+   "scene": "team",
+   "file": "ep01/line11.wav",
+   "text": "For a company with just thirteen employees.",
+   "dur": 2.352,
+   "words": [
+    {
+     "w": "For",
+     "start": 0.0,
+     "end": 0.2
+    },
+    {
+     "w": "a",
+     "start": 0.2,
+     "end": 0.3
+    },
+    {
+     "w": "company",
+     "start": 0.3,
+     "end": 0.701
+    },
+    {
+     "w": "with",
+     "start": 0.701,
+     "end": 0.951
+    },
+    {
+     "w": "just",
+     "start": 0.951,
+     "end": 1.201
+    },
+    {
+     "w": "thirteen",
+     "start": 1.201,
+     "end": 1.652
+    },
+    {
+     "w": "employees.",
+     "start": 1.652,
+     "end": 2.352
+    }
+   ]
+  },
+  {
+   "scene": "loop",
+   "file": "ep01/line12.wav",
+   "text": "And it all started with a failed app called Burbn.",
+   "dur": 2.45,
+   "words": [
+    {
+     "w": "And",
+     "start": 0.0,
+     "end": 0.181
+    },
+    {
+     "w": "it",
+     "start": 0.181,
+     "end": 0.318
+    },
+    {
+     "w": "all",
+     "start": 0.318,
+     "end": 0.499
+    },
+    {
+     "w": "started",
+     "start": 0.499,
+     "end": 0.862
+    },
+    {
+     "w": "with",
+     "start": 0.862,
+     "end": 1.089
+    },
+    {
+     "w": "a",
+     "start": 1.089,
+     "end": 1.18
+    },
+    {
+     "w": "failed",
+     "start": 1.18,
+     "end": 1.497
+    },
+    {
+     "w": "app",
+     "start": 1.497,
+     "end": 1.679
+    },
+    {
+     "w": "called",
+     "start": 1.679,
+     "end": 1.996
+    },
+    {
+     "w": "Burbn.",
+     "start": 1.996,
+     "end": 2.45
+    }
+   ]
+  }
+ ]
+}

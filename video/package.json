@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "studio": "remotion studio src/index.ts",
-    "render:all": "node render-all.mjs"
+    "render:all": "node render-all.mjs",
+    "setup:tts": "python3 -m venv tts/.venv && tts/.venv/bin/pip install kokoro-onnx soundfile && mkdir -p tts/models && curl -L -o tts/models/kokoro-v1.0.int8.onnx https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.int8.onnx && curl -L -o tts/models/voices-v1.0.bin https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin",
+    "audio": "tts/.venv/bin/python tts/make_audio.py",
+    "voice:ep01": "tts/.venv/bin/python tts/make_episode.py episodes/ep01-instagram.json",
+    "render:ep01": "for h in A B C; do remotion render src/index.ts Ep01-Instagram-Hook$h out/ep01-instagram-hook$h.mp4 $REMOTION_FLAGS; done"
   },
   "dependencies": {
     "@remotion/cli": "4.0.535",
