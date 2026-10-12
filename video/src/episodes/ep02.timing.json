@@ -1,0 +1,1036 @@
+{
+ "id": "ep02",
+ "title": "Nintendo",
+ "hooks": {
+  "A": {
+   "file": "ep02/hookA.wav",
+   "text": "The story of Nintendo: over one hundred thirty years old, and it started with playing cards.",
+   "dur": 5.404,
+   "words": [
+    {
+     "w": "The",
+     "start": 0.0,
+     "end": 0.218
+    },
+    {
+     "w": "story",
+     "start": 0.218,
+     "end": 0.546
+    },
+    {
+     "w": "of",
+     "start": 0.546,
+     "end": 0.71
+    },
+    {
+     "w": "Nintendo:",
+     "start": 0.71,
+     "end": 1.256
+    },
+    {
+     "w": "over",
+     "start": 1.256,
+     "end": 1.528
+    },
+    {
+     "w": "one",
+     "start": 1.528,
+     "end": 1.747
+    },
+    {
+     "w": "hundred",
+     "start": 1.747,
+     "end": 2.183
+    },
+    {
+     "w": "thirty",
+     "start": 2.183,
+     "end": 2.566
+    },
+    {
+     "w": "years",
+     "start": 2.566,
+     "end": 2.893
+    },
+    {
+     "w": "old,",
+     "start": 2.893,
+     "end": 3.33
+    },
+    {
+     "w": "and",
+     "start": 3.33,
+     "end": 3.548
+    },
+    {
+     "w": "it",
+     "start": 3.548,
+     "end": 3.712
+    },
+    {
+     "w": "started",
+     "start": 3.712,
+     "end": 4.149
+    },
+    {
+     "w": "with",
+     "start": 4.149,
+     "end": 4.422
+    },
+    {
+     "w": "playing",
+     "start": 4.422,
+     "end": 4.858
+    },
+    {
+     "w": "cards.",
+     "start": 4.858,
+     "end": 5.404
+    }
+   ]
+  },
+  "C": {
+   "file": "ep02/hookC.wav",
+   "text": "The story of Nintendo: how a playing card shop almost went broke, then took over video games.",
+   "dur": 5.788,
+   "words": [
+    {
+     "w": "The",
+     "start": 0.0,
+     "end": 0.232
+    },
+    {
+     "w": "story",
+     "start": 0.232,
+     "end": 0.579
+    },
+    {
+     "w": "of",
+     "start": 0.579,
+     "end": 0.752
+    },
+    {
+     "w": "Nintendo:",
+     "start": 0.752,
+     "end": 1.331
+    },
+    {
+     "w": "how",
+     "start": 1.331,
+     "end": 1.563
+    },
+    {
+     "w": "a",
+     "start": 1.563,
+     "end": 1.679
+    },
+    {
+     "w": "playing",
+     "start": 1.679,
+     "end": 2.142
+    },
+    {
+     "w": "card",
+     "start": 2.142,
+     "end": 2.431
+    },
+    {
+     "w": "shop",
+     "start": 2.431,
+     "end": 2.72
+    },
+    {
+     "w": "almost",
+     "start": 2.72,
+     "end": 3.126
+    },
+    {
+     "w": "went",
+     "start": 3.126,
+     "end": 3.415
+    },
+    {
+     "w": "broke,",
+     "start": 3.415,
+     "end": 3.994
+    },
+    {
+     "w": "then",
+     "start": 3.994,
+     "end": 4.283
+    },
+    {
+     "w": "took",
+     "start": 4.283,
+     "end": 4.573
+    },
+    {
+     "w": "over",
+     "start": 4.573,
+     "end": 4.862
+    },
+    {
+     "w": "video",
+     "start": 4.862,
+     "end": 5.209
+    },
+    {
+     "w": "games.",
+     "start": 5.209,
+     "end": 5.788
+    }
+   ]
+  }
+ },
+ "lines": [
+  {
+   "scene": "shop",
+   "file": "ep02/line00.wav",
+   "text": "In 1889, Fusajiro Yamauchi opened a small shop in Kyoto, Japan.",
+   "dur": 6.395,
+   "words": [
+    {
+     "w": "In",
+     "start": 0.0,
+     "end": 0.263
+    },
+    {
+     "w": "1889,",
+     "start": 0.263,
+     "end": 1.051
+    },
+    {
+     "w": "Fusajiro",
+     "start": 1.051,
+     "end": 1.84
+    },
+    {
+     "w": "Yamauchi",
+     "start": 1.84,
+     "end": 2.628
+    },
+    {
+     "w": "opened",
+     "start": 2.628,
+     "end": 3.241
+    },
+    {
+     "w": "a",
+     "start": 3.241,
+     "end": 3.416
+    },
+    {
+     "w": "small",
+     "start": 3.416,
+     "end": 3.942
+    },
+    {
+     "w": "shop",
+     "start": 3.942,
+     "end": 4.38
+    },
+    {
+     "w": "in",
+     "start": 4.38,
+     "end": 4.643
+    },
+    {
+     "w": "Kyoto,",
+     "start": 4.643,
+     "end": 5.519
+    },
+    {
+     "w": "Japan.",
+     "start": 5.519,
+     "end": 6.395
+    }
+   ]
+  },
+  {
+   "scene": "cards",
+   "file": "ep02/line01.wav",
+   "text": "He made hanafuda, traditional Japanese playing cards.",
+   "dur": 3.297,
+   "words": [
+    {
+     "w": "He",
+     "start": 0.0,
+     "end": 0.165
+    },
+    {
+     "w": "made",
+     "start": 0.165,
+     "end": 0.44
+    },
+    {
+     "w": "hanafuda,",
+     "start": 0.44,
+     "end": 1.154
+    },
+    {
+     "w": "traditional",
+     "start": 1.154,
+     "end": 1.813
+    },
+    {
+     "w": "Japanese",
+     "start": 1.813,
+     "end": 2.308
+    },
+    {
+     "w": "playing",
+     "start": 2.308,
+     "end": 2.747
+    },
+    {
+     "w": "cards.",
+     "start": 2.747,
+     "end": 3.297
+    }
+   ]
+  },
+  {
+   "scene": "heir",
+   "file": "ep02/line02.wav",
+   "text": "Decades later, in 1949, a young Hiroshi Yamauchi took over the company.",
+   "dur": 5.278,
+   "words": [
+    {
+     "w": "Decades",
+     "start": 0.0,
+     "end": 0.521
+    },
+    {
+     "w": "later,",
+     "start": 0.521,
+     "end": 1.173
+    },
+    {
+     "w": "in",
+     "start": 1.173,
+     "end": 1.368
+    },
+    {
+     "w": "1949,",
+     "start": 1.368,
+     "end": 1.955
+    },
+    {
+     "w": "a",
+     "start": 1.955,
+     "end": 2.085
+    },
+    {
+     "w": "young",
+     "start": 2.085,
+     "end": 2.476
+    },
+    {
+     "w": "Hiroshi",
+     "start": 2.476,
+     "end": 2.997
+    },
+    {
+     "w": "Yamauchi",
+     "start": 2.997,
+     "end": 3.584
+    },
+    {
+     "w": "took",
+     "start": 3.584,
+     "end": 3.91
+    },
+    {
+     "w": "over",
+     "start": 3.91,
+     "end": 4.235
+    },
+    {
+     "w": "the",
+     "start": 4.235,
+     "end": 4.496
+    },
+    {
+     "w": "company.",
+     "start": 4.496,
+     "end": 5.278
+    }
+   ]
+  },
+  {
+   "scene": "ventures",
+   "file": "ep02/line03.wav",
+   "text": "He wanted to grow beyond cards, so he tried everything.",
+   "dur": 3.046,
+   "words": [
+    {
+     "w": "He",
+     "start": 0.0,
+     "end": 0.147
+    },
+    {
+     "w": "wanted",
+     "start": 0.147,
+     "end": 0.491
+    },
+    {
+     "w": "to",
+     "start": 0.491,
+     "end": 0.639
+    },
+    {
+     "w": "grow",
+     "start": 0.639,
+     "end": 0.884
+    },
+    {
+     "w": "beyond",
+     "start": 0.884,
+     "end": 1.228
+    },
+    {
+     "w": "cards,",
+     "start": 1.228,
+     "end": 1.72
+    },
+    {
+     "w": "so",
+     "start": 1.72,
+     "end": 1.867
+    },
+    {
+     "w": "he",
+     "start": 1.867,
+     "end": 2.014
+    },
+    {
+     "w": "tried",
+     "start": 2.014,
+     "end": 2.309
+    },
+    {
+     "w": "everything.",
+     "start": 2.309,
+     "end": 3.046
+    }
+   ]
+  },
+  {
+   "scene": "ventures2",
+   "file": "ep02/line04.wav",
+   "text": "A taxi company. Love hotels. Even instant rice.",
+   "dur": 3.711,
+   "words": [
+    {
+     "w": "A",
+     "start": 0.0,
+     "end": 0.13
+    },
+    {
+     "w": "taxi",
+     "start": 0.13,
+     "end": 0.456
+    },
+    {
+     "w": "company.",
+     "start": 0.456,
+     "end": 1.237
+    },
+    {
+     "w": "Love",
+     "start": 1.237,
+     "end": 1.562
+    },
+    {
+     "w": "hotels.",
+     "start": 1.562,
+     "end": 2.279
+    },
+    {
+     "w": "Even",
+     "start": 2.279,
+     "end": 2.604
+    },
+    {
+     "w": "instant",
+     "start": 2.604,
+     "end": 3.125
+    },
+    {
+     "w": "rice.",
+     "start": 3.125,
+     "end": 3.711
+    }
+   ]
+  },
+  {
+   "scene": "broke",
+   "file": "ep02/line05.wav",
+   "text": "Almost all of it failed, and Nintendo came close to bankruptcy.",
+   "dur": 3.653,
+   "words": [
+    {
+     "w": "Almost",
+     "start": 0.0,
+     "end": 0.365
+    },
+    {
+     "w": "all",
+     "start": 0.365,
+     "end": 0.574
+    },
+    {
+     "w": "of",
+     "start": 0.574,
+     "end": 0.731
+    },
+    {
+     "w": "it",
+     "start": 0.731,
+     "end": 0.887
+    },
+    {
+     "w": "failed,",
+     "start": 0.887,
+     "end": 1.461
+    },
+    {
+     "w": "and",
+     "start": 1.461,
+     "end": 1.67
+    },
+    {
+     "w": "Nintendo",
+     "start": 1.67,
+     "end": 2.14
+    },
+    {
+     "w": "came",
+     "start": 2.14,
+     "end": 2.401
+    },
+    {
+     "w": "close",
+     "start": 2.401,
+     "end": 2.714
+    },
+    {
+     "w": "to",
+     "start": 2.714,
+     "end": 2.87
+    },
+    {
+     "w": "bankruptcy.",
+     "start": 2.87,
+     "end": 3.653
+    }
+   ]
+  },
+  {
+   "scene": "yokoi",
+   "file": "ep02/line06.wav",
+   "text": "Then he noticed a factory maintenance worker, Gunpei Yokoi, who built a toy arm for fun.",
+   "dur": 5.509,
+   "words": [
+    {
+     "w": "Then",
+     "start": 0.0,
+     "end": 0.281
+    },
+    {
+     "w": "he",
+     "start": 0.281,
+     "end": 0.45
+    },
+    {
+     "w": "noticed",
+     "start": 0.45,
+     "end": 0.899
+    },
+    {
+     "w": "a",
+     "start": 0.899,
+     "end": 1.012
+    },
+    {
+     "w": "factory",
+     "start": 1.012,
+     "end": 1.462
+    },
+    {
+     "w": "maintenance",
+     "start": 1.462,
+     "end": 2.136
+    },
+    {
+     "w": "worker,",
+     "start": 2.136,
+     "end": 2.755
+    },
+    {
+     "w": "Gunpei",
+     "start": 2.755,
+     "end": 3.148
+    },
+    {
+     "w": "Yokoi,",
+     "start": 3.148,
+     "end": 3.71
+    },
+    {
+     "w": "who",
+     "start": 3.71,
+     "end": 3.935
+    },
+    {
+     "w": "built",
+     "start": 3.935,
+     "end": 4.273
+    },
+    {
+     "w": "a",
+     "start": 4.273,
+     "end": 4.385
+    },
+    {
+     "w": "toy",
+     "start": 4.385,
+     "end": 4.61
+    },
+    {
+     "w": "arm",
+     "start": 4.61,
+     "end": 4.835
+    },
+    {
+     "w": "for",
+     "start": 4.835,
+     "end": 5.06
+    },
+    {
+     "w": "fun.",
+     "start": 5.06,
+     "end": 5.509
+    }
+   ]
+  },
+  {
+   "scene": "hand",
+   "file": "ep02/line07.wav",
+   "text": "Nintendo sold it as the Ultra Hand in 1966, and it sold over a million units.",
+   "dur": 6.245,
+   "words": [
+    {
+     "w": "Nintendo",
+     "start": 0.0,
+     "end": 0.669
+    },
+    {
+     "w": "sold",
+     "start": 0.669,
+     "end": 1.041
+    },
+    {
+     "w": "it",
+     "start": 1.041,
+     "end": 1.264
+    },
+    {
+     "w": "as",
+     "start": 1.264,
+     "end": 1.487
+    },
+    {
+     "w": "the",
+     "start": 1.487,
+     "end": 1.784
+    },
+    {
+     "w": "Ultra",
+     "start": 1.784,
+     "end": 2.23
+    },
+    {
+     "w": "Hand",
+     "start": 2.23,
+     "end": 2.602
+    },
+    {
+     "w": "in",
+     "start": 2.602,
+     "end": 2.825
+    },
+    {
+     "w": "1966,",
+     "start": 2.825,
+     "end": 3.494
+    },
+    {
+     "w": "and",
+     "start": 3.494,
+     "end": 3.792
+    },
+    {
+     "w": "it",
+     "start": 3.792,
+     "end": 4.015
+    },
+    {
+     "w": "sold",
+     "start": 4.015,
+     "end": 4.387
+    },
+    {
+     "w": "over",
+     "start": 4.387,
+     "end": 4.758
+    },
+    {
+     "w": "a",
+     "start": 4.758,
+     "end": 4.907
+    },
+    {
+     "w": "million",
+     "start": 4.907,
+     "end": 5.502
+    },
+    {
+     "w": "units.",
+     "start": 5.502,
+     "end": 6.245
+    }
+   ]
+  },
+  {
+   "scene": "toys",
+   "file": "ep02/line08.wav",
+   "text": "Nintendo became a toy company, and then it moved into video games.",
+   "dur": 3.983,
+   "words": [
+    {
+     "w": "Nintendo",
+     "start": 0.0,
+     "end": 0.491
+    },
+    {
+     "w": "became",
+     "start": 0.491,
+     "end": 0.873
+    },
+    {
+     "w": "a",
+     "start": 0.873,
+     "end": 0.982
+    },
+    {
+     "w": "toy",
+     "start": 0.982,
+     "end": 1.2
+    },
+    {
+     "w": "company,",
+     "start": 1.2,
+     "end": 1.855
+    },
+    {
+     "w": "and",
+     "start": 1.855,
+     "end": 2.073
+    },
+    {
+     "w": "then",
+     "start": 2.073,
+     "end": 2.346
+    },
+    {
+     "w": "it",
+     "start": 2.346,
+     "end": 2.51
+    },
+    {
+     "w": "moved",
+     "start": 2.51,
+     "end": 2.837
+    },
+    {
+     "w": "into",
+     "start": 2.837,
+     "end": 3.11
+    },
+    {
+     "w": "video",
+     "start": 3.11,
+     "end": 3.437
+    },
+    {
+     "w": "games.",
+     "start": 3.437,
+     "end": 3.983
+    }
+   ]
+  },
+  {
+   "scene": "arcade",
+   "file": "ep02/line09.wav",
+   "text": "In 1981, an arcade game called Donkey Kong became a massive hit.",
+   "dur": 5.096,
+   "words": [
+    {
+     "w": "In",
+     "start": 0.0,
+     "end": 0.215
+    },
+    {
+     "w": "1981,",
+     "start": 0.215,
+     "end": 0.861
+    },
+    {
+     "w": "an",
+     "start": 0.861,
+     "end": 1.077
+    },
+    {
+     "w": "arcade",
+     "start": 1.077,
+     "end": 1.579
+    },
+    {
+     "w": "game",
+     "start": 1.579,
+     "end": 1.938
+    },
+    {
+     "w": "called",
+     "start": 1.938,
+     "end": 2.441
+    },
+    {
+     "w": "Donkey",
+     "start": 2.441,
+     "end": 2.943
+    },
+    {
+     "w": "Kong",
+     "start": 2.943,
+     "end": 3.302
+    },
+    {
+     "w": "became",
+     "start": 3.302,
+     "end": 3.804
+    },
+    {
+     "w": "a",
+     "start": 3.804,
+     "end": 3.948
+    },
+    {
+     "w": "massive",
+     "start": 3.948,
+     "end": 4.522
+    },
+    {
+     "w": "hit.",
+     "start": 4.522,
+     "end": 5.096
+    }
+   ]
+  },
+  {
+   "scene": "jumpman",
+   "file": "ep02/line10.wav",
+   "text": "Its little hero, Jumpman, would later get a new name: Mario.",
+   "dur": 3.545,
+   "words": [
+    {
+     "w": "Its",
+     "start": 0.0,
+     "end": 0.203
+    },
+    {
+     "w": "little",
+     "start": 0.203,
+     "end": 0.557
+    },
+    {
+     "w": "hero,",
+     "start": 0.557,
+     "end": 1.013
+    },
+    {
+     "w": "Jumpman,",
+     "start": 1.013,
+     "end": 1.621
+    },
+    {
+     "w": "would",
+     "start": 1.621,
+     "end": 1.924
+    },
+    {
+     "w": "later",
+     "start": 1.924,
+     "end": 2.228
+    },
+    {
+     "w": "get",
+     "start": 2.228,
+     "end": 2.431
+    },
+    {
+     "w": "a",
+     "start": 2.431,
+     "end": 2.532
+    },
+    {
+     "w": "new",
+     "start": 2.532,
+     "end": 2.735
+    },
+    {
+     "w": "name:",
+     "start": 2.735,
+     "end": 3.039
+    },
+    {
+     "w": "Mario.",
+     "start": 3.039,
+     "end": 3.545
+    }
+   ]
+  },
+  {
+   "scene": "console",
+   "file": "ep02/line11.wav",
+   "text": "Then came the Famicom in Japan, and the NES in America, starting in 1985.",
+   "dur": 6.066,
+   "words": [
+    {
+     "w": "Then",
+     "start": 0.0,
+     "end": 0.365
+    },
+    {
+     "w": "came",
+     "start": 0.365,
+     "end": 0.731
+    },
+    {
+     "w": "the",
+     "start": 0.731,
+     "end": 1.023
+    },
+    {
+     "w": "Famicom",
+     "start": 1.023,
+     "end": 1.608
+    },
+    {
+     "w": "in",
+     "start": 1.608,
+     "end": 1.827
+    },
+    {
+     "w": "Japan,",
+     "start": 1.827,
+     "end": 2.558
+    },
+    {
+     "w": "and",
+     "start": 2.558,
+     "end": 2.85
+    },
+    {
+     "w": "the",
+     "start": 2.85,
+     "end": 3.143
+    },
+    {
+     "w": "NES",
+     "start": 3.143,
+     "end": 3.435
+    },
+    {
+     "w": "in",
+     "start": 3.435,
+     "end": 3.654
+    },
+    {
+     "w": "America,",
+     "start": 3.654,
+     "end": 4.531
+    },
+    {
+     "w": "starting",
+     "start": 4.531,
+     "end": 5.189
+    },
+    {
+     "w": "in",
+     "start": 5.189,
+     "end": 5.408
+    },
+    {
+     "w": "1985.",
+     "start": 5.408,
+     "end": 6.066
+    }
+   ]
+  },
+  {
+   "scene": "loop",
+   "file": "ep02/line12.wav",
+   "text": "Not bad for a playing card shop from 1889.",
+   "dur": 3.981,
+   "words": [
+    {
+     "w": "Not",
+     "start": 0.0,
+     "end": 0.346
+    },
+    {
+     "w": "bad",
+     "start": 0.346,
+     "end": 0.692
+    },
+    {
+     "w": "for",
+     "start": 0.692,
+     "end": 1.038
+    },
+    {
+     "w": "a",
+     "start": 1.038,
+     "end": 1.212
+    },
+    {
+     "w": "playing",
+     "start": 1.212,
+     "end": 1.904
+    },
+    {
+     "w": "card",
+     "start": 1.904,
+     "end": 2.337
+    },
+    {
+     "w": "shop",
+     "start": 2.337,
+     "end": 2.769
+    },
+    {
+     "w": "from",
+     "start": 2.769,
+     "end": 3.202
+    },
+    {
+     "w": "1889.",
+     "start": 3.202,
+     "end": 3.981
+    }
+   ]
+  }
+ ]
+}

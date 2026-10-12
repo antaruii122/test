@@ -1,0 +1,34 @@
+{
+  "id": "ep02",
+  "title": "Nintendo",
+  "voice": "af_heart",
+  "speed": 0.97,
+  "hooks": {
+    "A": "The story of Nintendo: over one hundred thirty years old, and it started with playing cards.",
+    "C": "The story of Nintendo: how a playing card shop almost went broke, then took over video games."
+  },
+  "lines": [
+    { "scene": "shop", "text": "In 1889, Fusajiro Yamauchi opened a small shop in Kyoto, Japan." },
+    { "scene": "cards", "text": "He made hanafuda, traditional Japanese playing cards." },
+    { "scene": "heir", "text": "Decades later, in 1949, a young Hiroshi Yamauchi took over the company." },
+    { "scene": "ventures", "text": "He wanted to grow beyond cards, so he tried everything." },
+    { "scene": "ventures2", "text": "A taxi company. Love hotels. Even instant rice." },
+    { "scene": "broke", "text": "Almost all of it failed, and Nintendo came close to bankruptcy." },
+    { "scene": "yokoi", "text": "Then he noticed a factory maintenance worker, Gunpei Yokoi, who built a toy arm for fun." },
+    { "scene": "hand", "text": "Nintendo sold it as the Ultra Hand in 1966, and it sold over a million units." },
+    { "scene": "toys", "text": "Nintendo became a toy company, and then it moved into video games." },
+    { "scene": "arcade", "text": "In 1981, an arcade game called Donkey Kong became a massive hit." },
+    { "scene": "jumpman", "text": "Its little hero, Jumpman, would later get a new name: Mario." },
+    { "scene": "console", "text": "Then came the Famicom in Japan, and the NES in America, starting in 1985." },
+    { "scene": "loop", "text": "Not bad for a playing card shop from 1889." }
+  ],
+  "sources": [
+    "https://www.nintendo.com/en-gb/Corporate/Nintendo-History-625945.html",
+    "https://en.wikipedia.org/wiki/History_of_Nintendo",
+    "https://www.pbs.org/newshour/nation/a-look-at-the-legacy-of-nintendos-yamauchi",
+    "https://theweek.com/articles/459566/hiroshi-yamauchi-19272013",
+    "https://www.techradar.com/news/nintendo-before-the-nes-a-history-of-play",
+    "https://nintendowire.com/features/before-there-was-nes-part-2/",
+    "https://en.wikipedia.org/wiki/History_of_the_Nintendo_Entertainment_System"
+  ]
+}
