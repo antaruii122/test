@@ -4,9 +4,9 @@
   "voice": "af_heart",
   "speed": 0.97,
   "hooks": {
-    "A": "Thirteen employees. One billion dollars. In just eighteen months.",
-    "B": "Instagram started as an app that nobody wanted.",
-    "C": "Facebook paid one billion dollars for a company with thirteen people."
+    "A": "The story of Instagram: thirteen employees, one billion dollars, eighteen months.",
+    "B": "The story of Instagram. Spoiler: it started as an app nobody wanted.",
+    "C": "The story of Instagram: how thirteen people sold an app for one billion dollars."
   },
   "lines": [
     {

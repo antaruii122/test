@@ -4,162 +4,207 @@
  "hooks": {
   "A": {
    "file": "ep01/hookA.wav",
-   "text": "Thirteen employees. One billion dollars. In just eighteen months.",
-   "dur": 3.837,
+   "text": "The story of Instagram: thirteen employees, one billion dollars, eighteen months.",
+   "dur": 4.889,
    "words": [
     {
-     "w": "Thirteen",
+     "w": "The",
      "start": 0.0,
-     "end": 0.46
+     "end": 0.215
     },
     {
-     "w": "employees.",
-     "start": 0.46,
-     "end": 1.177
+     "w": "story",
+     "start": 0.215,
+     "end": 0.537
     },
     {
-     "w": "One",
-     "start": 1.177,
-     "end": 1.381
+     "w": "of",
+     "start": 0.537,
+     "end": 0.698
+    },
+    {
+     "w": "Instagram:",
+     "start": 0.698,
+     "end": 1.289
+    },
+    {
+     "w": "thirteen",
+     "start": 1.289,
+     "end": 1.773
+    },
+    {
+     "w": "employees,",
+     "start": 1.773,
+     "end": 2.525
+    },
+    {
+     "w": "one",
+     "start": 2.525,
+     "end": 2.74
     },
     {
      "w": "billion",
-     "start": 1.381,
-     "end": 1.791
+     "start": 2.74,
+     "end": 3.17
     },
     {
-     "w": "dollars.",
-     "start": 1.791,
-     "end": 2.404
-    },
-    {
-     "w": "In",
-     "start": 2.404,
-     "end": 2.558
-    },
-    {
-     "w": "just",
-     "start": 2.558,
-     "end": 2.814
+     "w": "dollars,",
+     "start": 3.17,
+     "end": 3.815
     },
     {
      "w": "eighteen",
-     "start": 2.814,
-     "end": 3.274
+     "start": 3.815,
+     "end": 4.298
     },
     {
      "w": "months.",
-     "start": 3.274,
-     "end": 3.837
+     "start": 4.298,
+     "end": 4.889
     }
    ]
   },
   "B": {
    "file": "ep01/hookB.wav",
-   "text": "Instagram started as an app that nobody wanted.",
-   "dur": 2.897,
+   "text": "The story of Instagram. Spoiler: it started as an app nobody wanted.",
+   "dur": 4.735,
    "words": [
     {
-     "w": "Instagram",
+     "w": "The",
      "start": 0.0,
-     "end": 0.568
+     "end": 0.253
+    },
+    {
+     "w": "story",
+     "start": 0.253,
+     "end": 0.631
+    },
+    {
+     "w": "of",
+     "start": 0.631,
+     "end": 0.821
+    },
+    {
+     "w": "Instagram.",
+     "start": 0.821,
+     "end": 1.705
+    },
+    {
+     "w": "Spoiler:",
+     "start": 1.705,
+     "end": 2.273
+    },
+    {
+     "w": "it",
+     "start": 2.273,
+     "end": 2.462
     },
     {
      "w": "started",
-     "start": 0.568,
-     "end": 1.022
+     "start": 2.462,
+     "end": 2.968
     },
     {
      "w": "as",
-     "start": 1.022,
-     "end": 1.193
+     "start": 2.968,
+     "end": 3.157
     },
     {
      "w": "an",
-     "start": 1.193,
-     "end": 1.363
+     "start": 3.157,
+     "end": 3.346
     },
     {
      "w": "app",
-     "start": 1.363,
-     "end": 1.59
-    },
-    {
-     "w": "that",
-     "start": 1.59,
-     "end": 1.874
+     "start": 3.346,
+     "end": 3.599
     },
     {
      "w": "nobody",
-     "start": 1.874,
-     "end": 2.272
+     "start": 3.599,
+     "end": 4.041
     },
     {
      "w": "wanted.",
-     "start": 2.272,
-     "end": 2.897
+     "start": 4.041,
+     "end": 4.735
     }
    ]
   },
   "C": {
    "file": "ep01/hookC.wav",
-   "text": "Facebook paid one billion dollars for a company with thirteen people.",
-   "dur": 3.933,
+   "text": "The story of Instagram: how thirteen people sold an app for one billion dollars.",
+   "dur": 4.847,
    "words": [
     {
-     "w": "Facebook",
+     "w": "The",
      "start": 0.0,
-     "end": 0.485
+     "end": 0.231
     },
     {
-     "w": "paid",
-     "start": 0.485,
-     "end": 0.754
+     "w": "story",
+     "start": 0.231,
+     "end": 0.577
     },
     {
-     "w": "one",
-     "start": 0.754,
-     "end": 0.97
+     "w": "of",
+     "start": 0.577,
+     "end": 0.75
     },
     {
-     "w": "billion",
-     "start": 0.97,
-     "end": 1.401
+     "w": "Instagram:",
+     "start": 0.75,
+     "end": 1.385
     },
     {
-     "w": "dollars",
-     "start": 1.401,
-     "end": 1.832
-    },
-    {
-     "w": "for",
-     "start": 1.832,
-     "end": 2.047
-    },
-    {
-     "w": "a",
-     "start": 2.047,
-     "end": 2.155
-    },
-    {
-     "w": "company",
-     "start": 2.155,
-     "end": 2.586
-    },
-    {
-     "w": "with",
-     "start": 2.586,
-     "end": 2.855
+     "w": "how",
+     "start": 1.385,
+     "end": 1.616
     },
     {
      "w": "thirteen",
-     "start": 2.855,
-     "end": 3.34
+     "start": 1.616,
+     "end": 2.135
     },
     {
-     "w": "people.",
-     "start": 3.34,
-     "end": 3.933
+     "w": "people",
+     "start": 2.135,
+     "end": 2.539
+    },
+    {
+     "w": "sold",
+     "start": 2.539,
+     "end": 2.827
+    },
+    {
+     "w": "an",
+     "start": 2.827,
+     "end": 3.0
+    },
+    {
+     "w": "app",
+     "start": 3.0,
+     "end": 3.231
+    },
+    {
+     "w": "for",
+     "start": 3.231,
+     "end": 3.462
+    },
+    {
+     "w": "one",
+     "start": 3.462,
+     "end": 3.693
+    },
+    {
+     "w": "billion",
+     "start": 3.693,
+     "end": 4.154
+    },
+    {
+     "w": "dollars.",
+     "start": 4.154,
+     "end": 4.847
     }
    ]
   }

@@ -70,48 +70,81 @@ const AppTile: React.FC<{ label: string; color: string; icon: string; x: number;
 };
 
 /* ---------------- Hooks ---------------- */
+const IG_GRADIENT = `linear-gradient(135deg, ${C.yellow}, ${C.pink} 55%, #8A3FFC)`;
+
+/** Title card shown from frame 0 of every hook, so viewers instantly know the topic. */
+const StoryTitle: React.FC = () => (
+  <>
+    <div
+      style={{
+        position: "absolute",
+        top: 200,
+        left: 0,
+        right: 0,
+        textAlign: "center",
+        fontFamily: FONT,
+        fontWeight: 900,
+        fontSize: 72,
+        color: C.white,
+        WebkitTextStroke: `10px ${C.ink}`,
+        paintOrder: "stroke fill",
+      }}
+    >
+      THE STORY OF
+    </div>
+    <Sticker x={540} y={385} delay={-12} bg={IG_GRADIENT} color={C.white} size={112} rot={-3}>
+      📷 INSTAGRAM
+    </Sticker>
+  </>
+);
+
 const Hook: React.FC<{ k: HookKey }> = ({ k }) => {
   const w = T.hooks[k].words.map((x) => Math.round(x.start * FPS));
+  const at = (word: string) => w[T.hooks[k].words.findIndex((x) => x.w.toLowerCase().startsWith(word))];
   if (k === "A")
     return (
       <Punch shake instant>
-        <Sticker x={540} y={420} delay={-12} bg={C.cyan} size={120} rot={-6}>
+        <StoryTitle />
+        <Sticker x={540} y={640} delay={at("thirteen")} bg={C.cyan} size={110} rot={-6}>
           13 employees
         </Sticker>
-        <Sticker x={540} y={700} delay={w[2]} bg={C.yellow} size={150} rot={4}>
+        <Sticker x={540} y={850} delay={at("one")} bg={C.yellow} size={140} rot={4}>
           $1 BILLION
         </Sticker>
-        <Sticker x={540} y={990} delay={w[6]} bg={C.pink} size={110} rot={-3} color={C.white}>
+        <Sticker x={540} y={1070} delay={at("eighteen")} bg={C.pink} size={105} rot={-3} color={C.white}>
           18 months
         </Sticker>
         <Sfx name="boom" at={0} />
-        <Sfx name="coin" at={w[2]} />
-        <Sfx name="pop" at={w[6]} />
+        <Sfx name="pop" at={at("thirteen")} />
+        <Sfx name="coin" at={at("one")} />
+        <Sfx name="pop" at={at("eighteen")} />
       </Punch>
     );
   if (k === "B")
     return (
       <Punch shake instant>
-        <Phone x={540} y={760} mood="sleep" delay={-12} screen={<span style={{ fontSize: 110 }}>👎</span>} />
-        <Sticker x={540} y={340} delay={w[4]} bg={C.pink} color={C.white} size={96} rot={-6}>
+        <StoryTitle />
+        <Phone x={540} y={830} scale={0.75} mood="sleep" delay={at("spoiler")} screen={<span style={{ fontSize: 110 }}>👎</span>} />
+        <Sticker x={540} y={1150} delay={at("nobody")} bg={C.pink} color={C.white} size={90} rot={-6}>
           NOBODY WANTED IT
         </Sticker>
         <Sfx name="boom" at={0} />
-        <Sfx name="pop" at={w[4]} />
+        <Sfx name="pop" at={at("spoiler")} />
+        <Sfx name="pop" at={at("nobody")} />
       </Punch>
     );
   return (
     <Punch shake instant>
-      <Emoji e="💰" x={540} y={520} size={330} delay={-12} />
-      <Sticker x={540} y={300} delay={w[2]} bg={C.yellow} size={130} rot={-4}>
+      <StoryTitle />
+      {new Array(13).fill(0).map((_, i) => (
+        <Person key={i} x={150 + (i % 7) * 130} y={640 + Math.floor(i / 7) * 190} scale={0.45} delay={at("thirteen") + i * 2} color={[C.cyan, C.pink, C.green][i % 3]} />
+      ))}
+      <Sticker x={540} y={1090} delay={at("one")} bg={C.yellow} size={120} rot={-4}>
         $1,000,000,000
       </Sticker>
-      {new Array(13).fill(0).map((_, i) => (
-        <Person key={i} x={150 + (i % 7) * 130} y={880 + Math.floor(i / 7) * 190} scale={0.45} delay={w[7] + i * 2} color={[C.cyan, C.pink, C.green][i % 3]} />
-      ))}
       <Sfx name="boom" at={0} />
-      <Sfx name="coin" at={w[2]} />
-      <Sfx name="pop" at={w[7]} />
+      <Sfx name="pop" at={at("thirteen")} />
+      <Sfx name="coin" at={at("one")} />
     </Punch>
   );
 };
@@ -257,7 +290,7 @@ const Launch = () => {
         <YearBadge year="Oct 2010" color={C.cyan} top={220} />
       </div>
       <div style={{ position: "absolute", inset: 0, transform: `translateY(${lift}px)` }}>
-        <AppTile label="Instagram" icon="📷" color={`linear-gradient(135deg, ${C.yellow}, ${C.pink} 55%, #8A3FFC)`} x={540} y={760} delay={4} />
+        <AppTile label="Instagram" icon="📷" color={IG_GRADIENT} x={540} y={760} delay={4} />
         {frame > 40 && <Emoji e="🔥" x={540} y={1110} size={170} float={false} />}
       </div>
       <Sfx name="whoosh" at={40} />
@@ -290,7 +323,7 @@ const Deal = () => {
     <Punch>
       <YearBadge year="April 2012" color={C.pink} top={220} />
       <AppTile label="Facebook" icon="👍" color="#1877F2" x={260 + 60 * m} y={720} size={240} delay={0} />
-      <AppTile label="Instagram" icon="📷" color={`linear-gradient(135deg, ${C.yellow}, ${C.pink} 55%, #8A3FFC)`} x={820 - 60 * m} y={720} size={240} delay={6} />
+      <AppTile label="Instagram" icon="📷" color={IG_GRADIENT} x={820 - 60 * m} y={720} size={240} delay={6} />
       <Emoji e="🤝" x={540} y={720} size={170} delay={34} float={false} />
       <Sticker x={540} y={1070} delay={70} bg={C.yellow} size={110} rot={-4}>
         $1,000,000,000
@@ -362,7 +395,7 @@ export const Ep01: React.FC<{ hook: HookKey }> = ({ hook }) => {
         </Sequence>
       ))}
       <Captions hookClip={hookClip} placed={placed} />
-      <SeriesChrome ep={1} total={total} />
+      <SeriesChrome label="THE STORY OF INSTAGRAM" total={total} showFrom={hookLen} />
       <Soundtrack hookClip={hookClip} placed={placed} total={total} />
     </AbsoluteFill>
   );

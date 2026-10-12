@@ -299,14 +299,15 @@ export const Counter: React.FC<{ to: number; prefix?: string; y: number; size?: 
 /** Punch-in camera: every scene starts slightly zoomed and settles (pattern interrupt). */
 export const Punch: React.FC<{ children: React.ReactNode; shake?: boolean; instant?: boolean }> = ({ children, shake, instant }) => {
   const frame = useCurrentFrame();
-  const z = interpolate(frame, [0, 8], [1.18, 1], { extrapolateRight: "clamp" });
+  const z = instant ? 1 : interpolate(frame, [0, 8], [1.18, 1], { extrapolateRight: "clamp" });
   const sx = shake ? Math.sin(frame * 2.3) * interpolate(frame, [0, 12], [18, 0], { extrapolateRight: "clamp" }) : 0;
   const o = instant ? 1 : interpolate(frame, [0, 3], [0, 1], { extrapolateRight: "clamp" });
   return <AbsoluteFill style={{ transform: `scale(${z}) translateX(${sx}px)`, opacity: o }}>{children}</AbsoluteFill>;
 };
 
-export const SeriesChrome: React.FC<{ ep: number; total: number }> = ({ ep, total }) => {
+export const SeriesChrome: React.FC<{ label: string; total: number; showFrom?: number }> = ({ label, total, showFrom = 0 }) => {
   const frame = useCurrentFrame();
+  const tag = interpolate(frame, [showFrom, showFrom + 8], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <AbsoluteFill>
       <div
@@ -323,9 +324,11 @@ export const SeriesChrome: React.FC<{ ep: number; total: number }> = ({ ep, tota
           borderRadius: 999,
           padding: "8px 26px",
           boxShadow: `6px 6px 0 ${C.ink}`,
+          opacity: tag,
+          transform: `translateY(${(1 - tag) * -40}px)`,
         }}
       >
-        BEFORE THEY WERE FAMOUS · #{ep}
+        {label}
       </div>
       <div
         style={{
