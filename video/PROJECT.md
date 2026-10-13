@@ -5,13 +5,15 @@ Base: New Zealand, so YouTube Partner Program applies. TikTok Creator Rewards do
 
 ## Series
 
-Only Series 1 is agreed. Series 2 and 3 are Claude's proposals and are NOT decided. Ricardo decides.
+| # | Series | Status |
+|---|--------|--------|
+| 1 | **The Story of…** (brand/history stories). Order: Instagram → Nintendo → Vikings → YouTube → PlayStation → Samsung → Twitch → Nokia → Discord → Red Bull | Ep01 done, Ep02 Nintendo built (not rendered) |
+| 2 | **What If…?** (speculative science, cartoon Earth/Moon characters) | Test video WI01 "What if the Moon disappeared?" |
+| Existing | Map facts (WorldAtlas formula / MapReel) | Ricardo's existing project, kept separate |
 
-| # | Series | Format | Money lever | Status |
-|---|--------|--------|-------------|--------|
-| 1 | **The Story of…** (brand origin stories) | 61–70s, cartoon, voice | Ads (business niche) + selling "your brand story" videos to companies | Ep01 Instagram done, Ep02 Nintendo in progress |
-| 2 (proposal) | **How It Works** (tech explained: monitors, GPUs, Wi-Fi, chips, batteries) | 61s, cartoon diagrams | Affiliate links (Amazon Associates / Mercado Libre [VERIFY programs]) + tech RPM | Proposal, not decided |
-| 3 (proposal) | **Map Facts** (geography: "Why do most Kiwis live in the North Island?") | 61s, map + neon regions | Ads (education niche) + virality; reuses the MapReel research | Proposal, not decided |
+## Future ideas (saved, not started)
+- **How This Scam Works**: animated breakdowns of real scams. Low competition, security niche, affiliate links (password managers / security apps).
+- **Why Is It So Cheap / Expensive?**: everyday economics. Business niche, and it cross-promotes with The Story of….
 
 ## Hook rules (every video)
 1. The first words name the topic: "The story of X:", "How does X work?", or "Why does X…?". The topic is also on screen from frame 0.

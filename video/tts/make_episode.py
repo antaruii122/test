@@ -34,8 +34,9 @@ def main(script_path: str):
     out_dir = ROOT / "public" / ep["id"]
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    def say(text: str, name: str):
-        samples, sr = kokoro.create(text, voice=ep["voice"], speed=ep["speed"], lang="en-us")
+    def say(text: str, name: str, spoken: str | None = None):
+        # `spoken` lets a line use phonetic spelling for TTS while captions keep the real text
+        samples, sr = kokoro.create(spoken or text, voice=ep["voice"], speed=ep["speed"], lang="en-us")
         # trim leading/trailing silence so the voice starts on frame 0
         idx = np.where(np.abs(samples) > 0.01)[0]
         samples = samples[max(0, idx[0] - 200): idx[-1] + 2000] if len(idx) else samples
@@ -47,7 +48,7 @@ def main(script_path: str):
     for key, text in ep["hooks"].items():
         timing["hooks"][key] = say(text, f"hook{key}")
     for i, line in enumerate(ep["lines"]):
-        timing["lines"].append({"scene": line["scene"], **say(line["text"], f"line{i:02d}")})
+        timing["lines"].append({"scene": line["scene"], **say(line["text"], f"line{i:02d}", line.get("say"))})
 
     dest = ROOT / "src" / "episodes" / f"{ep['id']}.timing.json"
     dest.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,1146 @@
+{
+ "id": "wi01",
+ "title": "What if the Moon disappeared?",
+ "hooks": {
+  "A": {
+   "file": "wi01/hookA.wav",
+   "text": "What if the Moon disappeared tonight? The scariest change wouldn't be the dark sky.",
+   "dur": 4.917,
+   "words": [
+    {
+     "w": "What",
+     "start": 0.0,
+     "end": 0.273
+    },
+    {
+     "w": "if",
+     "start": 0.273,
+     "end": 0.437
+    },
+    {
+     "w": "the",
+     "start": 0.437,
+     "end": 0.656
+    },
+    {
+     "w": "Moon",
+     "start": 0.656,
+     "end": 0.929
+    },
+    {
+     "w": "disappeared",
+     "start": 0.929,
+     "end": 1.584
+    },
+    {
+     "w": "tonight?",
+     "start": 1.584,
+     "end": 2.24
+    },
+    {
+     "w": "The",
+     "start": 2.24,
+     "end": 2.458
+    },
+    {
+     "w": "scariest",
+     "start": 2.458,
+     "end": 2.95
+    },
+    {
+     "w": "change",
+     "start": 2.95,
+     "end": 3.333
+    },
+    {
+     "w": "wouldn't",
+     "start": 3.333,
+     "end": 3.824
+    },
+    {
+     "w": "be",
+     "start": 3.824,
+     "end": 3.988
+    },
+    {
+     "w": "the",
+     "start": 3.988,
+     "end": 4.207
+    },
+    {
+     "w": "dark",
+     "start": 4.207,
+     "end": 4.48
+    },
+    {
+     "w": "sky.",
+     "start": 4.48,
+     "end": 4.917
+    }
+   ]
+  },
+  "C": {
+   "file": "wi01/hookC.wav",
+   "text": "What if the Moon just vanished? Earth's oceans, animals, and even seasons would change.",
+   "dur": 5.633,
+   "words": [
+    {
+     "w": "What",
+     "start": 0.0,
+     "end": 0.282
+    },
+    {
+     "w": "if",
+     "start": 0.282,
+     "end": 0.451
+    },
+    {
+     "w": "the",
+     "start": 0.451,
+     "end": 0.676
+    },
+    {
+     "w": "Moon",
+     "start": 0.676,
+     "end": 0.958
+    },
+    {
+     "w": "just",
+     "start": 0.958,
+     "end": 1.239
+    },
+    {
+     "w": "vanished?",
+     "start": 1.239,
+     "end": 1.972
+    },
+    {
+     "w": "Earth's",
+     "start": 1.972,
+     "end": 2.422
+    },
+    {
+     "w": "oceans,",
+     "start": 2.422,
+     "end": 3.042
+    },
+    {
+     "w": "animals,",
+     "start": 3.042,
+     "end": 3.718
+    },
+    {
+     "w": "and",
+     "start": 3.718,
+     "end": 3.943
+    },
+    {
+     "w": "even",
+     "start": 3.943,
+     "end": 4.225
+    },
+    {
+     "w": "seasons",
+     "start": 4.225,
+     "end": 4.675
+    },
+    {
+     "w": "would",
+     "start": 4.675,
+     "end": 5.013
+    },
+    {
+     "w": "change.",
+     "start": 5.013,
+     "end": 5.633
+    }
+   ]
+  }
+ },
+ "lines": [
+  {
+   "scene": "sky",
+   "file": "wi01/line00.wav",
+   "text": "First, the night would get a lot darker. The Moon is the brightest thing in our night sky.",
+   "dur": 5.394,
+   "words": [
+    {
+     "w": "First,",
+     "start": 0.0,
+     "end": 0.539
+    },
+    {
+     "w": "the",
+     "start": 0.539,
+     "end": 0.755
+    },
+    {
+     "w": "night",
+     "start": 0.755,
+     "end": 1.079
+    },
+    {
+     "w": "would",
+     "start": 1.079,
+     "end": 1.402
+    },
+    {
+     "w": "get",
+     "start": 1.402,
+     "end": 1.618
+    },
+    {
+     "w": "a",
+     "start": 1.618,
+     "end": 1.726
+    },
+    {
+     "w": "lot",
+     "start": 1.726,
+     "end": 1.942
+    },
+    {
+     "w": "darker.",
+     "start": 1.942,
+     "end": 2.535
+    },
+    {
+     "w": "The",
+     "start": 2.535,
+     "end": 2.751
+    },
+    {
+     "w": "Moon",
+     "start": 2.751,
+     "end": 3.02
+    },
+    {
+     "w": "is",
+     "start": 3.02,
+     "end": 3.182
+    },
+    {
+     "w": "the",
+     "start": 3.182,
+     "end": 3.398
+    },
+    {
+     "w": "brightest",
+     "start": 3.398,
+     "end": 3.937
+    },
+    {
+     "w": "thing",
+     "start": 3.937,
+     "end": 4.261
+    },
+    {
+     "w": "in",
+     "start": 4.261,
+     "end": 4.423
+    },
+    {
+     "w": "our",
+     "start": 4.423,
+     "end": 4.638
+    },
+    {
+     "w": "night",
+     "start": 4.638,
+     "end": 4.962
+    },
+    {
+     "w": "sky.",
+     "start": 4.962,
+     "end": 5.394
+    }
+   ]
+  },
+  {
+   "scene": "tides",
+   "file": "wi01/line01.wav",
+   "text": "Next, the oceans. The Moon's gravity causes most of Earth's tides.",
+   "dur": 4.595,
+   "words": [
+    {
+     "w": "Next,",
+     "start": 0.0,
+     "end": 0.544
+    },
+    {
+     "w": "the",
+     "start": 0.544,
+     "end": 0.786
+    },
+    {
+     "w": "oceans.",
+     "start": 0.786,
+     "end": 1.451
+    },
+    {
+     "w": "The",
+     "start": 1.451,
+     "end": 1.693
+    },
+    {
+     "w": "Moon's",
+     "start": 1.693,
+     "end": 2.116
+    },
+    {
+     "w": "gravity",
+     "start": 2.116,
+     "end": 2.6
+    },
+    {
+     "w": "causes",
+     "start": 2.6,
+     "end": 3.023
+    },
+    {
+     "w": "most",
+     "start": 3.023,
+     "end": 3.325
+    },
+    {
+     "w": "of",
+     "start": 3.325,
+     "end": 3.507
+    },
+    {
+     "w": "Earth's",
+     "start": 3.507,
+     "end": 3.991
+    },
+    {
+     "w": "tides.",
+     "start": 3.991,
+     "end": 4.595
+    }
+   ]
+  },
+  {
+   "scene": "tides2",
+   "file": "wi01/line02.wav",
+   "text": "Without it, only the Sun would pull on the seas, and tides would get much weaker.",
+   "dur": 4.761,
+   "words": [
+    {
+     "w": "Without",
+     "start": 0.0,
+     "end": 0.419
+    },
+    {
+     "w": "it,",
+     "start": 0.419,
+     "end": 0.785
+    },
+    {
+     "w": "only",
+     "start": 0.785,
+     "end": 1.046
+    },
+    {
+     "w": "the",
+     "start": 1.046,
+     "end": 1.256
+    },
+    {
+     "w": "Sun",
+     "start": 1.256,
+     "end": 1.465
+    },
+    {
+     "w": "would",
+     "start": 1.465,
+     "end": 1.779
+    },
+    {
+     "w": "pull",
+     "start": 1.779,
+     "end": 2.04
+    },
+    {
+     "w": "on",
+     "start": 2.04,
+     "end": 2.197
+    },
+    {
+     "w": "the",
+     "start": 2.197,
+     "end": 2.406
+    },
+    {
+     "w": "seas,",
+     "start": 2.406,
+     "end": 2.877
+    },
+    {
+     "w": "and",
+     "start": 2.877,
+     "end": 3.087
+    },
+    {
+     "w": "tides",
+     "start": 3.087,
+     "end": 3.4
+    },
+    {
+     "w": "would",
+     "start": 3.4,
+     "end": 3.714
+    },
+    {
+     "w": "get",
+     "start": 3.714,
+     "end": 3.924
+    },
+    {
+     "w": "much",
+     "start": 3.924,
+     "end": 4.185
+    },
+    {
+     "w": "weaker.",
+     "start": 4.185,
+     "end": 4.761
+    }
+   ]
+  },
+  {
+   "scene": "coast",
+   "file": "wi01/line03.wav",
+   "text": "Tide pools, coastlines, and the animals living there would be thrown off.",
+   "dur": 4.545,
+   "words": [
+    {
+     "w": "Tide",
+     "start": 0.0,
+     "end": 0.274
+    },
+    {
+     "w": "pools,",
+     "start": 0.274,
+     "end": 0.821
+    },
+    {
+     "w": "coastlines,",
+     "start": 0.821,
+     "end": 1.643
+    },
+    {
+     "w": "and",
+     "start": 1.643,
+     "end": 1.862
+    },
+    {
+     "w": "the",
+     "start": 1.862,
+     "end": 2.081
+    },
+    {
+     "w": "animals",
+     "start": 2.081,
+     "end": 2.519
+    },
+    {
+     "w": "living",
+     "start": 2.519,
+     "end": 2.902
+    },
+    {
+     "w": "there",
+     "start": 2.902,
+     "end": 3.231
+    },
+    {
+     "w": "would",
+     "start": 3.231,
+     "end": 3.56
+    },
+    {
+     "w": "be",
+     "start": 3.56,
+     "end": 3.724
+    },
+    {
+     "w": "thrown",
+     "start": 3.724,
+     "end": 4.107
+    },
+    {
+     "w": "off.",
+     "start": 4.107,
+     "end": 4.545
+    }
+   ]
+  },
+  {
+   "scene": "coral",
+   "file": "wi01/line04.wav",
+   "text": "Some corals even use moonlight as a signal to spawn, all on the same night.",
+   "dur": 4.904,
+   "words": [
+    {
+     "w": "Some",
+     "start": 0.0,
+     "end": 0.299
+    },
+    {
+     "w": "corals",
+     "start": 0.299,
+     "end": 0.718
+    },
+    {
+     "w": "even",
+     "start": 0.718,
+     "end": 1.017
+    },
+    {
+     "w": "use",
+     "start": 1.017,
+     "end": 1.256
+    },
+    {
+     "w": "moonlight",
+     "start": 1.256,
+     "end": 1.854
+    },
+    {
+     "w": "as",
+     "start": 1.854,
+     "end": 2.033
+    },
+    {
+     "w": "a",
+     "start": 2.033,
+     "end": 2.153
+    },
+    {
+     "w": "signal",
+     "start": 2.153,
+     "end": 2.572
+    },
+    {
+     "w": "to",
+     "start": 2.572,
+     "end": 2.751
+    },
+    {
+     "w": "spawn,",
+     "start": 2.751,
+     "end": 3.349
+    },
+    {
+     "w": "all",
+     "start": 3.349,
+     "end": 3.588
+    },
+    {
+     "w": "on",
+     "start": 3.588,
+     "end": 3.768
+    },
+    {
+     "w": "the",
+     "start": 3.768,
+     "end": 4.007
+    },
+    {
+     "w": "same",
+     "start": 4.007,
+     "end": 4.306
+    },
+    {
+     "w": "night.",
+     "start": 4.306,
+     "end": 4.904
+    }
+   ]
+  },
+  {
+   "scene": "tilt",
+   "file": "wi01/line05.wav",
+   "text": "But the scariest change is slow. The Moon keeps Earth's tilt steady.",
+   "dur": 4.165,
+   "words": [
+    {
+     "w": "But",
+     "start": 0.0,
+     "end": 0.222
+    },
+    {
+     "w": "the",
+     "start": 0.222,
+     "end": 0.444
+    },
+    {
+     "w": "scariest",
+     "start": 0.444,
+     "end": 0.944
+    },
+    {
+     "w": "change",
+     "start": 0.944,
+     "end": 1.333
+    },
+    {
+     "w": "is",
+     "start": 1.333,
+     "end": 1.499
+    },
+    {
+     "w": "slow.",
+     "start": 1.499,
+     "end": 1.999
+    },
+    {
+     "w": "The",
+     "start": 1.999,
+     "end": 2.221
+    },
+    {
+     "w": "Moon",
+     "start": 2.221,
+     "end": 2.499
+    },
+    {
+     "w": "keeps",
+     "start": 2.499,
+     "end": 2.832
+    },
+    {
+     "w": "Earth's",
+     "start": 2.832,
+     "end": 3.277
+    },
+    {
+     "w": "tilt",
+     "start": 3.277,
+     "end": 3.554
+    },
+    {
+     "w": "steady.",
+     "start": 3.554,
+     "end": 4.165
+    }
+   ]
+  },
+  {
+   "scene": "tilt2",
+   "file": "wi01/line06.wav",
+   "text": "Today it only wobbles between about twenty two and twenty four and a half degrees.",
+   "dur": 4.848,
+   "words": [
+    {
+     "w": "Today",
+     "start": 0.0,
+     "end": 0.338
+    },
+    {
+     "w": "it",
+     "start": 0.338,
+     "end": 0.507
+    },
+    {
+     "w": "only",
+     "start": 0.507,
+     "end": 0.789
+    },
+    {
+     "w": "wobbles",
+     "start": 0.789,
+     "end": 1.24
+    },
+    {
+     "w": "between",
+     "start": 1.24,
+     "end": 1.691
+    },
+    {
+     "w": "about",
+     "start": 1.691,
+     "end": 2.029
+    },
+    {
+     "w": "twenty",
+     "start": 2.029,
+     "end": 2.424
+    },
+    {
+     "w": "two",
+     "start": 2.424,
+     "end": 2.65
+    },
+    {
+     "w": "and",
+     "start": 2.65,
+     "end": 2.875
+    },
+    {
+     "w": "twenty",
+     "start": 2.875,
+     "end": 3.27
+    },
+    {
+     "w": "four",
+     "start": 3.27,
+     "end": 3.551
+    },
+    {
+     "w": "and",
+     "start": 3.551,
+     "end": 3.777
+    },
+    {
+     "w": "a",
+     "start": 3.777,
+     "end": 3.89
+    },
+    {
+     "w": "half",
+     "start": 3.89,
+     "end": 4.172
+    },
+    {
+     "w": "degrees.",
+     "start": 4.172,
+     "end": 4.848
+    }
+   ]
+  },
+  {
+   "scene": "chaos",
+   "file": "wi01/line07.wav",
+   "text": "Without the Moon, scientists estimate the tilt could swing anywhere from zero to forty five degrees.",
+   "dur": 6.363,
+   "words": [
+    {
+     "w": "Without",
+     "start": 0.0,
+     "end": 0.476
+    },
+    {
+     "w": "the",
+     "start": 0.476,
+     "end": 0.714
+    },
+    {
+     "w": "Moon,",
+     "start": 0.714,
+     "end": 1.249
+    },
+    {
+     "w": "scientists",
+     "start": 1.249,
+     "end": 1.903
+    },
+    {
+     "w": "estimate",
+     "start": 1.903,
+     "end": 2.438
+    },
+    {
+     "w": "the",
+     "start": 2.438,
+     "end": 2.676
+    },
+    {
+     "w": "tilt",
+     "start": 2.676,
+     "end": 2.973
+    },
+    {
+     "w": "could",
+     "start": 2.973,
+     "end": 3.33
+    },
+    {
+     "w": "swing",
+     "start": 3.33,
+     "end": 3.687
+    },
+    {
+     "w": "anywhere",
+     "start": 3.687,
+     "end": 4.222
+    },
+    {
+     "w": "from",
+     "start": 4.222,
+     "end": 4.519
+    },
+    {
+     "w": "zero",
+     "start": 4.519,
+     "end": 4.817
+    },
+    {
+     "w": "to",
+     "start": 4.817,
+     "end": 4.995
+    },
+    {
+     "w": "forty",
+     "start": 4.995,
+     "end": 5.352
+    },
+    {
+     "w": "five",
+     "start": 5.352,
+     "end": 5.649
+    },
+    {
+     "w": "degrees.",
+     "start": 5.649,
+     "end": 6.363
+    }
+   ]
+  },
+  {
+   "scene": "seasons",
+   "file": "wi01/line08.wav",
+   "text": "That could mean wild seasons: freezing in some places, scorching in others.",
+   "dur": 4.812,
+   "words": [
+    {
+     "w": "That",
+     "start": 0.0,
+     "end": 0.293
+    },
+    {
+     "w": "could",
+     "start": 0.293,
+     "end": 0.646
+    },
+    {
+     "w": "mean",
+     "start": 0.646,
+     "end": 0.939
+    },
+    {
+     "w": "wild",
+     "start": 0.939,
+     "end": 1.232
+    },
+    {
+     "w": "seasons:",
+     "start": 1.232,
+     "end": 1.761
+    },
+    {
+     "w": "freezing",
+     "start": 1.761,
+     "end": 2.289
+    },
+    {
+     "w": "in",
+     "start": 2.289,
+     "end": 2.465
+    },
+    {
+     "w": "some",
+     "start": 2.465,
+     "end": 2.758
+    },
+    {
+     "w": "places,",
+     "start": 2.758,
+     "end": 3.404
+    },
+    {
+     "w": "scorching",
+     "start": 3.404,
+     "end": 3.991
+    },
+    {
+     "w": "in",
+     "start": 3.991,
+     "end": 4.167
+    },
+    {
+     "w": "others.",
+     "start": 4.167,
+     "end": 4.812
+    }
+   ]
+  },
+  {
+   "scene": "days",
+   "file": "wi01/line09.wav",
+   "text": "And our days? The Moon has been slowly making them longer, by about two milliseconds every century.",
+   "dur": 6.378,
+   "words": [
+    {
+     "w": "And",
+     "start": 0.0,
+     "end": 0.234
+    },
+    {
+     "w": "our",
+     "start": 0.234,
+     "end": 0.468
+    },
+    {
+     "w": "days?",
+     "start": 0.468,
+     "end": 0.995
+    },
+    {
+     "w": "The",
+     "start": 0.995,
+     "end": 1.229
+    },
+    {
+     "w": "Moon",
+     "start": 1.229,
+     "end": 1.521
+    },
+    {
+     "w": "has",
+     "start": 1.521,
+     "end": 1.755
+    },
+    {
+     "w": "been",
+     "start": 1.755,
+     "end": 2.048
+    },
+    {
+     "w": "slowly",
+     "start": 2.048,
+     "end": 2.458
+    },
+    {
+     "w": "making",
+     "start": 2.458,
+     "end": 2.867
+    },
+    {
+     "w": "them",
+     "start": 2.867,
+     "end": 3.16
+    },
+    {
+     "w": "longer,",
+     "start": 3.16,
+     "end": 3.804
+    },
+    {
+     "w": "by",
+     "start": 3.804,
+     "end": 3.979
+    },
+    {
+     "w": "about",
+     "start": 3.979,
+     "end": 4.33
+    },
+    {
+     "w": "two",
+     "start": 4.33,
+     "end": 4.564
+    },
+    {
+     "w": "milliseconds",
+     "start": 4.564,
+     "end": 5.325
+    },
+    {
+     "w": "every",
+     "start": 5.325,
+     "end": 5.676
+    },
+    {
+     "w": "century.",
+     "start": 5.676,
+     "end": 6.378
+    }
+   ]
+  },
+  {
+   "scene": "days2",
+   "file": "wi01/line10.wav",
+   "text": "Without it, that slowdown would mostly stop.",
+   "dur": 2.554,
+   "words": [
+    {
+     "w": "Without",
+     "start": 0.0,
+     "end": 0.401
+    },
+    {
+     "w": "it,",
+     "start": 0.401,
+     "end": 0.751
+    },
+    {
+     "w": "that",
+     "start": 0.751,
+     "end": 1.002
+    },
+    {
+     "w": "slowdown",
+     "start": 1.002,
+     "end": 1.453
+    },
+    {
+     "w": "would",
+     "start": 1.453,
+     "end": 1.753
+    },
+    {
+     "w": "mostly",
+     "start": 1.753,
+     "end": 2.104
+    },
+    {
+     "w": "stop.",
+     "start": 2.104,
+     "end": 2.554
+    }
+   ]
+  },
+  {
+   "scene": "outro",
+   "file": "wi01/line11.wav",
+   "text": "So the Moon isn't just pretty. It helps keep Earth a stable place to live.",
+   "dur": 4.344,
+   "words": [
+    {
+     "w": "So",
+     "start": 0.0,
+     "end": 0.161
+    },
+    {
+     "w": "the",
+     "start": 0.161,
+     "end": 0.375
+    },
+    {
+     "w": "Moon",
+     "start": 0.375,
+     "end": 0.644
+    },
+    {
+     "w": "isn't",
+     "start": 0.644,
+     "end": 0.965
+    },
+    {
+     "w": "just",
+     "start": 0.965,
+     "end": 1.233
+    },
+    {
+     "w": "pretty.",
+     "start": 1.233,
+     "end": 1.823
+    },
+    {
+     "w": "It",
+     "start": 1.823,
+     "end": 1.984
+    },
+    {
+     "w": "helps",
+     "start": 1.984,
+     "end": 2.306
+    },
+    {
+     "w": "keep",
+     "start": 2.306,
+     "end": 2.574
+    },
+    {
+     "w": "Earth",
+     "start": 2.574,
+     "end": 2.896
+    },
+    {
+     "w": "a",
+     "start": 2.896,
+     "end": 3.003
+    },
+    {
+     "w": "stable",
+     "start": 3.003,
+     "end": 3.379
+    },
+    {
+     "w": "place",
+     "start": 3.379,
+     "end": 3.7
+    },
+    {
+     "w": "to",
+     "start": 3.7,
+     "end": 3.861
+    },
+    {
+     "w": "live.",
+     "start": 3.861,
+     "end": 4.344
+    }
+   ]
+  },
+  {
+   "scene": "loop",
+   "file": "wi01/line12.wav",
+   "text": "Now look up tonight, and imagine the sky without it.",
+   "dur": 3.057,
+   "words": [
+    {
+     "w": "Now",
+     "start": 0.0,
+     "end": 0.207
+    },
+    {
+     "w": "look",
+     "start": 0.207,
+     "end": 0.466
+    },
+    {
+     "w": "up",
+     "start": 0.466,
+     "end": 0.622
+    },
+    {
+     "w": "tonight,",
+     "start": 0.622,
+     "end": 1.243
+    },
+    {
+     "w": "and",
+     "start": 1.243,
+     "end": 1.451
+    },
+    {
+     "w": "imagine",
+     "start": 1.451,
+     "end": 1.865
+    },
+    {
+     "w": "the",
+     "start": 1.865,
+     "end": 2.072
+    },
+    {
+     "w": "sky",
+     "start": 2.072,
+     "end": 2.28
+    },
+    {
+     "w": "without",
+     "start": 2.28,
+     "end": 2.694
+    },
+    {
+     "w": "it.",
+     "start": 2.694,
+     "end": 3.057
+    }
+   ]
+  }
+ ]
+}

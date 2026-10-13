@@ -347,3 +347,34 @@ export const SeriesChrome: React.FC<{ label: string; total: number; showFrom?: n
     </AbsoluteFill>
   );
 };
+
+/** Title card shown from frame 0 of every hook, so viewers instantly know the topic. */
+export const StoryTitle: React.FC<{ name: string; icon: string; bg: string; color?: string }> = ({
+  name,
+  icon,
+  bg,
+  color = C.white,
+}) => (
+  <>
+    <div
+      style={{
+        position: "absolute",
+        top: 200,
+        left: 0,
+        right: 0,
+        textAlign: "center",
+        fontFamily: FONT,
+        fontWeight: 900,
+        fontSize: 72,
+        color: C.white,
+        WebkitTextStroke: `10px ${C.ink}`,
+        paintOrder: "stroke fill",
+      }}
+    >
+      THE STORY OF
+    </div>
+    <Sticker x={540} y={385} delay={-12} bg={bg} color={color} size={112} rot={-3}>
+      {icon} {name}
+    </Sticker>
+  </>
+);

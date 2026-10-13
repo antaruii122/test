@@ -1,0 +1,28 @@
+{
+  "id": "ntm01",
+  "title": "Nobody Told Me: Brain Freeze",
+  "voice": "af_bella",
+  "speed": 1.04,
+  "hooks": {
+    "A": "Why does ice cream make my brain hurt?!"
+  },
+  "lines": [
+    { "scene": "moving", "text": "Moving day. Boxes everywhere. So I celebrated the only way I know: ice cream, straight from the tub." },
+    { "scene": "spoons", "text": "Three big spoons later... ow! My head!" },
+    { "scene": "notfrozen", "text": "Turns out, my brain isn't freezing at all." },
+    { "scene": "vessels", "text": "When something icy touches the roof of your mouth, the tiny blood vessels there shrink from the cold." },
+    { "scene": "dilate", "text": "Then, almost right away, they open back up. Fast." },
+    { "scene": "nerves", "text": "That sudden change sets off nerves behind your nose, and your brain feels it as pain in your forehead." },
+    { "scene": "name", "text": "It even has a fancy name: sphenopalatine ganglioneuralgia. Try saying that with a mouth full of ice cream.", "say": "It even has a fancy name: sfeeno palateen, gangleeo noo ralja. Try saying that with a mouth full of ice cream." },
+    { "scene": "harmless", "text": "Good news: it's harmless, and it usually goes away in under thirty seconds." },
+    { "scene": "fix", "text": "Quick fix: press your tongue against the roof of your mouth, or sip something warm." },
+    { "scene": "slower", "text": "Or, eat slower. Yeah. Not happening." },
+    { "scene": "ending", "text": "Be honest. Am I the only one who didn't know this?" }
+  ],
+  "sources": [
+    "https://www.healthline.com/health/sphenopalatine-ganglioneuralgia-brain-freeze",
+    "https://businessinsider.nl/ever-wondered-what-causes-brain-freeze-the-science-behind-ice-cream-headaches/",
+    "https://www.mentalfloss.com/article/587801/how-to-cure-brain-freeze",
+    "https://livestrong.com/article/13771918-what-causes-brain-freeze"
+  ]
+}

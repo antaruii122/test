@@ -1,0 +1,853 @@
+{
+ "id": "ntm01",
+ "title": "Nobody Told Me: Brain Freeze",
+ "hooks": {
+  "A": {
+   "file": "ntm01/hookA.wav",
+   "text": "Why does ice cream make my brain hurt?!",
+   "dur": 1.939,
+   "words": [
+    {
+     "w": "Why",
+     "start": 0.0,
+     "end": 0.18
+    },
+    {
+     "w": "does",
+     "start": 0.18,
+     "end": 0.406
+    },
+    {
+     "w": "ice",
+     "start": 0.406,
+     "end": 0.586
+    },
+    {
+     "w": "cream",
+     "start": 0.586,
+     "end": 0.857
+    },
+    {
+     "w": "make",
+     "start": 0.857,
+     "end": 1.082
+    },
+    {
+     "w": "my",
+     "start": 1.082,
+     "end": 1.217
+    },
+    {
+     "w": "brain",
+     "start": 1.217,
+     "end": 1.488
+    },
+    {
+     "w": "hurt?!",
+     "start": 1.488,
+     "end": 1.939
+    }
+   ]
+  }
+ },
+ "lines": [
+  {
+   "scene": "moving",
+   "file": "ntm01/line00.wav",
+   "text": "Moving day. Boxes everywhere. So I celebrated the only way I know: ice cream, straight from the tub.",
+   "dur": 6.339,
+   "words": [
+    {
+     "w": "Moving",
+     "start": 0.0,
+     "end": 0.393
+    },
+    {
+     "w": "day.",
+     "start": 0.393,
+     "end": 0.841
+    },
+    {
+     "w": "Boxes",
+     "start": 0.841,
+     "end": 1.178
+    },
+    {
+     "w": "everywhere.",
+     "start": 1.178,
+     "end": 2.019
+    },
+    {
+     "w": "So",
+     "start": 2.019,
+     "end": 2.188
+    },
+    {
+     "w": "I",
+     "start": 2.188,
+     "end": 2.3
+    },
+    {
+     "w": "celebrated",
+     "start": 2.3,
+     "end": 2.917
+    },
+    {
+     "w": "the",
+     "start": 2.917,
+     "end": 3.141
+    },
+    {
+     "w": "only",
+     "start": 3.141,
+     "end": 3.422
+    },
+    {
+     "w": "way",
+     "start": 3.422,
+     "end": 3.646
+    },
+    {
+     "w": "I",
+     "start": 3.646,
+     "end": 3.758
+    },
+    {
+     "w": "know:",
+     "start": 3.758,
+     "end": 4.095
+    },
+    {
+     "w": "ice",
+     "start": 4.095,
+     "end": 4.319
+    },
+    {
+     "w": "cream,",
+     "start": 4.319,
+     "end": 4.88
+    },
+    {
+     "w": "straight",
+     "start": 4.88,
+     "end": 5.385
+    },
+    {
+     "w": "from",
+     "start": 5.385,
+     "end": 5.666
+    },
+    {
+     "w": "the",
+     "start": 5.666,
+     "end": 5.89
+    },
+    {
+     "w": "tub.",
+     "start": 5.89,
+     "end": 6.339
+    }
+   ]
+  },
+  {
+   "scene": "spoons",
+   "file": "ntm01/line01.wav",
+   "text": "Three big spoons later... ow! My head!",
+   "dur": 2.329,
+   "words": [
+    {
+     "w": "Three",
+     "start": 0.0,
+     "end": 0.291
+    },
+    {
+     "w": "big",
+     "start": 0.291,
+     "end": 0.485
+    },
+    {
+     "w": "spoons",
+     "start": 0.485,
+     "end": 0.825
+    },
+    {
+     "w": "later...",
+     "start": 0.825,
+     "end": 1.407
+    },
+    {
+     "w": "ow!",
+     "start": 1.407,
+     "end": 1.747
+    },
+    {
+     "w": "My",
+     "start": 1.747,
+     "end": 1.892
+    },
+    {
+     "w": "head!",
+     "start": 1.892,
+     "end": 2.329
+    }
+   ]
+  },
+  {
+   "scene": "notfrozen",
+   "file": "ntm01/line02.wav",
+   "text": "Turns out, my brain isn't freezing at all.",
+   "dur": 2.302,
+   "words": [
+    {
+     "w": "Turns",
+     "start": 0.0,
+     "end": 0.282
+    },
+    {
+     "w": "out,",
+     "start": 0.282,
+     "end": 0.658
+    },
+    {
+     "w": "my",
+     "start": 0.658,
+     "end": 0.799
+    },
+    {
+     "w": "brain",
+     "start": 0.799,
+     "end": 1.081
+    },
+    {
+     "w": "isn't",
+     "start": 1.081,
+     "end": 1.362
+    },
+    {
+     "w": "freezing",
+     "start": 1.362,
+     "end": 1.785
+    },
+    {
+     "w": "at",
+     "start": 1.785,
+     "end": 1.926
+    },
+    {
+     "w": "all.",
+     "start": 1.926,
+     "end": 2.302
+    }
+   ]
+  },
+  {
+   "scene": "vessels",
+   "file": "ntm01/line03.wav",
+   "text": "When something icy touches the roof of your mouth, the tiny blood vessels there shrink from the cold.",
+   "dur": 5.284,
+   "words": [
+    {
+     "w": "When",
+     "start": 0.0,
+     "end": 0.245
+    },
+    {
+     "w": "something",
+     "start": 0.245,
+     "end": 0.734
+    },
+    {
+     "w": "icy",
+     "start": 0.734,
+     "end": 0.93
+    },
+    {
+     "w": "touches",
+     "start": 0.93,
+     "end": 1.321
+    },
+    {
+     "w": "the",
+     "start": 1.321,
+     "end": 1.517
+    },
+    {
+     "w": "roof",
+     "start": 1.517,
+     "end": 1.761
+    },
+    {
+     "w": "of",
+     "start": 1.761,
+     "end": 1.908
+    },
+    {
+     "w": "your",
+     "start": 1.908,
+     "end": 2.153
+    },
+    {
+     "w": "mouth,",
+     "start": 2.153,
+     "end": 2.642
+    },
+    {
+     "w": "the",
+     "start": 2.642,
+     "end": 2.838
+    },
+    {
+     "w": "tiny",
+     "start": 2.838,
+     "end": 3.082
+    },
+    {
+     "w": "blood",
+     "start": 3.082,
+     "end": 3.376
+    },
+    {
+     "w": "vessels",
+     "start": 3.376,
+     "end": 3.767
+    },
+    {
+     "w": "there",
+     "start": 3.767,
+     "end": 4.061
+    },
+    {
+     "w": "shrink",
+     "start": 4.061,
+     "end": 4.403
+    },
+    {
+     "w": "from",
+     "start": 4.403,
+     "end": 4.648
+    },
+    {
+     "w": "the",
+     "start": 4.648,
+     "end": 4.844
+    },
+    {
+     "w": "cold.",
+     "start": 4.844,
+     "end": 5.284
+    }
+   ]
+  },
+  {
+   "scene": "dilate",
+   "file": "ntm01/line04.wav",
+   "text": "Then, almost right away, they open back up. Fast.",
+   "dur": 2.909,
+   "words": [
+    {
+     "w": "Then,",
+     "start": 0.0,
+     "end": 0.422
+    },
+    {
+     "w": "almost",
+     "start": 0.422,
+     "end": 0.751
+    },
+    {
+     "w": "right",
+     "start": 0.751,
+     "end": 1.032
+    },
+    {
+     "w": "away,",
+     "start": 1.032,
+     "end": 1.454
+    },
+    {
+     "w": "they",
+     "start": 1.454,
+     "end": 1.689
+    },
+    {
+     "w": "open",
+     "start": 1.689,
+     "end": 1.924
+    },
+    {
+     "w": "back",
+     "start": 1.924,
+     "end": 2.158
+    },
+    {
+     "w": "up.",
+     "start": 2.158,
+     "end": 2.487
+    },
+    {
+     "w": "Fast.",
+     "start": 2.487,
+     "end": 2.909
+    }
+   ]
+  },
+  {
+   "scene": "nerves",
+   "file": "ntm01/line05.wav",
+   "text": "That sudden change sets off nerves behind your nose, and your brain feels it as pain in your forehead.",
+   "dur": 5.586,
+   "words": [
+    {
+     "w": "That",
+     "start": 0.0,
+     "end": 0.256
+    },
+    {
+     "w": "sudden",
+     "start": 0.256,
+     "end": 0.615
+    },
+    {
+     "w": "change",
+     "start": 0.615,
+     "end": 0.974
+    },
+    {
+     "w": "sets",
+     "start": 0.974,
+     "end": 1.23
+    },
+    {
+     "w": "off",
+     "start": 1.23,
+     "end": 1.435
+    },
+    {
+     "w": "nerves",
+     "start": 1.435,
+     "end": 1.794
+    },
+    {
+     "w": "behind",
+     "start": 1.794,
+     "end": 2.152
+    },
+    {
+     "w": "your",
+     "start": 2.152,
+     "end": 2.409
+    },
+    {
+     "w": "nose,",
+     "start": 2.409,
+     "end": 2.87
+    },
+    {
+     "w": "and",
+     "start": 2.87,
+     "end": 3.075
+    },
+    {
+     "w": "your",
+     "start": 3.075,
+     "end": 3.331
+    },
+    {
+     "w": "brain",
+     "start": 3.331,
+     "end": 3.639
+    },
+    {
+     "w": "feels",
+     "start": 3.639,
+     "end": 3.946
+    },
+    {
+     "w": "it",
+     "start": 3.946,
+     "end": 4.1
+    },
+    {
+     "w": "as",
+     "start": 4.1,
+     "end": 4.253
+    },
+    {
+     "w": "pain",
+     "start": 4.253,
+     "end": 4.51
+    },
+    {
+     "w": "in",
+     "start": 4.51,
+     "end": 4.663
+    },
+    {
+     "w": "your",
+     "start": 4.663,
+     "end": 4.92
+    },
+    {
+     "w": "forehead.",
+     "start": 4.92,
+     "end": 5.586
+    }
+   ]
+  },
+  {
+   "scene": "name",
+   "file": "ntm01/line06.wav",
+   "text": "It even has a fancy name: sphenopalatine ganglioneuralgia. Try saying that with a mouth full of ice cream.",
+   "dur": 7.507,
+   "words": [
+    {
+     "w": "It",
+     "start": 0.0,
+     "end": 0.199
+    },
+    {
+     "w": "even",
+     "start": 0.199,
+     "end": 0.531
+    },
+    {
+     "w": "has",
+     "start": 0.531,
+     "end": 0.797
+    },
+    {
+     "w": "a",
+     "start": 0.797,
+     "end": 0.93
+    },
+    {
+     "w": "fancy",
+     "start": 0.93,
+     "end": 1.329
+    },
+    {
+     "w": "name:",
+     "start": 1.329,
+     "end": 1.727
+    },
+    {
+     "w": "sphenopalatine",
+     "start": 1.727,
+     "end": 2.724
+    },
+    {
+     "w": "ganglioneuralgia.",
+     "start": 2.724,
+     "end": 4.119
+    },
+    {
+     "w": "Try",
+     "start": 4.119,
+     "end": 4.385
+    },
+    {
+     "w": "saying",
+     "start": 4.385,
+     "end": 4.85
+    },
+    {
+     "w": "that",
+     "start": 4.85,
+     "end": 5.182
+    },
+    {
+     "w": "with",
+     "start": 5.182,
+     "end": 5.514
+    },
+    {
+     "w": "a",
+     "start": 5.514,
+     "end": 5.647
+    },
+    {
+     "w": "mouth",
+     "start": 5.647,
+     "end": 6.045
+    },
+    {
+     "w": "full",
+     "start": 6.045,
+     "end": 6.378
+    },
+    {
+     "w": "of",
+     "start": 6.378,
+     "end": 6.577
+    },
+    {
+     "w": "ice",
+     "start": 6.577,
+     "end": 6.843
+    },
+    {
+     "w": "cream.",
+     "start": 6.843,
+     "end": 7.507
+    }
+   ]
+  },
+  {
+   "scene": "harmless",
+   "file": "ntm01/line07.wav",
+   "text": "Good news: it's harmless, and it usually goes away in under thirty seconds.",
+   "dur": 4.376,
+   "words": [
+    {
+     "w": "Good",
+     "start": 0.0,
+     "end": 0.267
+    },
+    {
+     "w": "news:",
+     "start": 0.267,
+     "end": 0.587
+    },
+    {
+     "w": "it's",
+     "start": 0.587,
+     "end": 0.854
+    },
+    {
+     "w": "harmless,",
+     "start": 0.854,
+     "end": 1.548
+    },
+    {
+     "w": "and",
+     "start": 1.548,
+     "end": 1.761
+    },
+    {
+     "w": "it",
+     "start": 1.761,
+     "end": 1.921
+    },
+    {
+     "w": "usually",
+     "start": 1.921,
+     "end": 2.348
+    },
+    {
+     "w": "goes",
+     "start": 2.348,
+     "end": 2.615
+    },
+    {
+     "w": "away",
+     "start": 2.615,
+     "end": 2.882
+    },
+    {
+     "w": "in",
+     "start": 2.882,
+     "end": 3.042
+    },
+    {
+     "w": "under",
+     "start": 3.042,
+     "end": 3.362
+    },
+    {
+     "w": "thirty",
+     "start": 3.362,
+     "end": 3.736
+    },
+    {
+     "w": "seconds.",
+     "start": 3.736,
+     "end": 4.376
+    }
+   ]
+  },
+  {
+   "scene": "fix",
+   "file": "ntm01/line08.wav",
+   "text": "Quick fix: press your tongue against the roof of your mouth, or sip something warm.",
+   "dur": 4.364,
+   "words": [
+    {
+     "w": "Quick",
+     "start": 0.0,
+     "end": 0.291
+    },
+    {
+     "w": "fix:",
+     "start": 0.291,
+     "end": 0.533
+    },
+    {
+     "w": "press",
+     "start": 0.533,
+     "end": 0.824
+    },
+    {
+     "w": "your",
+     "start": 0.824,
+     "end": 1.067
+    },
+    {
+     "w": "tongue",
+     "start": 1.067,
+     "end": 1.406
+    },
+    {
+     "w": "against",
+     "start": 1.406,
+     "end": 1.794
+    },
+    {
+     "w": "the",
+     "start": 1.794,
+     "end": 1.988
+    },
+    {
+     "w": "roof",
+     "start": 1.988,
+     "end": 2.231
+    },
+    {
+     "w": "of",
+     "start": 2.231,
+     "end": 2.376
+    },
+    {
+     "w": "your",
+     "start": 2.376,
+     "end": 2.619
+    },
+    {
+     "w": "mouth,",
+     "start": 2.619,
+     "end": 3.103
+    },
+    {
+     "w": "or",
+     "start": 3.103,
+     "end": 3.249
+    },
+    {
+     "w": "sip",
+     "start": 3.249,
+     "end": 3.443
+    },
+    {
+     "w": "something",
+     "start": 3.443,
+     "end": 3.928
+    },
+    {
+     "w": "warm.",
+     "start": 3.928,
+     "end": 4.364
+    }
+   ]
+  },
+  {
+   "scene": "slower",
+   "file": "ntm01/line09.wav",
+   "text": "Or, eat slower. Yeah. Not happening.",
+   "dur": 2.455,
+   "words": [
+    {
+     "w": "Or,",
+     "start": 0.0,
+     "end": 0.351
+    },
+    {
+     "w": "eat",
+     "start": 0.351,
+     "end": 0.551
+    },
+    {
+     "w": "slower.",
+     "start": 0.551,
+     "end": 1.102
+    },
+    {
+     "w": "Yeah.",
+     "start": 1.102,
+     "end": 1.553
+    },
+    {
+     "w": "Not",
+     "start": 1.553,
+     "end": 1.753
+    },
+    {
+     "w": "happening.",
+     "start": 1.753,
+     "end": 2.455
+    }
+   ]
+  },
+  {
+   "scene": "ending",
+   "file": "ntm01/line10.wav",
+   "text": "Be honest. Am I the only one who didn't know this?",
+   "dur": 2.812,
+   "words": [
+    {
+     "w": "Be",
+     "start": 0.0,
+     "end": 0.148
+    },
+    {
+     "w": "honest.",
+     "start": 0.148,
+     "end": 0.691
+    },
+    {
+     "w": "Am",
+     "start": 0.691,
+     "end": 0.839
+    },
+    {
+     "w": "I",
+     "start": 0.839,
+     "end": 0.937
+    },
+    {
+     "w": "the",
+     "start": 0.937,
+     "end": 1.135
+    },
+    {
+     "w": "only",
+     "start": 1.135,
+     "end": 1.381
+    },
+    {
+     "w": "one",
+     "start": 1.381,
+     "end": 1.579
+    },
+    {
+     "w": "who",
+     "start": 1.579,
+     "end": 1.776
+    },
+    {
+     "w": "didn't",
+     "start": 1.776,
+     "end": 2.121
+    },
+    {
+     "w": "know",
+     "start": 2.121,
+     "end": 2.368
+    },
+    {
+     "w": "this?",
+     "start": 2.368,
+     "end": 2.812
+    }
+   ]
+  }
+ ]
+}

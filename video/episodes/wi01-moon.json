@@ -1,0 +1,33 @@
+{
+  "id": "wi01",
+  "title": "What if the Moon disappeared?",
+  "voice": "am_michael",
+  "speed": 1.0,
+  "hooks": {
+    "A": "What if the Moon disappeared tonight? The scariest change wouldn't be the dark sky.",
+    "C": "What if the Moon just vanished? Earth's oceans, animals, and even seasons would change."
+  },
+  "lines": [
+    { "scene": "sky", "text": "First, the night would get a lot darker. The Moon is the brightest thing in our night sky." },
+    { "scene": "tides", "text": "Next, the oceans. The Moon's gravity causes most of Earth's tides." },
+    { "scene": "tides2", "text": "Without it, only the Sun would pull on the seas, and tides would get much weaker." },
+    { "scene": "coast", "text": "Tide pools, coastlines, and the animals living there would be thrown off." },
+    { "scene": "coral", "text": "Some corals even use moonlight as a signal to spawn, all on the same night." },
+    { "scene": "tilt", "text": "But the scariest change is slow. The Moon keeps Earth's tilt steady." },
+    { "scene": "tilt2", "text": "Today it only wobbles between about twenty two and twenty four and a half degrees." },
+    { "scene": "chaos", "text": "Without the Moon, scientists estimate the tilt could swing anywhere from zero to forty five degrees." },
+    { "scene": "seasons", "text": "That could mean wild seasons: freezing in some places, scorching in others." },
+    { "scene": "days", "text": "And our days? The Moon has been slowly making them longer, by about two milliseconds every century." },
+    { "scene": "days2", "text": "Without it, that slowdown would mostly stop." },
+    { "scene": "outro", "text": "So the Moon isn't just pretty. It helps keep Earth a stable place to live." },
+    { "scene": "loop", "text": "Now look up tonight, and imagine the sky without it." }
+  ],
+  "sources": [
+    "https://en.wikipedia.org/wiki/Destruction_of_the_Moon",
+    "https://physicsworld.com/a/whats-in-a-moon/",
+    "https://elifesciences.org/articles/9991",
+    "https://news.uq.edu.au/2007-10-18-key-found-moonlight-romance",
+    "https://hyperphysics.gsu.edu/hbase/Astro/tidfrict.html",
+    "https://explainingscience.org/2014/05/27/the-days-are-getting-longer/"
+  ]
+}
