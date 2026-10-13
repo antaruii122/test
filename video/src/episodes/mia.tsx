@@ -13,7 +13,7 @@ export const MIA = {
   shoes: "#FFFFFF",
 };
 
-export type MiaFace = "happy" | "pain" | "wow" | "think" | "smug" | "full";
+export type MiaFace = "happy" | "pain" | "wow" | "think" | "smug" | "full" | "cry";
 export type MiaPose = "relax" | "spoon" | "headHold" | "point" | "shrug" | "tub" | "belly";
 
 /** Episodes provide Mia's current voice loudness (0..1, global timeline) so her mouth follows the real audio. */
@@ -56,6 +56,20 @@ export const Mia: React.FC<{
         <g stroke={C.ink} strokeWidth={9} strokeLinecap="round" fill="none">
           <path d="M150 190 L175 205 L150 220" />
           <path d="M250 190 L225 205 L250 220" />
+        </g>
+      );
+    if (face === "cry")
+      return (
+        <g>
+          <g stroke={C.ink} strokeWidth={9} strokeLinecap="round" fill="none">
+            <path d="M145 210 Q163 196 181 210" />
+            <path d="M219 210 Q237 196 255 210" />
+          </g>
+          {[150, 172, 228, 250].map((tx, i) => (
+            <path key={i} d={`M${tx} 215 Q${tx + (i < 2 ? -6 : 6)} ${250 + ((frame * 4 + i * 20) % 60)} ${tx} ${300}`} stroke="#5AA9FF" strokeWidth={12} fill="none" strokeLinecap="round" opacity={0.85} />
+          ))}
+          <circle cx={i2x(frame, 0)} cy={240 + ((frame * 6) % 80)} r={9} fill="#5AA9FF" />
+          <circle cx={i2x(frame, 1)} cy={240 + ((frame * 6 + 40) % 80)} r={9} fill="#5AA9FF" />
         </g>
       );
     if (face === "smug")
@@ -111,6 +125,7 @@ export const Mia: React.FC<{
     }
     if (face === "pain") return <path d="M175 265 q8 -10 16 0 q8 10 16 0 q8 -10 16 0" stroke={C.ink} strokeWidth={7} fill="none" strokeLinecap="round" />;
     if (face === "wow") return <ellipse cx={200} cy={265} rx={14} ry={18} fill="#7A1F2B" stroke={C.ink} strokeWidth={6} />;
+    if (face === "cry") return <path d="M178 268 Q200 252 222 268" stroke={C.ink} strokeWidth={7} fill="none" strokeLinecap="round" />;
     if (face === "think") return <path d="M180 265 L222 258" stroke={C.ink} strokeWidth={7} strokeLinecap="round" />;
     return <path d="M175 255 Q200 285 225 255" stroke={C.ink} strokeWidth={7} fill="none" strokeLinecap="round" />;
   };
@@ -179,6 +194,8 @@ export const Mia: React.FC<{
     </div>
   );
 };
+
+const i2x = (frame: number, side: number) => (side ? 262 : 138) + Math.sin(frame / 5 + side) * 4;
 
 /* ---------- Virtual camera with parallax ----------
    keys: camera keyframes (frame, zoom, focus x/y, roll). The background moves less than the

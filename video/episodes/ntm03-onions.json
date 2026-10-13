@@ -1,0 +1,26 @@
+{
+  "id": "ntm03",
+  "title": "Nobody Told Me: Onion Tears",
+  "voice": "af_bella",
+  "speed": 1.04,
+  "hooks": {
+    "A": "Why does chopping an onion make me cry?!"
+  },
+  "lines": [
+    { "scene": "dinner", "text": "First time cooking a real dinner in my new kitchen. Step one: chop an onion. Easy." },
+    { "scene": "cry", "text": "Five seconds later... I'm crying like it's the end of a sad movie." },
+    { "scene": "attack", "text": "Turns out, the onion is attacking me. On purpose." },
+    { "scene": "cells", "text": "When you cut an onion, you break open its cells, and two chemicals inside mix together." },
+    { "scene": "gas", "text": "That reaction makes a gas that floats up, straight into your eyes." },
+    { "scene": "eyes", "text": "When it touches your eyes, it turns into a tiny bit of acid, and your eyes flood with tears to wash it away." },
+    { "scene": "defense", "text": "Basically, it's the onion's way of saying: don't eat me." },
+    { "scene": "knife", "text": "Best trick: use a really sharp knife. It crushes fewer cells, so less gas escapes." },
+    { "scene": "cold", "text": "People also swear by chilling the onion first. Cold slows chemistry down, but honestly, nobody has properly tested it." },
+    { "scene": "ending", "text": "Be honest. Am I the only one who thought onions were just sad?" }
+  ],
+  "sources": [
+    "https://chemistryworld.com/podcasts/propanethial-s-oxide-how-chopping-onions-makes-you-cry/3009790.article",
+    "https://theconversation.com/why-onions-make-us-cry-and-why-some-dont-84486",
+    "https://www.discovermagazine.com/why-do-onions-make-us-cry-3138"
+  ]
+}
