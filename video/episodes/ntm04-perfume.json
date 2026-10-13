@@ -1,0 +1,21 @@
+{
+  "id": "ntm04",
+  "title": "Nobody Told Me: Your Own Perfume",
+  "voice": "af_bella",
+  "speed": 1.08,
+  "hooks": {
+    "A": "Your nose stops smelling your own perfume. On purpose."
+  },
+  "lines": [
+    { "scene": "spray", "text": "Ten minutes after spraying, I couldn't smell it. So I sprayed again. And again." },
+    { "scene": "brain", "text": "Turns out, your nose still detects it. Your brain just decides it's boring." },
+    { "scene": "filter", "text": "It tunes out smells that don't change, so it can notice new ones, like smoke or food." },
+    { "scene": "others", "text": "But everyone around you? They smell all of it." },
+    { "scene": "tip", "text": "So don't re-spray just because you can't smell it. Step outside for a minute, or ask a friend." },
+    { "scene": "ending", "text": "Be honest. How many sprays are you wearing right now?" }
+  ],
+  "sources": [
+    "https://www.scienceabc.com/humans/why-you-cant-smell-perfume-on-your-own-body-while-everyone-else-can.html",
+    "https://www.todayifoundout.com/index.php/2017/05/cant-people-smell/"
+  ]
+}

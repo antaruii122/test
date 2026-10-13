@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from "react";
 import { AbsoluteFill, Easing, interpolate, Sequence, useCurrentFrame } from "remotion";
-import { ampAt, Captions, layout, SeriesChrome, Sfx, Soundtrack, Timing } from "./kit";
+import { ampAt, Captions, layout, LayoutOpts, SeriesChrome, Sfx, Soundtrack, Timing } from "./kit";
 import { C, FPS } from "../theme";
 
 /* ---------- Mia: the series character. Drawn in code so she looks identical every episode. ---------- */
@@ -285,14 +285,17 @@ export const Box: React.FC<{ x: number; y: number; w?: number; h?: number; label
 /* ---------- Shared shell for every "Nobody Told Me" episode ---------- */
 // The ending's final gag needs ~1s after the last line, then it loops. No dead air.
 export const MIA_LAYOUT = { tail: 1.5 };
+// From ep4: 30-40s format, tighter pauses between lines
+export const MIA_SHORT = { tail: 1.3, gap: 0.35 };
 export const MiaEpisode: React.FC<{
   t: Timing;
   label: string;
   hook: React.ReactNode;
   scenes: Record<string, () => React.ReactNode>;
-}> = ({ t, label, hook, scenes }) => {
+  opts?: LayoutOpts;
+}> = ({ t, label, hook, scenes, opts = MIA_LAYOUT }) => {
   const frame = useCurrentFrame();
-  const { hookClip, hookLen, placed, total } = layout(t, "A", MIA_LAYOUT);
+  const { hookClip, hookLen, placed, total } = layout(t, "A", opts);
   const amp = ampAt(frame / FPS, hookClip, placed);
   return (
     <TalkContext.Provider value={amp}>

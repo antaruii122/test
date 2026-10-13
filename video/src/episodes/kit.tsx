@@ -19,7 +19,7 @@ export type Timing = { id: string; title: string; hooks: Record<string, Clip>; l
 export const GAP = 0.6; // pause between lines (s)
 export const HOOK_GAP = 0.3;
 export const TAIL = 2.6; // hold after last line (follow card)
-export type LayoutOpts = { tail?: number; minSeconds?: number };
+export type LayoutOpts = { tail?: number; minSeconds?: number; gap?: number };
 
 export type Placed = Line & { from: number; len: number; startSec: number };
 
@@ -27,15 +27,16 @@ export type Placed = Line & { from: number; len: number; startSec: number };
 export const layout = (t: Timing, hook: string, opts: LayoutOpts = {}) => {
   const tail = opts.tail ?? TAIL;
   const minSeconds = opts.minSeconds ?? 0; // no forced padding: it only creates dead air
+  const gap = opts.gap ?? GAP;
   const h = t.hooks[hook];
   const hookLen = Math.round((h.dur + HOOK_GAP) * FPS);
   let sec = h.dur + HOOK_GAP;
   const placed: Placed[] = t.lines.map((l) => {
     const p = { ...l, startSec: sec, from: Math.round(sec * FPS), len: 0 };
-    sec += l.dur + GAP;
+    sec += l.dur + gap;
     return p;
   });
-  const total = Math.max(Math.round((sec - GAP + tail) * FPS), Math.round(minSeconds * FPS));
+  const total = Math.max(Math.round((sec - gap + tail) * FPS), Math.round(minSeconds * FPS));
   placed.forEach((p, i) => {
     p.len = (i + 1 < placed.length ? placed[i + 1].from : total) - p.from;
   });
