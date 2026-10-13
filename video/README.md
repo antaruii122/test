@@ -1,5 +1,7 @@
 # Motion graphics (Remotion)
 
+**Start here:** read `CONTINUE.md` (how to resume on any machine) and `PROJECT.md` (plan and series).
+
 Vertical 1080x1920 cartoon explainers. Series: **Before They Were Famous** (brand origin stories, ~61s each).
 
 ## Hook rules (first 3 seconds)
