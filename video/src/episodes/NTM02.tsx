@@ -4,10 +4,10 @@ import { Confetti } from "../components";
 import { C, FONT, FPS } from "../theme";
 import timing from "./ntm02.timing.json";
 import { Emoji, layout, Punch, Sfx, Sticker, Timing, usePop } from "./kit";
-import { Apartment, Box, cam, Cart, Kitchen, Mia, MiaEpisode, SaladBowl, Shot, Supermarket } from "./mia";
+import { Apartment, Box, cam, MIA_LAYOUT, Cart, Kitchen, Mia, MiaEpisode, SaladBowl, Shot, Supermarket } from "./mia";
 
 const T = timing as Timing;
-export const ntm02Duration = () => layout(T, "A").total;
+export const ntm02Duration = () => layout(T, "A", MIA_LAYOUT).total;
 
 const lineOf = (scene: string) => T.lines.find((l) => l.scene === scene)!;
 const at = (scene: string, w: string, nth = 0) => {

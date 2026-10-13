@@ -4,10 +4,10 @@ import { Confetti } from "../components";
 import { C, FONT, FPS } from "../theme";
 import timing from "./ntm01.timing.json";
 import { Emoji, layout, Punch, Sfx, Sticker, Timing, usePop } from "./kit";
-import { Apartment, Box, cam, Mia, MiaEpisode, Shot } from "./mia";
+import { Apartment, Box, cam, MIA_LAYOUT, Mia, MiaEpisode, Shot } from "./mia";
 
 const T = timing as Timing;
-export const ntm01Duration = () => layout(T, "A").total;
+export const ntm01Duration = () => layout(T, "A", MIA_LAYOUT).total;
 
 const at = (words: { w: string; start: number }[], w: string) =>
   Math.round((words.find((x) => x.w.toLowerCase().startsWith(w))?.start ?? 0) * FPS);

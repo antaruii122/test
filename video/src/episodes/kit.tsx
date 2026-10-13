@@ -19,12 +19,14 @@ export type Timing = { id: string; title: string; hooks: Record<string, Clip>; l
 export const GAP = 0.6; // pause between lines (s)
 export const HOOK_GAP = 0.3;
 export const TAIL = 2.6; // hold after last line (follow card)
-export const MIN_SECONDS = 61.5; // TikTok Creator Rewards needs >1 min
+export type LayoutOpts = { tail?: number; minSeconds?: number };
 
 export type Placed = Line & { from: number; len: number; startSec: number };
 
 /** Lay out hook + lines on the timeline, in frames. */
-export const layout = (t: Timing, hook: string) => {
+export const layout = (t: Timing, hook: string, opts: LayoutOpts = {}) => {
+  const tail = opts.tail ?? TAIL;
+  const minSeconds = opts.minSeconds ?? 0; // no forced padding: it only creates dead air
   const h = t.hooks[hook];
   const hookLen = Math.round((h.dur + HOOK_GAP) * FPS);
   let sec = h.dur + HOOK_GAP;
@@ -33,7 +35,7 @@ export const layout = (t: Timing, hook: string) => {
     sec += l.dur + GAP;
     return p;
   });
-  const total = Math.max(Math.round((sec - GAP + TAIL) * FPS), Math.round(MIN_SECONDS * FPS));
+  const total = Math.max(Math.round((sec - GAP + tail) * FPS), Math.round(minSeconds * FPS));
   placed.forEach((p, i) => {
     p.len = (i + 1 < placed.length ? placed[i + 1].from : total) - p.from;
   });

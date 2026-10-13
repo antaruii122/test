@@ -266,6 +266,8 @@ export const Box: React.FC<{ x: number; y: number; w?: number; h?: number; label
 );
 
 /* ---------- Shared shell for every "Nobody Told Me" episode ---------- */
+// The ending's final gag needs ~1s after the last line, then it loops. No dead air.
+export const MIA_LAYOUT = { tail: 1.5 };
 export const MiaEpisode: React.FC<{
   t: Timing;
   label: string;
@@ -273,7 +275,7 @@ export const MiaEpisode: React.FC<{
   scenes: Record<string, () => React.ReactNode>;
 }> = ({ t, label, hook, scenes }) => {
   const frame = useCurrentFrame();
-  const { hookClip, hookLen, placed, total } = layout(t, "A");
+  const { hookClip, hookLen, placed, total } = layout(t, "A", MIA_LAYOUT);
   const amp = ampAt(frame / FPS, hookClip, placed);
   return (
     <TalkContext.Provider value={amp}>
