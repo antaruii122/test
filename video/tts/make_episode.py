@@ -28,6 +28,17 @@ def words_with_times(text: str, dur: float):
     return out
 
 
+def amplitude(samples: np.ndarray, sr: int, fps: int = 30):
+    """Per-frame loudness 0..1 so the character's mouth follows the real voice."""
+    hop = sr // fps
+    n = int(np.ceil(len(samples) / hop))
+    rms = np.array([np.sqrt(np.mean(samples[i * hop:(i + 1) * hop] ** 2) + 1e-12) for i in range(n)])
+    ref = np.percentile(rms, 95) or 1.0
+    amp = np.clip(rms / ref, 0, 1)
+    amp = np.convolve(amp, [0.25, 0.5, 0.25], mode="same")  # light smoothing
+    return [round(float(a), 2) for a in amp]
+
+
 def main(script_path: str):
     ep = json.loads(pathlib.Path(script_path).read_text())
     kokoro = Kokoro(str(MODELS / "kokoro-v1.0.int8.onnx"), str(MODELS / "voices-v1.0.bin"))
@@ -42,7 +53,13 @@ def main(script_path: str):
         samples = samples[max(0, idx[0] - 200): idx[-1] + 2000] if len(idx) else samples
         sf.write(out_dir / f"{name}.wav", samples, sr)
         dur = len(samples) / sr
-        return {"file": f"{ep['id']}/{name}.wav", "text": text, "dur": round(dur, 3), "words": words_with_times(text, dur)}
+        return {
+            "file": f"{ep['id']}/{name}.wav",
+            "text": text,
+            "dur": round(dur, 3),
+            "words": words_with_times(text, dur),
+            "amp": amplitude(samples, sr),
+        }
 
     timing = {"id": ep["id"], "title": ep["title"], "hooks": {}, "lines": []}
     for key, text in ep["hooks"].items():

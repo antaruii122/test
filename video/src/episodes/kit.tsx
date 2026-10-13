@@ -12,7 +12,7 @@ import {
 import { C, FONT, FPS } from "../theme";
 
 export type Word = { w: string; start: number; end: number };
-export type Clip = { file: string; text: string; dur: number; words: Word[] };
+export type Clip = { file: string; text: string; dur: number; words: Word[]; amp?: number[] };
 export type Line = Clip & { scene: string };
 export type Timing = { id: string; title: string; hooks: Record<string, Clip>; lines: Line[] };
 
@@ -378,3 +378,18 @@ export const StoryTitle: React.FC<{ name: string; icon: string; bg: string; colo
     </Sticker>
   </>
 );
+
+/** Voice loudness (0..1) at time t on the global timeline, from the per-frame `amp` data. */
+export const ampAt = (t: number, hookClip: Clip, placed: Placed[]) => {
+  const pick = (c: Clip, start: number) => {
+    if (!c.amp || t < start || t >= start + c.dur) return null;
+    return c.amp[Math.min(c.amp.length - 1, Math.floor((t - start) * FPS))] ?? 0;
+  };
+  const h = pick(hookClip, 0);
+  if (h !== null) return h;
+  for (const p of placed) {
+    const a = pick(p, p.startSec);
+    if (a !== null) return a;
+  }
+  return 0;
+};

@@ -1,10 +1,10 @@
 import React from "react";
-import { AbsoluteFill, interpolate, Sequence, useCurrentFrame } from "remotion";
+import { interpolate, useCurrentFrame } from "remotion";
 import { Confetti } from "../components";
 import { C, FONT, FPS } from "../theme";
 import timing from "./ntm01.timing.json";
-import { Captions, Emoji, layout, Punch, SeriesChrome, Sfx, Soundtrack, Sticker, Timing, usePop } from "./kit";
-import { Apartment, Box, Mia, TalkContext } from "./mia";
+import { Emoji, layout, Punch, Sfx, Sticker, Timing, usePop } from "./kit";
+import { Apartment, Box, cam, Mia, MiaEpisode, Shot } from "./mia";
 
 const T = timing as Timing;
 export const ntm01Duration = () => layout(T, "A").total;
@@ -12,8 +12,11 @@ export const ntm01Duration = () => layout(T, "A").total;
 const at = (words: { w: string; start: number }[], w: string) =>
   Math.round((words.find((x) => x.w.toLowerCase().startsWith(w))?.start ?? 0) * FPS);
 const lineWords = (scene: string) => T.lines.find((l) => l.scene === scene)!.words;
+const lineFrames = (scene: string) => Math.round(T.lines.find((l) => l.scene === scene)!.dur * FPS);
 
-/* Topic card on screen from frame 0 */
+/* Rule: characters + props live inside <Shot> (the camera moves them);
+   text stickers live outside it so they stay readable. */
+
 const TopicCard: React.FC = () => {
   const s = usePop(-12, 9);
   return (
@@ -36,7 +39,6 @@ const Floor = () => (
   </>
 );
 
-/* Cold sparkles around her head */
 const Frost: React.FC<{ x: number; y: number }> = ({ x, y }) => {
   const frame = useCurrentFrame();
   return (
@@ -55,43 +57,48 @@ const Frost: React.FC<{ x: number; y: number }> = ({ x, y }) => {
 
 const Hook = () => (
   <Punch shake instant>
-    <Floor />
-    <Mia x={540} y={1000} face="pain" pose="spoon" />
-    <Frost x={540} y={760} />
+    <Shot keys={[{ f: 0, z: 1.05, x: 540, y: 980 }, { f: 60, z: 1.2, x: 540, y: 900 }]} bg={<Apartment />}>
+      <Floor />
+      <Mia x={540} y={1000} face="pain" pose="spoon" />
+      <Frost x={540} y={760} />
+    </Shot>
     <TopicCard />
     <Sfx name="boom" at={0} />
   </Punch>
 );
 
 const Moving = () => {
-  const w = lineWords("moving");
+  const ice = at(lineWords("moving"), "ice");
   return (
-    <Punch>
-      <Floor />
-      <Mia x={540} y={1000} face="happy" pose={useCurrentFrame() > at(w, "ice") ? "tub" : "point"} bounce />
+    <>
+      <Shot whip={1} keys={[cam.wide(0), cam.wide(ice - 10), cam.medium(540, ice + 10)]} bg={<Apartment />}>
+        <Floor />
+        <Mia x={540} y={1000} face="happy" pose={useCurrentFrame() > ice ? "tub" : "point"} bounce />
+      </Shot>
       <Sticker x={300} y={300} delay={2} bg={C.yellow} size={70} rot={-5}>📦 MOVING DAY</Sticker>
-      <Sticker x={760} y={420} delay={at(w, "ice")} bg={C.white} size={64} rot={4}>🍦 celebration!</Sticker>
-      <Sfx name="pop" at={at(w, "ice")} />
-    </Punch>
+      <Sticker x={760} y={420} delay={ice} bg={C.white} size={64} rot={4}>🍦 celebration!</Sticker>
+      <Sfx name="pop" at={ice} />
+    </>
   );
 };
 
 const Spoons = () => {
   const frame = useCurrentFrame();
-  const w = lineWords("spoons");
-  const ow = at(w, "ow");
+  const ow = at(lineWords("spoons"), "ow");
   const hurt = frame >= ow;
   return (
     <Punch shake={hurt}>
-      <Floor />
-      <Mia x={540} y={1000} face={hurt ? "pain" : "full"} pose={hurt ? "headHold" : "spoon"} />
+      <Shot keys={[cam.medium(540, 0), cam.medium(540, ow - 2), cam.face(540, 1000, ow + 4)]} bg={<Apartment />}>
+        <Floor />
+        <Mia x={540} y={1000} face={hurt ? "pain" : "full"} pose={hurt ? "headHold" : "spoon"} />
+        {hurt && <Frost x={540} y={760} />}
+      </Shot>
       {[0, 1, 2].map((i) => (
         <Sticker key={i} x={250 + i * 290} y={330} delay={4 + i * 9} bg={C.white} size={80} rot={-6 + i * 6}>
           🥄{i + 1}
         </Sticker>
       ))}
-      {hurt && <Frost x={540} y={760} />}
-      {hurt && <Sticker x={540} y={560} delay={ow} bg={C.pink} color={C.white} size={110} rot={-8}>OW!</Sticker>}
+      {hurt && <Sticker x={540} y={1180} delay={ow} bg={C.pink} color={C.white} size={110} rot={-8}>OW!</Sticker>}
       <Sfx name="pop" at={4} />
       <Sfx name="pop" at={13} />
       <Sfx name="pop" at={22} />
@@ -101,20 +108,21 @@ const Spoons = () => {
 };
 
 const NotFrozen = () => (
-  <Punch>
-    <Floor />
-    <Mia x={330} y={1000} face="think" pose="point" />
-    <Emoji e="🧠" x={790} y={650} size={250} delay={6} />
-    <Emoji e="❌" x={850} y={560} size={120} delay={22} float={false} />
-    <Sticker x={780} y={880} delay={22} bg={C.cyan} size={60} rot={4}>not frozen!</Sticker>
+  <>
+    <Shot whip={-1} keys={[cam.medium(330, 0), cam.medium(330, 18), { f: 40, z: 1.5, x: 760, y: 700 }]} bg={<Apartment />}>
+      <Floor />
+      <Mia x={330} y={1000} face="think" pose="point" />
+      <Emoji e="🧠" x={790} y={650} size={250} delay={6} />
+      <Emoji e="❌" x={850} y={560} size={120} delay={22} float={false} />
+    </Shot>
+    <Sticker x={540} y={1180} delay={22} bg={C.cyan} size={66} rot={4}>not frozen!</Sticker>
     <Sfx name="pop" at={22} />
-  </Punch>
+  </>
 );
 
-/* ---------- Zoom bubble: inside the head ---------- */
+/* Zoom bubble: inside the head */
 const Diagram: React.FC<{ mode: "shrink" | "expand" | "nerve" }> = ({ mode }) => {
   const frame = useCurrentFrame();
-  const s = usePop(0, 11);
   const width =
     mode === "shrink"
       ? interpolate(frame, [10, 50], [44, 12], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
@@ -124,7 +132,7 @@ const Diagram: React.FC<{ mode: "shrink" | "expand" | "nerve" }> = ({ mode }) =>
   const vessel = mode === "shrink" ? "#5AA9FF" : C.pink;
   const nerve = interpolate(frame, [8, 50], [600, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
-    <div style={{ position: "absolute", left: 90, top: 330, width: 900, height: 900, transform: `scale(${s})` }}>
+    <div style={{ position: "absolute", left: 90, top: 330, width: 900, height: 900 }}>
       <svg width={900} height={900} viewBox="0 0 900 900">
         <defs>
           <clipPath id="bubble">
@@ -133,12 +141,10 @@ const Diagram: React.FC<{ mode: "shrink" | "expand" | "nerve" }> = ({ mode }) =>
         </defs>
         <circle cx={450} cy={450} r={420} fill="#FFF4EE" />
         <g clipPath="url(#bubble)">
-          {/* side profile of a head */}
           <path d="M200 900 L200 640 Q120 600 150 520 L110 470 Q100 440 140 430 Q130 300 220 200 Q330 90 520 110 Q760 140 800 380 Q830 600 640 700 L640 900 Z" fill={C.white} stroke={C.ink} strokeWidth={12} />
-          {/* palate / roof of mouth */}
           <path d="M150 560 Q330 470 560 540" stroke="#F49AB0" strokeWidth={34} fill="none" strokeLinecap="round" />
           <path d="M170 545 Q330 470 540 530" stroke={vessel} strokeWidth={width} fill="none" strokeLinecap="round" opacity={0.9} />
-          {mode !== "shrink" && mode === "nerve" && (
+          {mode === "nerve" && (
             <path d="M420 500 Q470 380 400 260 Q360 200 300 230" stroke={C.yellow} strokeWidth={18} fill="none" strokeLinecap="round" strokeDasharray="600" strokeDashoffset={nerve} />
           )}
         </g>
@@ -152,34 +158,42 @@ const Diagram: React.FC<{ mode: "shrink" | "expand" | "nerve" }> = ({ mode }) =>
 };
 
 const Vessels = () => (
-  <Punch>
-    <Diagram mode="shrink" />
+  <>
+    <Shot keys={[{ f: 0, z: 0.6, x: 540, y: 780 }, { f: 14, z: 1, x: 540, y: 780 }, { f: 90, z: 1.35, x: 460, y: 840 }]}>
+      <Diagram mode="shrink" />
+    </Shot>
     <Sticker x={540} y={250} delay={30} bg="#5AA9FF" color={C.white} size={70} rot={-3}>blood vessels shrink 🥶</Sticker>
-    <Sfx name="whoosh" at={10} />
-  </Punch>
+    <Sfx name="whoosh" at={0} />
+  </>
 );
 const Dilate = () => (
   <Punch shake>
-    <Diagram mode="expand" />
+    <Shot keys={[{ f: 0, z: 1.35, x: 460, y: 840 }, { f: 10, z: 1.6, x: 430, y: 840 }]}>
+      <Diagram mode="expand" />
+    </Shot>
     <Sticker x={540} y={250} delay={10} bg={C.pink} color={C.white} size={70} rot={3}>…then open up FAST 💥</Sticker>
     <Sfx name="boom" at={8} />
   </Punch>
 );
 const Nerves = () => (
-  <Punch>
-    <Diagram mode="nerve" />
+  <>
+    <Shot keys={[{ f: 0, z: 1.4, x: 480, y: 820 }, { f: 50, z: 1.5, x: 420, y: 600 }, { f: 90, z: 1.0, x: 540, y: 780 }]}>
+      <Diagram mode="nerve" />
+    </Shot>
     <Sticker x={540} y={250} delay={46} bg={C.yellow} size={66} rot={-3}>pain → forehead ⚡</Sticker>
     <Sfx name="ding" at={46} />
-  </Punch>
+  </>
 );
 
 const Name = () => {
   const frame = useCurrentFrame();
   const words = ["SPHENOPALATINE", "GANGLIONEURALGIA"];
   return (
-    <Punch>
-      <Floor />
-      <Mia x={540} y={1050} face={frame > 70 ? "full" : "wow"} pose={frame > 70 ? "spoon" : "relax"} />
+    <>
+      <Shot whip={1} keys={[cam.low(540, 0), cam.low(540, 60), cam.face(540, 1050, 80)]} bg={<Apartment />}>
+        <Floor />
+        <Mia x={540} y={1050} face={frame > 70 ? "full" : "wow"} pose={frame > 70 ? "spoon" : "relax"} />
+      </Shot>
       {words.map((wd, r) => (
         <div key={r} style={{ position: "absolute", top: 300 + r * 130, left: 0, right: 0, textAlign: "center", fontFamily: FONT, fontWeight: 900, fontSize: 84 }}>
           {wd.split("").map((ch, i) => (
@@ -198,7 +212,7 @@ const Name = () => {
           ))}
         </div>
       ))}
-    </Punch>
+    </>
   );
 };
 
@@ -206,60 +220,64 @@ const Harmless = () => {
   const frame = useCurrentFrame();
   const left = Math.max(0, Math.round(interpolate(frame, [6, 60], [30, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })));
   return (
-    <Punch>
-      <Floor />
-      <Mia x={330} y={1000} face="happy" pose="point" />
-      <div style={{ position: "absolute", left: 640, top: 520, width: 320, height: 320, borderRadius: "50%", background: C.white, border: `14px solid ${C.ink}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: FONT, fontWeight: 900, fontSize: 120, color: C.ink, boxShadow: `10px 10px 0 ${C.ink}` }}>
-        {left}s
-      </div>
-      <Sticker x={800} y={950} delay={60} bg={C.green} size={70} rot={-4}>✅ harmless</Sticker>
+    <>
+      <Shot whip={-1} keys={[{ f: 0, z: 1.3, x: 800, y: 700 }, { f: 55, z: 1.3, x: 800, y: 700 }, { f: 75, z: 1, x: 540, y: 960 }]} bg={<Apartment />}>
+        <Floor />
+        <Mia x={330} y={1000} face="happy" pose="point" />
+        <div style={{ position: "absolute", left: 640, top: 520, width: 320, height: 320, borderRadius: "50%", background: C.white, border: `14px solid ${C.ink}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: FONT, fontWeight: 900, fontSize: 120, color: C.ink, boxShadow: `10px 10px 0 ${C.ink}` }}>
+          {left}s
+        </div>
+      </Shot>
+      <Sticker x={540} y={300} delay={60} bg={C.green} size={70} rot={-4}>✅ harmless</Sticker>
       <Sfx name="ding" at={60} />
-    </Punch>
+    </>
   );
 };
 
 const Fix = () => {
   const w = lineWords("fix");
   return (
-    <Punch>
-      <Floor />
-      <Mia x={330} y={1000} face="smug" pose="point" />
-      <Sticker x={660} y={420} delay={at(w, "press")} bg={C.yellow} size={50} rot={-4}>👅 tongue on roof of mouth</Sticker>
-      <Sticker x={700} y={640} delay={at(w, "sip")} bg={C.cyan} size={54} rot={3}>☕ sip something warm</Sticker>
+    <>
+      <Shot keys={[cam.face(330, 1000, 0), cam.face(330, 1000, at(w, "press") - 4), cam.medium(420, at(w, "press") + 10)]} bg={<Apartment />}>
+        <Floor />
+        <Mia x={330} y={1000} face="smug" pose="point" />
+      </Shot>
+      <Sticker x={600} y={300} delay={at(w, "press")} bg={C.yellow} size={50} rot={-4}>👅 tongue on roof of mouth</Sticker>
+      <Sticker x={620} y={460} delay={at(w, "sip")} bg={C.cyan} size={54} rot={3}>☕ sip something warm</Sticker>
       <Sfx name="pop" at={at(w, "press")} />
       <Sfx name="pop" at={at(w, "sip")} />
-    </Punch>
+    </>
   );
 };
 
 const Slower = () => {
-  const w = lineWords("slower");
-  const not = at(w, "not");
+  const not = at(lineWords("slower"), "not");
   return (
-    <Punch>
-      <Floor />
-      <Mia x={540} y={1000} face={useCurrentFrame() > not ? "smug" : "think"} pose="tub" />
+    <>
+      <Shot whip={1} keys={[cam.medium(540, 0), cam.medium(540, not - 4), cam.low(540, not + 6)]} bg={<Apartment />}>
+        <Floor />
+        <Mia x={540} y={1000} face={useCurrentFrame() > not ? "smug" : "think"} pose="tub" />
+      </Shot>
       <Sticker x={540} y={330} delay={4} bg={C.white} size={70} rot={-3}>🐢 eat slower?</Sticker>
       <Sticker x={540} y={520} delay={not} bg={C.pink} color={C.white} size={80} rot={5}>❌ NOT HAPPENING</Sticker>
       <Sfx name="boom" at={not} />
-    </Punch>
+    </>
   );
 };
 
-/* Ending: honest question, then a giant spoonful that loops back to the hook */
+/* Ending: close-up honest question, then a giant spoonful that loops back to the hook */
 const Ending = () => {
   const frame = useCurrentFrame();
-  const voiceEnd = Math.round(T.lines.find((l) => l.scene === "ending")!.dur * FPS);
+  const voiceEnd = lineFrames("ending");
   const bite = frame > voiceEnd + 12;
-  const zoom = interpolate(frame, [voiceEnd + 30, voiceEnd + 46], [1, 1.25], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <Punch shake={bite}>
-      <AbsoluteFill style={{ transform: `scale(${zoom})` }}>
+      <Shot keys={[cam.face(540, 1000, 0), cam.face(540, 1000, voiceEnd + 6), { f: voiceEnd + 14, z: 1.05, x: 540, y: 980 }]} bg={<Apartment />}>
         <Floor />
         <Mia x={540} y={1000} face={bite ? "pain" : "smug"} pose={bite ? "spoon" : "shrug"} />
         {bite && <Frost x={540} y={760} />}
-      </AbsoluteFill>
-      <Sticker x={540} y={330} delay={0} bg={C.white} size={58} rot={-3}>🤔 did you know this?</Sticker>
+      </Shot>
+      {!bite && <Sticker x={540} y={300} delay={0} bg={C.white} size={58} rot={-3}>🤔 did you know this?</Sticker>}
       {bite && <Confetti x={540} y={700} delay={voiceEnd + 12} n={20} />}
       <Sfx name="whoosh" at={voiceEnd + 4} />
       <Sfx name="boom" at={voiceEnd + 12} />
@@ -267,41 +285,23 @@ const Ending = () => {
   );
 };
 
-const scenes: Record<string, () => React.ReactNode> = {
-  moving: () => <Moving />,
-  spoons: () => <Spoons />,
-  notfrozen: () => <NotFrozen />,
-  vessels: () => <Vessels />,
-  dilate: () => <Dilate />,
-  nerves: () => <Nerves />,
-  name: () => <Name />,
-  harmless: () => <Harmless />,
-  fix: () => <Fix />,
-  slower: () => <Slower />,
-  ending: () => <Ending />,
-};
-
-export const NTM01: React.FC = () => {
-  const { hookClip, hookLen, placed, total } = layout(T, "A");
-  const t = useCurrentFrame() / FPS;
-  const talk = (t >= 0 && t < hookClip.dur) || placed.some((p) => t >= p.startSec && t < p.startSec + p.dur);
-  return (
-    <TalkContext.Provider value={talk}>
-      <AbsoluteFill>
-        <Apartment />
-        <Sequence durationInFrames={hookLen}>
-          <Hook />
-        </Sequence>
-        {placed.map((p, i) => (
-          <Sequence key={i} from={p.from} durationInFrames={p.len}>
-            {scenes[p.scene]()}
-            <Sfx name="whoosh" at={0} volume={0.2} />
-          </Sequence>
-        ))}
-        <Captions hookClip={hookClip} placed={placed} />
-        <SeriesChrome label="NOBODY TOLD ME… #1" total={total} showFrom={hookLen} />
-        <Soundtrack hookClip={hookClip} placed={placed} total={total} />
-      </AbsoluteFill>
-    </TalkContext.Provider>
-  );
-};
+export const NTM01: React.FC = () => (
+  <MiaEpisode
+    t={T}
+    label="NOBODY TOLD ME… #1"
+    hook={<Hook />}
+    scenes={{
+      moving: () => <Moving />,
+      spoons: () => <Spoons />,
+      notfrozen: () => <NotFrozen />,
+      vessels: () => <Vessels />,
+      dilate: () => <Dilate />,
+      nerves: () => <Nerves />,
+      name: () => <Name />,
+      harmless: () => <Harmless />,
+      fix: () => <Fix />,
+      slower: () => <Slower />,
+      ending: () => <Ending />,
+    }}
+  />
+);

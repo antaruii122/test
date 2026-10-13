@@ -1,0 +1,60 @@
+{
+  "id": "ntm02",
+  "title": "Nobody Told Me: Hungry After Salad",
+  "voice": "af_bella",
+  "speed": 1.04,
+  "hooks": {
+    "A": "Why am I starving one hour after a salad?!"
+  },
+  "lines": [
+    {
+      "scene": "market",
+      "text": "My first big grocery shop alone. I'm being so healthy. Lettuce, lettuce, and more lettuce."
+    },
+    {
+      "scene": "lunch",
+      "text": "Lunch: a giant bowl of leaves. I feel amazing."
+    },
+    {
+      "scene": "later",
+      "text": "One hour later... my stomach sounds like a monster."
+    },
+    {
+      "scene": "stomach",
+      "text": "Turns out, all those leaves fill your stomach with water and fiber, but they have very little energy."
+    },
+    {
+      "scene": "stomach2",
+      "text": "So you feel full for a moment, and then that feeling fades fast."
+    },
+    {
+      "scene": "bubblewrap",
+      "text": "It's like getting a giant delivery box, and it's mostly bubble wrap."
+    },
+    {
+      "scene": "protein",
+      "text": "What keeps you full longer is protein, like eggs, chicken, beans, or yogurt."
+    },
+    {
+      "scene": "fat",
+      "text": "And a little healthy fat, like avocado, nuts, or olive oil, slows down how fast your stomach empties."
+    },
+    {
+      "scene": "trick",
+      "text": "So the trick isn't eating less salad. It's adding to it."
+    },
+    {
+      "scene": "recipe",
+      "text": "Leaves, plus a protein, plus a little fat. Same salad. Way less hangry."
+    },
+    {
+      "scene": "ending",
+      "text": "Be honest. Am I the only one who thought lettuce was a full meal?"
+    }
+  ],
+  "sources": [
+    "https://galaxus.ch/en/page/hungry-again-why-certain-foods-dont-really-fill-you-up-30381",
+    "https://www.rockymounttelegram.com/features/columnists/kathy-kolasa-understanding-satiety-can-lead-to-better-choices/article_ca8f66d7-5d92-5a59-9690-c0df93d5707b.html",
+    "https://nutritionovereasy.com/?p=17334"
+  ]
+}
