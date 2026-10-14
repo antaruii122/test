@@ -276,9 +276,10 @@ export const Person: React.FC<{ x: number; y: number; color?: string; scale?: nu
   );
 };
 
-export const Counter: React.FC<{ to: number; prefix?: string; y: number; size?: number; color?: string; delay?: number; dur?: number }> = ({
+export const Counter: React.FC<{ to: number; prefix?: string; suffix?: string; y: number; size?: number; color?: string; delay?: number; dur?: number }> = ({
   to,
   prefix = "",
+  suffix = "",
   y,
   size = 130,
   color = C.yellow,
@@ -309,6 +310,7 @@ export const Counter: React.FC<{ to: number; prefix?: string; y: number; size?: 
     >
       {prefix}
       {v.toLocaleString("en-US")}
+      {suffix}
     </div>
   );
 };

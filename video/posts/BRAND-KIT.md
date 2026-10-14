@@ -117,3 +117,18 @@ Post in story order (1→4). On YouTube, add each video to a playlist called **"
 - Post at the same time every day. Start with your evening in NZ, which is morning in the US.
 - Reply to the first comments in the first hour: it helps the algorithm.
 - After 48h, check YouTube Studio → the video → Reach → "Viewed vs. Swiped Away". Write the numbers down so you can compare episodes.
+
+### #5: Always cold at work
+- **File:** `out/nobodytoldme05-office-cold.mp4` (38s)
+- **YouTube title:** Why Am I ALWAYS Colder Than the Guys at Work? 🥶 #shorts
+- **Description:**
+  ```
+  First week at her new job: everyone's in T-shirts, Mia's wearing three layers. Turns out many office temperatures use a formula from the 1960s, based on a 40-year-old man.
+
+  Sources:
+  https://ideas.repec.org/a/nat/natcli/v5y2015i12d10.1038_nclimate2741.html
+  https://www.cbsnews.com/news/woman-feel-colder-office-old-formula-set-temperature-based-men-study-reveals/
+  https://www.sciencenews.org/blog/scicurious/building-standards-arent-blame-chilly-offices
+  ```
+- **Hashtags:** #officelife #alwayscold #womenatwork #didyouknow #nobodytoldme #shorts
+- **Pinned comment:** Be honest: how many layers are you wearing at work right now? 🧣

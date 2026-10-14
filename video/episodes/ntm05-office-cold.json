@@ -1,0 +1,22 @@
+{
+  "id": "ntm05",
+  "title": "Nobody Told Me: Always Cold at Work",
+  "voice": "af_bella",
+  "speed": 1.08,
+  "hooks": {
+    "A": "The office temperature was set for a man. From the nineteen sixties."
+  },
+  "lines": [
+    { "scene": "office", "text": "First week at my new job. Everyone's in T-shirts. I'm wearing three layers." },
+    { "scene": "formula", "text": "Turns out, many office temperature standards use a formula from the 1960s, based on a forty year old man." },
+    { "scene": "metabolism", "text": "Women's bodies usually burn energy a little slower at rest, so we make less heat." },
+    { "scene": "study", "text": "One study found that formula can overestimate women's metabolism by up to thirty five percent." },
+    { "scene": "tip", "text": "Not everyone agrees on the details, but it's not just you. Keep a cardigan or a hot drink at your desk." },
+    { "scene": "ending", "text": "Be honest. How many layers are you wearing at work right now?" }
+  ],
+  "sources": [
+    "https://ideas.repec.org/a/nat/natcli/v5y2015i12d10.1038_nclimate2741.html",
+    "https://www.cbsnews.com/news/woman-feel-colder-office-old-formula-set-temperature-based-men-study-reveals/",
+    "https://www.sciencenews.org/blog/scicurious/building-standards-arent-blame-chilly-offices"
+  ]
+}

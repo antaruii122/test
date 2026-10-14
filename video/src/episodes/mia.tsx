@@ -405,3 +405,47 @@ export const MiaTopic: React.FC<{ text: string; bg: string; color?: string }> = 
 
 /** Horizontal center of the safe zone: put stickers here so the right-side buttons never cover them. */
 export const SAFE_CX = (SAFE.left + SAFE.right) / 2;
+
+/* ---------- Office set + cold-weather layers for Mia ---------- */
+export const Office: React.FC = () => {
+  const frame = useCurrentFrame();
+  return (
+    <AbsoluteFill style={{ background: "linear-gradient(180deg, #E3ECF5 0%, #D5E2EE 60%, #9AA9B8 60%, #8796A6 100%)" }}>
+      {/* AC vent blowing */}
+      <div style={{ position: "absolute", left: 300, top: 300, width: 480, height: 90, background: C.white, border: `9px solid ${C.ink}`, borderRadius: 14 }}>
+        {[0, 1, 2, 3].map((i) => (
+          <div key={i} style={{ position: "absolute", left: 20, right: 20, top: 14 + i * 16, height: 7, background: "#B0BEC5", borderRadius: 4 }} />
+        ))}
+      </div>
+      {new Array(10).fill(0).map((_, i) => {
+        const t = (frame * 3 + i * 30) % 300;
+        return (
+          <div key={i} style={{ position: "absolute", left: 330 + (i % 5) * 95 + Math.sin(t / 20 + i) * 20, top: 400 + t, fontSize: 40, opacity: 1 - t / 300, fontFamily: "Inter" }}>
+            ❄️
+          </div>
+        );
+      })}
+      {/* window */}
+      <div style={{ position: "absolute", left: 40, top: 470, width: 220, height: 330, background: "linear-gradient(180deg,#9DE0FF,#E6F7FF)", border: `10px solid ${C.ink}`, borderRadius: 12 }} />
+      {/* desk + monitor */}
+      <div style={{ position: "absolute", left: 560, top: 1000, width: 520, height: 40, background: "#8D6E63", border: `9px solid ${C.ink}` }} />
+      <div style={{ position: "absolute", left: 700, top: 820, width: 260, height: 170, background: "#263238", border: `9px solid ${C.ink}`, borderRadius: 12 }} />
+      <div style={{ position: "absolute", left: 810, top: 990, width: 40, height: 20, background: C.ink }} />
+      <div style={{ position: "absolute", left: 600, top: 920, fontSize: 70, fontFamily: "Inter" }}>🪴</div>
+    </AbsoluteFill>
+  );
+};
+
+/** Scarf + beanie drawn over Mia (same x, y, scale as the Mia they dress). `shiver` jitters them with her. */
+export const ColdLayers: React.FC<{ x: number; y: number; scale?: number }> = ({ x, y, scale = 1.15 }) => {
+  const neckY = y - 350 * scale + 300 * scale;
+  const headTop = y - 350 * scale + 95 * scale;
+  return (
+    <>
+      <div style={{ position: "absolute", left: x - 120 * scale, top: neckY - 22 * scale, width: 240 * scale, height: 56 * scale, background: "#E53935", border: `${7 * scale}px solid ${C.ink}`, borderRadius: 28 * scale }} />
+      <div style={{ position: "absolute", left: x + 40 * scale, top: neckY + 20 * scale, width: 50 * scale, height: 120 * scale, background: "#E53935", border: `${7 * scale}px solid ${C.ink}`, borderRadius: 12 * scale }} />
+      <div style={{ position: "absolute", left: x - 112 * scale, top: headTop - 50 * scale, width: 224 * scale, height: 120 * scale, background: "#5C6BC0", border: `${8 * scale}px solid ${C.ink}`, borderRadius: `${120 * scale}px ${120 * scale}px ${14 * scale}px ${14 * scale}px` }} />
+      <div style={{ position: "absolute", left: x - 30 * scale, top: headTop - 100 * scale, width: 60 * scale, height: 60 * scale, background: C.white, border: `${7 * scale}px solid ${C.ink}`, borderRadius: "50%" }} />
+    </>
+  );
+};

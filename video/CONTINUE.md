@@ -55,8 +55,8 @@ In a cloud session where Remotion can't download Chrome, add `--browser-executab
 - **Who:** Mia, about 24, just moved into her first apartment alone. Curious, a bit dramatic, funny. Learns everyday things "nobody told her".
 - **Look (never change):** dark-brown bob, yellow hoodie, blue jeans, white sneakers, rosy cheeks. Drawn in code, so she looks identical every episode.
 - **Voice:** Kokoro `af_bella`, speed 1.04–1.08.
-- **Places so far:** her apartment (moving boxes, window, fairy lights), the kitchen, the supermarket.
-- **Continuity:** #1 moving day (ice cream), #2 first grocery shop (salad), #3 first real dinner (onions), #4 perfume.
+- **Places so far:** her apartment (moving boxes, window, fairy lights), the kitchen, the supermarket, her new office (from #5).
+- **Continuity:** #1 moving day (ice cream), #2 first grocery shop (salad), #3 first real dinner (onions), #4 perfume, #5 first week at a new job, always cold (beanie + red scarf; coworker "T-shirt guy").
 - **Format rules (from #4):**
   - 30–40s long.
   - The hook is a surprising statement, and the topic is on screen from frame 0.
@@ -64,7 +64,6 @@ In a cloud session where Remotion can't download Chrome, add `--browser-executab
   - The ending asks the viewer about themselves ("Be honest…"), then a 1-second gag that loops back to the hook.
   - Few stickers: they go outside the camera, and never in the caption zone (y > 1300).
 - **Topic ideas (not yet done):**
-  - why you're always colder than the guys at the office
   - why a smell can bring back an old memory
   - why coffee makes some people sleepy
   - why hair gets frizzy in humidity
