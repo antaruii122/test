@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { AbsoluteFill, Easing, interpolate, Sequence, useCurrentFrame } from "remotion";
-import { ampAt, Captions, layout, LayoutOpts, SeriesChrome, Sfx, Soundtrack, Timing } from "./kit";
-import { C, FPS } from "../theme";
+import { ampAt, Captions, layout, LayoutOpts, SAFE, Sfx, Soundtrack, Timing, usePop } from "./kit";
+import { C, FONT, FPS } from "../theme";
 
 /* ---------- Mia: the series character. Drawn in code so she looks identical every episode. ---------- */
 export const MIA = {
@@ -308,7 +308,7 @@ export const MiaEpisode: React.FC<{
           </Sequence>
         ))}
         <Captions hookClip={hookClip} placed={placed} />
-        <SeriesChrome label={label} total={total} showFrom={hookLen} />
+        {/* No top tag / progress bar: both sit under the apps' UI (see SAFE in kit.tsx) */}
         <Soundtrack hookClip={hookClip} placed={placed} total={total} />
       </AbsoluteFill>
     </TalkContext.Provider>
@@ -387,3 +387,21 @@ export const SaladBowl: React.FC<{ x: number; y: number; s?: number; extras?: st
     ))}
   </div>
 );
+
+/* ---------- Opening topic card, inside the apps' safe zone ---------- */
+export const MiaTopic: React.FC<{ text: string; bg: string; color?: string }> = ({ text, bg, color = C.white }) => {
+  const s = usePop(-12, 9);
+  return (
+    <>
+      <div style={{ position: "absolute", top: 262, left: SAFE.left, width: SAFE.right - SAFE.left, textAlign: "center", fontFamily: FONT, fontWeight: 900, fontSize: 52, color: C.white, WebkitTextStroke: `9px ${C.ink}`, paintOrder: "stroke fill" }}>
+        NOBODY TOLD ME…
+      </div>
+      <div style={{ position: "absolute", top: 340, left: SAFE.left, width: SAFE.right - SAFE.left, boxSizing: "border-box", transform: `scale(${s}) rotate(-2deg)`, background: bg, color, border: `9px solid ${C.ink}`, borderRadius: 30, boxShadow: `10px 10px 0 ${C.ink}`, padding: "16px 24px", fontFamily: FONT, fontWeight: 900, fontSize: 60, lineHeight: 1.1, textAlign: "center" }}>
+        {text}
+      </div>
+    </>
+  );
+};
+
+/** Horizontal center of the safe zone: put stickers here so the right-side buttons never cover them. */
+export const SAFE_CX = (SAFE.left + SAFE.right) / 2;

@@ -2,8 +2,8 @@ import React from "react";
 import { interpolate, random, useCurrentFrame } from "remotion";
 import { C, FONT, FPS } from "../theme";
 import timing from "./ntm04.timing.json";
-import { Emoji, layout, Person, Punch, Sfx, Sticker, Timing, usePop } from "./kit";
-import { Apartment, cam, Mia, MIA_SHORT, MiaEpisode, Shot } from "./mia";
+import { Emoji, layout, Person, Punch, Sfx, Sticker, Timing } from "./kit";
+import { Apartment, cam, Mia, MIA_SHORT, MiaEpisode, MiaTopic, SAFE_CX, Shot } from "./mia";
 
 const T = timing as Timing;
 export const ntm04Duration = () => layout(T, "A", MIA_SHORT).total;
@@ -15,19 +15,7 @@ const at = (scene: string, w: string, nth = 0) => {
 };
 const ROSE = "#FF7EB6";
 
-const TopicCard: React.FC = () => {
-  const s = usePop(-12, 9);
-  return (
-    <>
-      <div style={{ position: "absolute", top: 180, left: 0, right: 0, textAlign: "center", fontFamily: FONT, fontWeight: 900, fontSize: 60, color: C.white, WebkitTextStroke: `10px ${C.ink}`, paintOrder: "stroke fill" }}>
-        NOBODY TOLD ME…
-      </div>
-      <div style={{ position: "absolute", top: 270, left: 90, right: 90, transform: `scale(${s}) rotate(-2deg)`, background: ROSE, color: C.white, border: `9px solid ${C.ink}`, borderRadius: 34, boxShadow: `12px 12px 0 ${C.ink}`, padding: "18px 30px", fontFamily: FONT, fontWeight: 900, fontSize: 68, lineHeight: 1.1, textAlign: "center" }}>
-        👃 Why can't I smell my OWN perfume?
-      </div>
-    </>
-  );
-};
+const TopicCard: React.FC = () => <MiaTopic text="👃 Why can't I smell my OWN perfume?" bg={ROSE} />;
 
 /* Generic perfume bottle (no brand) */
 const Bottle: React.FC<{ x: number; y: number; s?: number }> = ({ x, y, s = 1 }) => (
@@ -81,7 +69,7 @@ const Spray = () => {
           <Mist key={i} x={800} y={680} from={f} n={10} />
         ))}
       </Shot>
-      {count > 0 && <Sticker x={540} y={330} delay={again[0]} bg={ROSE} color={C.white} size={96} rot={-5}>💨 ×{count}</Sticker>}
+      {count > 0 && <Sticker x={SAFE_CX} y={330} delay={again[0]} bg={ROSE} color={C.white} size={62} rot={-5}>💨 ×{count}</Sticker>}
       {again.map((f, i) => (
         <Sfx key={i} name="whoosh" at={f} volume={0.6} />
       ))}
@@ -132,7 +120,7 @@ const BrainScene = () => {
       <Shot keys={[{ f: 0, z: 0.7, x: 540, y: 830 }, { f: 12, z: 1, x: 540, y: 830 }, { f: boring, z: 1.25, x: 540, y: 720 }]}>
         <Brain mode="bored" />
       </Shot>
-      <Sticker x={540} y={300} delay={boring} bg={C.white} size={70} rot={-3}>🧠 "boring."</Sticker>
+      <Sticker x={SAFE_CX} y={300} delay={boring} bg={C.white} size={62} rot={-3}>🧠 "boring."</Sticker>
       <Sfx name="pop" at={boring} />
     </>
   );
@@ -145,8 +133,8 @@ const FilterScene = () => {
       <Shot keys={[{ f: 0, z: 1, x: 540, y: 830 }, { f: smoke, z: 1.15, x: 600, y: 850 }]}>
         <Brain mode="filter" />
       </Shot>
-      <Sticker x={540} y={260} delay={2} bg={C.yellow} size={60} rot={-3}>same smell = ignored</Sticker>
-      <Sticker x={540} y={390} delay={smoke} bg={C.pink} color={C.white} size={60} rot={3}>new smell = ALERT</Sticker>
+      <Sticker x={SAFE_CX} y={260} delay={2} bg={C.yellow} size={60} rot={-3}>same smell = ignored</Sticker>
+      <Sticker x={SAFE_CX} y={390} delay={smoke} bg={C.pink} color={C.white} size={60} rot={3}>new smell = ALERT</Sticker>
       <Sfx name="ding" at={smoke} />
     </>
   );
@@ -166,7 +154,7 @@ const Others = () => {
         {frame > all && <Emoji e="😵" x={170} y={780} size={130} delay={all} float={false} />}
         {frame > all && <Emoji e="🤢" x={910} y={780} size={130} delay={all + 4} float={false} />}
       </Shot>
-      <Sticker x={540} y={330} delay={all} bg={ROSE} color={C.white} size={84} rot={-4}>they smell ALL of it</Sticker>
+      <Sticker x={SAFE_CX} y={330} delay={all} bg={ROSE} color={C.white} size={62} rot={-4}>they smell ALL of it</Sticker>
       <Sfx name="boom" at={all} />
     </Punch>
   );
@@ -180,9 +168,9 @@ const Tip = () => {
       <Shot keys={[cam.face(330, 1000, 0), cam.face(330, 1000, outside - 4), cam.medium(420, outside + 8)]} bg={<Apartment night={false} />}>
         <Mia x={330} y={1000} face="smug" pose="point" />
       </Shot>
-      <Sticker x={600} y={300} delay={4} bg="#aaa" size={62} rot={-4}>❌ re-spray</Sticker>
-      <Sticker x={640} y={470} delay={outside} bg={C.cyan} size={62} rot={3}>🚪 step outside</Sticker>
-      <Sticker x={660} y={640} delay={friend} bg={C.yellow} size={62} rot={-2}>👯 ask a friend</Sticker>
+      <Sticker x={SAFE_CX} y={300} delay={4} bg="#aaa" size={62} rot={-4}>❌ re-spray</Sticker>
+      <Sticker x={SAFE_CX} y={470} delay={outside} bg={C.cyan} size={62} rot={3}>🚪 step outside</Sticker>
+      <Sticker x={SAFE_CX} y={640} delay={friend} bg={C.yellow} size={62} rot={-2}>👯 ask a friend</Sticker>
       <Sfx name="pop" at={outside} />
       <Sfx name="pop" at={friend} />
     </>

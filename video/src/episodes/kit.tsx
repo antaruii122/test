@@ -16,6 +16,10 @@ export type Clip = { file: string; text: string; dur: number; words: Word[]; amp
 export type Line = Clip & { scene: string };
 export type Timing = { id: string; title: string; hooks: Record<string, Clip>; lines: Line[] };
 
+/* Area that TikTok, Reels and Shorts never cover with their UI (1080x1920, conservative):
+   top 250px = profile/tabs, bottom 500px = caption/music, right 190px = like/comment/share buttons. */
+export const SAFE = { left: 90, right: 890, top: 250, bottom: 1420 };
+
 export const GAP = 0.6; // pause between lines (s)
 export const HOOK_GAP = 0.3;
 export const TAIL = 2.6; // hold after last line (follow card)
@@ -93,7 +97,7 @@ const chunk = (clip: Clip, offset: number): Chunk[] => {
 export const Captions: React.FC<{ hookClip: Clip; placed: Placed[]; top?: number }> = ({
   hookClip,
   placed,
-  top = 1330,
+  top = 1090,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -115,11 +119,12 @@ export const Captions: React.FC<{ hookClip: Clip; placed: Placed[]; top?: number
         justifyContent: "center",
         flexWrap: "wrap",
         gap: "0 44px",
-        padding: "0 60px",
+        paddingLeft: SAFE.left,
+        paddingRight: 1080 - SAFE.right,
         transform: `scale(${0.6 + s * 0.4})`,
         fontFamily: FONT,
         fontWeight: 900,
-        fontSize: 104,
+        fontSize: 96,
         lineHeight: 1.1,
         textTransform: "uppercase",
       }}

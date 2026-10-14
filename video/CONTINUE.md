@@ -49,6 +49,7 @@ In a cloud session where Remotion can't download Chrome, add `--browser-executab
 4. `python3 tts/check_episode.py src/episodes/ntmXX.timing.json 1.3 0.35` must say OK (no dead air).
 5. Copy `src/episodes/NTM04.tsx` as a template, write the scenes, then register them in `src/Root.tsx`.
 6. Render stills (frame 0, the middle, and the last 3 seconds every 0.5s), fix any overlaps, then render the full video.
+7. Run `bash tts/safe_check.sh out/<video>.mp4`. Nothing important (text, stickers, Mia's face) may sit in the red zones.
 
 ## Mia bible (keep this updated)
 - **Who:** Mia, about 24, just moved into her first apartment alone. Curious, a bit dramatic, funny. Learns everyday things "nobody told her".
@@ -69,6 +70,11 @@ In a cloud session where Remotion can't download Chrome, add `--browser-executab
   - why hair gets frizzy in humidity
   - why your feet feel cold first
   - why a hot shower fogs the mirror but not the window
+
+## Safe zone (TikTok + Reels + Shorts)
+- The apps cover the top 250px, the bottom 500px and the right 190px of the 1080x1920 frame. The safe area is x 90–890, y 250–1420 (`SAFE` in `kit.tsx`).
+- Captions sit at y 1090. The title card is `MiaTopic`. Stickers go at `x={SAFE_CX}` with size 62 or less.
+- No top tag and no progress bar: the apps hide them.
 
 ## Lessons learned (don't repeat)
 - Never force a minimum length: it created 6–7s of frozen video. The dead-air check now blocks this.
