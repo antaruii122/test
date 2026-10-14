@@ -1,5 +1,6 @@
 import React from "react";
-import { Composition } from "remotion";
+import { Composition, Still } from "remotion";
+import { FacebookCover, ProfilePhoto, YouTubeBanner } from "./brand/Brand";
 import { Part1, Part2, Part3 } from "./Videos";
 import { Ep01, ep01Duration, HookKey } from "./episodes/Ep01";
 import { Ep02, ep02Duration, Ep02Hook } from "./episodes/Ep02";
@@ -57,5 +58,8 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="NobodyToldMe02-Salad" component={NTM02} durationInFrames={ntm02Duration()} fps={FPS} width={W} height={H} />
     <Composition id="NobodyToldMe03-Onions" component={NTM03} durationInFrames={ntm03Duration()} fps={FPS} width={W} height={H} />
     <Composition id="NobodyToldMe04-Perfume" component={NTM04} durationInFrames={ntm04Duration()} fps={FPS} width={W} height={H} />
+  <Still id="Brand-Profile" component={ProfilePhoto} width={800} height={800} />
+    <Still id="Brand-YouTubeBanner" component={YouTubeBanner} width={2560} height={1440} />
+    <Still id="Brand-FacebookCover" component={FacebookCover} width={1640} height={624} />
   </>
 );
