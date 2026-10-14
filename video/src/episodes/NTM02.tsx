@@ -4,7 +4,7 @@ import { Confetti } from "../components";
 import { C, FONT, FPS } from "../theme";
 import timing from "./ntm02.timing.json";
 import { Emoji, layout, Punch, Sfx, Sticker, Timing, usePop } from "./kit";
-import { Apartment, Box, cam, MIA_LAYOUT, Cart, Kitchen, Mia, MiaEpisode, SaladBowl, Shot, Supermarket } from "./mia";
+import { Apartment, Box, cam, MIA_LAYOUT, MiaTopic, SAFE_CX, Cart, Kitchen, Mia, MiaEpisode, SaladBowl, Shot, Supermarket } from "./mia";
 
 const T = timing as Timing;
 export const ntm02Duration = () => layout(T, "A", MIA_LAYOUT).total;
@@ -15,19 +15,7 @@ const at = (scene: string, w: string, nth = 0) => {
   return Math.round((hits[nth] ?? hits[0])?.start * FPS || 0);
 };
 
-const TopicCard: React.FC = () => {
-  const s = usePop(-12, 9);
-  return (
-    <>
-      <div style={{ position: "absolute", top: 180, left: 0, right: 0, textAlign: "center", fontFamily: FONT, fontWeight: 900, fontSize: 60, color: C.white, WebkitTextStroke: `10px ${C.ink}`, paintOrder: "stroke fill" }}>
-        NOBODY TOLD ME…
-      </div>
-      <div style={{ position: "absolute", top: 270, left: 90, right: 90, transform: `scale(${s}) rotate(-2deg)`, background: C.green, color: C.ink, border: `9px solid ${C.ink}`, borderRadius: 34, boxShadow: `12px 12px 0 ${C.ink}`, padding: "18px 30px", fontFamily: FONT, fontWeight: 900, fontSize: 68, lineHeight: 1.1, textAlign: "center" }}>
-        🥗 Why am I STARVING 1 hour after a salad?
-      </div>
-    </>
-  );
-};
+const TopicCard: React.FC = () => <MiaTopic text="🥗 Why am I STARVING 1 hour after a salad?" bg={C.green} color={C.ink} />;
 
 /* Stomach growl lines */
 const Growl: React.FC<{ x: number; y: number }> = ({ x, y }) => {
@@ -80,8 +68,8 @@ const Stomach: React.FC<{ fill: number; leaves?: boolean; slow?: boolean }> = ({
 };
 
 /* Energy meter (screen-space) */
-const Meter: React.FC<{ label: string; value: number; color: string; y?: number }> = ({ label, value, color, y = 1150 }) => (
-  <div style={{ position: "absolute", left: 120, right: 120, top: y }}>
+const Meter: React.FC<{ label: string; value: number; color: string; y?: number }> = ({ label, value, color, y = 420 }) => (
+  <div style={{ position: "absolute", left: 120, right: 220, top: y }}>
     <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 46, color: C.ink, marginBottom: 8 }}>{label}</div>
     <div style={{ height: 50, borderRadius: 25, border: `8px solid ${C.ink}`, background: C.white, overflow: "hidden" }}>
       <div style={{ width: `${Math.max(0, Math.min(1, value)) * 100}%`, height: "100%", background: color }} />
@@ -110,7 +98,7 @@ const Market = () => {
         <Mia x={430 + frame * 0.6} y={1010} face="happy" pose="point" />
         <Cart x={560 + frame * 0.6} y={1060} items={items} />
       </Shot>
-      <Sticker x={330} y={300} delay={4} bg={C.white} size={58} rot={-4}>🛒 first grocery shop alone</Sticker>
+      <Sticker x={SAFE_CX} y={300} delay={4} bg={C.white} size={58} rot={-4}>🛒 first grocery shop alone</Sticker>
       {l.map((f, i) => (
         <Sfx key={i} name="pop" at={f} />
       ))}
@@ -124,7 +112,7 @@ const Lunch = () => (
       <Mia x={540} y={1000} face="happy" pose="relax" bounce />
       <SaladBowl x={540} y={1180} s={1.4} />
     </Shot>
-    <Sticker x={540} y={300} delay={6} bg={C.green} size={64} rot={-3}>🥗 GIANT bowl of leaves</Sticker>
+    <Sticker x={SAFE_CX} y={300} delay={6} bg={C.green} size={64} rot={-3}>🥗 GIANT bowl of leaves</Sticker>
     <Sfx name="ding" at={30} />
   </>
 );
@@ -138,8 +126,8 @@ const Later = () => {
         <Mia x={540} y={1000} face={hungry ? "pain" : "think"} pose="belly" />
         {hungry && <Growl x={540} y={1060} />}
       </Shot>
-      <Sticker x={540} y={300} delay={0} bg={C.yellow} size={80} rot={-4}>⏰ 1 HOUR LATER</Sticker>
-      {hungry && <Sticker x={540} y={1180} delay={26} bg={C.pink} color={C.white} size={90} rot={5}>GRRRR 👹</Sticker>}
+      <Sticker x={SAFE_CX} y={300} delay={0} bg={C.yellow} size={80} rot={-4}>⏰ 1 HOUR LATER</Sticker>
+      {hungry && <Sticker x={SAFE_CX} y={980} delay={26} bg={C.pink} color={C.white} size={90} rot={5}>GRRRR 👹</Sticker>}
       <Sfx name="boom" at={26} />
     </Punch>
   );
@@ -156,8 +144,8 @@ const StomachScene = ({ fade }: { fade?: boolean }) => {
       <Shot keys={fade ? [{ f: 0, z: 1, x: 540, y: 800 }, { f: 80, z: 1.15, x: 540, y: 820 }] : [{ f: 0, z: 0.6, x: 540, y: 800 }, { f: 14, z: 1, x: 540, y: 800 }]}>
         <Stomach fill={fill} />
       </Shot>
-      {!fade && <Sticker x={540} y={300} delay={8} bg={C.cyan} size={62} rot={-3}>💧 water + 🥬 fiber</Sticker>}
-      {fade && <Sticker x={540} y={300} delay={30} bg={C.pink} color={C.white} size={62} rot={3}>full… then it fades 📉</Sticker>}
+      {!fade && <Sticker x={SAFE_CX} y={300} delay={8} bg={C.cyan} size={62} rot={-3}>💧 water + 🥬 fiber</Sticker>}
+      {fade && <Sticker x={SAFE_CX} y={300} delay={30} bg={C.pink} color={C.white} size={62} rot={3}>full… then it fades 📉</Sticker>}
       <Meter label="⚡ energy" value={energy} color={C.yellow} />
     </>
   );
@@ -180,7 +168,7 @@ const BubbleWrap = () => {
           })}
         {open && <div style={{ position: "absolute", left: 710, top: 880, fontSize: 60, fontFamily: FONT }}>🫥</div>}
       </Shot>
-      {open && <Sticker x={540} y={300} delay={30} bg={C.white} size={66} rot={-4}>📦 mostly bubble wrap</Sticker>}
+      {open && <Sticker x={SAFE_CX} y={300} delay={30} bg={C.white} size={66} rot={-4}>📦 mostly bubble wrap</Sticker>}
       <Sfx name="pop" at={30} />
       <Sfx name="pop" at={36} />
       <Sfx name="pop" at={42} />
@@ -196,7 +184,7 @@ const Protein = () => {
       <Shot keys={[cam.face(320, 1000, 0), cam.face(320, 1000, w[0] - 6), cam.medium(500, w[0] + 6)]} bg={<Kitchen />}>
         <Mia x={320} y={1000} face="smug" pose="point" />
       </Shot>
-      <Sticker x={540} y={300} delay={2} bg={C.yellow} size={72} rot={-3}>💪 PROTEIN = full longer</Sticker>
+      <Sticker x={SAFE_CX} y={300} delay={2} bg={C.yellow} size={72} rot={-3}>💪 PROTEIN = full longer</Sticker>
       {icons.map((e, i) => (
         <Emoji key={i} e={e} x={720 + (i % 2) * 190} y={620 + Math.floor(i / 2) * 230} size={170} delay={w[i]} />
       ))}
@@ -222,9 +210,9 @@ const Fat = () => {
           <Stomach fill={0.6} leaves slow />
         </Shot>
       )}
-      <Sticker x={540} y={300} delay={2} bg={C.green} size={66} rot={3}>🥑 a little healthy fat</Sticker>
+      <Sticker x={SAFE_CX} y={300} delay={2} bg={C.green} size={66} rot={3}>🥑 a little healthy fat</Sticker>
       {frame < slows && ["🥑", "🥜", "🫒"].map((e, i) => <Emoji key={i} e={e} x={240 + i * 300} y={560} size={170} delay={w[i]} />)}
-      {frame >= slows && <Sticker x={540} y={1180} delay={slows + 8} bg={C.white} size={60}>🐢 stomach empties slower</Sticker>}
+      {frame >= slows && <Sticker x={SAFE_CX} y={980} delay={slows + 8} bg={C.white} size={60}>🐢 stomach empties slower</Sticker>}
       {w.map((f, i) => (
         <Sfx key={i} name="pop" at={f} />
       ))}
@@ -241,8 +229,8 @@ const Trick = () => {
       <Shot whip={1} keys={[cam.medium(540, 0), cam.face(540, 1000, adding)]} bg={<Kitchen />}>
         <Mia x={540} y={1000} face={frame > adding ? "smug" : "think"} pose="point" />
       </Shot>
-      <Sticker x={540} y={320} delay={4} bg="#aaa" size={66} rot={-3}>❌ eat less salad</Sticker>
-      <Sticker x={540} y={500} delay={adding} bg={C.yellow} size={80} rot={3}>✅ ADD to it</Sticker>
+      <Sticker x={SAFE_CX} y={320} delay={4} bg="#aaa" size={66} rot={-3}>❌ eat less salad</Sticker>
+      <Sticker x={SAFE_CX} y={500} delay={adding} bg={C.yellow} size={80} rot={3}>✅ ADD to it</Sticker>
       <Sfx name="ding" at={adding} />
     </>
   );
@@ -264,11 +252,11 @@ const Recipe = () => {
         <Mia x={540} y={1000} face="happy" pose="relax" />
         {frame > same && <SaladBowl x={540} y={1180} s={1.3} extras={["🥚", "🥑", "🥜"]} />}
       </Shot>
-      <div style={{ position: "absolute", top: 300, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 20 }}>
+      <div style={{ position: "absolute", top: 300, left: 90, right: 190, display: "flex", justifyContent: "center", gap: 14 }}>
         {parts.map((p, i) => {
           const s = interpolate(frame, [p.f, p.f + 8], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
           return (
-            <span key={i} style={{ fontSize: p.e === "+" ? 110 : 150, fontFamily: FONT, fontWeight: 900, color: C.white, WebkitTextStroke: `10px ${C.ink}`, paintOrder: "stroke fill", transform: `scale(${s})`, display: "inline-block" }}>
+            <span key={i} style={{ fontSize: p.e === "+" ? 90 : 124, fontFamily: FONT, fontWeight: 900, color: C.white, WebkitTextStroke: `10px ${C.ink}`, paintOrder: "stroke fill", transform: `scale(${s})`, display: "inline-block" }}>
               {p.e}
             </span>
           );
@@ -291,7 +279,7 @@ const Ending = () => {
         <Mia x={540} y={1000} face={growl ? "pain" : "smug"} pose={growl ? "belly" : "shrug"} />
         {growl && <Growl x={540} y={1060} />}
       </Shot>
-      {!growl && <Sticker x={540} y={300} delay={0} bg={C.white} size={58} rot={-3}>🤔 did you know this?</Sticker>}
+      {!growl && <Sticker x={SAFE_CX} y={300} delay={0} bg={C.white} size={58} rot={-3}>🤔 did you know this?</Sticker>}
       {frame > voiceEnd + 2 && !growl && <Emoji e="🥬" x={640} y={760} size={130} delay={voiceEnd + 2} float={false} />}
       <Sfx name="pop" at={voiceEnd + 4} />
       <Sfx name="boom" at={voiceEnd + 16} volume={0.8} />

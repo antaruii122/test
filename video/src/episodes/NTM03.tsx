@@ -4,7 +4,7 @@ import { Confetti } from "../components";
 import { C, FONT, FPS } from "../theme";
 import timing from "./ntm03.timing.json";
 import { Emoji, layout, Punch, Sfx, Sticker, Timing, usePop } from "./kit";
-import { cam, Kitchen, Mia, MIA_LAYOUT, MiaEpisode, Shot } from "./mia";
+import { cam, Kitchen, Mia, MIA_LAYOUT, MiaEpisode, MiaTopic, SAFE_CX, Shot } from "./mia";
 
 const T = timing as Timing;
 export const ntm03Duration = () => layout(T, "A", MIA_LAYOUT).total;
@@ -16,19 +16,7 @@ const at = (scene: string, w: string, nth = 0) => {
 };
 const PURPLE = "#B57EDC";
 
-const TopicCard: React.FC = () => {
-  const s = usePop(-12, 9);
-  return (
-    <>
-      <div style={{ position: "absolute", top: 180, left: 0, right: 0, textAlign: "center", fontFamily: FONT, fontWeight: 900, fontSize: 60, color: C.white, WebkitTextStroke: `10px ${C.ink}`, paintOrder: "stroke fill" }}>
-        NOBODY TOLD ME…
-      </div>
-      <div style={{ position: "absolute", top: 270, left: 90, right: 90, transform: `scale(${s}) rotate(-2deg)`, background: PURPLE, color: C.white, border: `9px solid ${C.ink}`, borderRadius: 34, boxShadow: `12px 12px 0 ${C.ink}`, padding: "18px 30px", fontFamily: FONT, fontWeight: 900, fontSize: 68, lineHeight: 1.1, textAlign: "center" }}>
-        🧅 Why does chopping an onion make me CRY?
-      </div>
-    </>
-  );
-};
+const TopicCard: React.FC = () => <MiaTopic text="🧅 Why does chopping an onion make me CRY?" bg={PURPLE} />;
 
 /* ---------- Props ---------- */
 const Onion: React.FC<{ x: number; y: number; s?: number; angry?: boolean; cut?: boolean }> = ({ x, y, s = 1, angry, cut }) => {
@@ -107,8 +95,8 @@ const Dinner = () => {
         <Mia x={540} y={1000} face="happy" pose="point" />
         <Board x={540} y={1210} />
       </Shot>
-      <Sticker x={360} y={300} delay={4} bg={C.white} size={60} rot={-4}>👩‍🍳 first real dinner</Sticker>
-      <Sticker x={720} y={460} delay={easy} bg={C.green} size={72} rot={4}>🧅 EASY.</Sticker>
+      <Sticker x={SAFE_CX} y={300} delay={4} bg={C.white} size={60} rot={-4}>👩‍🍳 first real dinner</Sticker>
+      <Sticker x={SAFE_CX} y={460} delay={easy} bg={C.green} size={72} rot={4}>🧅 EASY.</Sticker>
       <Sfx name="pop" at={easy} />
     </>
   );
@@ -121,8 +109,8 @@ const Cry = () => (
       <Board x={540} y={1210} cut />
       <Gas x={500} y={1120} tx={540} ty={820} n={10} />
     </Shot>
-    <Sticker x={540} y={300} delay={0} bg={C.yellow} size={74} rot={-4}>⏱️ 5 seconds later</Sticker>
-    <Sticker x={540} y={1180} delay={18} bg="#5AA9FF" color={C.white} size={90} rot={5}>😭😭😭</Sticker>
+    <Sticker x={SAFE_CX} y={300} delay={0} bg={C.yellow} size={74} rot={-4}>⏱️ 5 seconds later</Sticker>
+    <Sticker x={SAFE_CX} y={980} delay={18} bg="#5AA9FF" color={C.white} size={90} rot={5}>😭😭😭</Sticker>
     <Sfx name="boom" at={14} />
   </Punch>
 );
@@ -134,7 +122,7 @@ const Attack = () => {
       <Shot whip={-1} keys={[{ f: 0, z: 1, x: 540, y: 900 }, { f: 30, z: 1.4, x: 540, y: 820 }]} bg={<Kitchen />}>
         <Onion x={540} y={820} s={2.2} angry />
       </Shot>
-      <Sticker x={540} y={300} delay={8} bg={C.pink} color={C.white} size={80} rot={-5}>⚔️ ATTACKING ME?!</Sticker>
+      <Sticker x={SAFE_CX} y={300} delay={8} bg={C.pink} color={C.white} size={80} rot={-5}>⚔️ ATTACKING ME?!</Sticker>
       <Sfx name="boom" at={20} />
     </Punch>
   );
@@ -163,8 +151,8 @@ const Cells = () => {
           <div style={{ position: "absolute", left: 0, top: 380 - 6, width: `${cut * 100}%`, height: 12, background: C.ink }} />
         </div>
       </Shot>
-      <Sticker x={540} y={260} delay={4} bg={C.white} size={62} rot={-3}>🔪 cutting breaks the cells</Sticker>
-      {mix > 0.1 && <Sticker x={540} y={1250} delay={at("cells", "two")} bg={C.yellow} size={60} rot={3}>🟡 + 🟣 = 🧪 reaction</Sticker>}
+      <Sticker x={SAFE_CX} y={310} delay={4} bg={C.white} size={62} rot={-3}>🔪 cutting breaks the cells</Sticker>
+      {mix > 0.1 && <Sticker x={SAFE_CX} y={980} delay={at("cells", "two")} bg={C.yellow} size={60} rot={3}>🟡 + 🟣 = 🧪 reaction</Sticker>}
       <Sfx name="whoosh" at={10} />
       <Sfx name="ding" at={at("cells", "two") + 20} />
     </>
@@ -178,7 +166,7 @@ const GasScene = () => (
       <Board x={540} y={1210} cut />
       <Gas x={500} y={1130} tx={590} ty={790} n={22} />
     </Shot>
-    <Sticker x={540} y={300} delay={20} bg={PURPLE} color={C.white} size={66} rot={-4}>💨 gas → your eyes</Sticker>
+    <Sticker x={SAFE_CX} y={300} delay={20} bg={PURPLE} color={C.white} size={66} rot={-4}>💨 gas → your eyes</Sticker>
     <Sfx name="whoosh" at={6} />
   </>
 );
@@ -209,8 +197,8 @@ const Eye = () => {
         </svg>
         <Gas x={150} y={420} tx={600} ty={760} n={12} />
       </Shot>
-      {frame > acid && <Sticker x={540} y={300} delay={acid} bg={C.yellow} size={62} rot={-3}>🧪 tiny bit of acid</Sticker>}
-      {frame > flood && <Sticker x={540} y={440} delay={flood} bg="#5AA9FF" color={C.white} size={62} rot={3}>💧 tears wash it away</Sticker>}
+      {frame > acid && <Sticker x={SAFE_CX} y={300} delay={acid} bg={C.yellow} size={62} rot={-3}>🧪 tiny bit of acid</Sticker>}
+      {frame > flood && <Sticker x={SAFE_CX} y={440} delay={flood} bg="#5AA9FF" color={C.white} size={62} rot={3}>💧 tears wash it away</Sticker>}
       <Sfx name="pop" at={acid} />
       <Sfx name="whoosh" at={flood} />
     </>
@@ -223,7 +211,7 @@ const Defense = () => (
       <Onion x={540} y={820} s={2} angry />
       <Emoji e="🛡️" x={820} y={680} size={170} delay={10} />
     </Shot>
-    <Sticker x={540} y={300} delay={at("defense", "don't")} bg={C.pink} color={C.white} size={96} rot={-6}>"DON'T EAT ME!"</Sticker>
+    <Sticker x={SAFE_CX} y={300} delay={at("defense", "don't")} bg={C.pink} color={C.white} size={96} rot={-6}>"DON'T EAT ME!"</Sticker>
     <Sfx name="boom" at={at("defense", "don't")} />
   </>
 );
@@ -236,8 +224,8 @@ const Knife = () => {
         <Mia x={330} y={1000} face="smug" pose="point" />
         <Board x={640} y={1210} cut />
       </Shot>
-      <Sticker x={540} y={300} delay={4} bg={C.green} size={70} rot={-3}>✅ SHARP knife</Sticker>
-      <Sticker x={540} y={470} delay={crushes} bg={C.white} size={56} rot={3}>fewer crushed cells = less gas</Sticker>
+      <Sticker x={SAFE_CX} y={300} delay={4} bg={C.green} size={70} rot={-3}>✅ SHARP knife</Sticker>
+      <Sticker x={SAFE_CX} y={470} delay={crushes} bg={C.white} size={56} rot={3}>fewer crushed cells = less gas</Sticker>
       <Sfx name="ding" at={4} />
       <Sfx name="pop" at={crushes} />
     </>
@@ -256,8 +244,8 @@ const Cold = () => {
         ))}
         <Mia x={600} y={1000} face={frame > honest ? "think" : "happy"} pose={frame > honest ? "shrug" : "point"} />
       </Shot>
-      <Sticker x={540} y={300} delay={4} bg={C.cyan} size={64} rot={-3}>🧊 chill it first?</Sticker>
-      {frame > honest && <Sticker x={540} y={1180} delay={honest} bg={C.white} size={58} rot={3}>🤷 not properly tested</Sticker>}
+      <Sticker x={SAFE_CX} y={300} delay={4} bg={C.cyan} size={64} rot={-3}>🧊 chill it first?</Sticker>
+      {frame > honest && <Sticker x={SAFE_CX} y={980} delay={honest} bg={C.white} size={58} rot={3}>🤷 not properly tested</Sticker>}
       <Sfx name="pop" at={honest} />
     </>
   );
@@ -275,7 +263,7 @@ const Ending = () => {
         {frame > voiceEnd && <Onion x={700} y={780} s={0.6} />}
         {burst && <Gas x={680} y={800} tx={560} ty={800} n={8} />}
       </Shot>
-      {!burst && <Sticker x={540} y={300} delay={0} bg={C.white} size={58} rot={-3}>🤔 did you know this?</Sticker>}
+      {!burst && <Sticker x={SAFE_CX} y={300} delay={0} bg={C.white} size={58} rot={-3}>🤔 did you know this?</Sticker>}
       {burst && <Confetti x={540} y={760} delay={voiceEnd + 14} n={18} />}
       <Sfx name="pop" at={voiceEnd + 2} />
       <Sfx name="boom" at={voiceEnd + 14} />

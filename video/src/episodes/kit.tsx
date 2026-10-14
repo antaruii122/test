@@ -167,14 +167,23 @@ export const Sticker: React.FC<{
   rot?: number;
   size?: number;
   color?: string;
-}> = ({ children, x, y, delay = 0, bg = C.yellow, rot = -5, size = 90, color = C.ink }) => {
+}> = ({ children, x, y, delay = 0, bg = C.yellow, rot = -5, size: size0 = 90, color = C.ink }) => {
   const s = usePop(delay, 8);
   const frame = useCurrentFrame();
+  // Keep every sticker inside the apps' safe zone: estimate its width, shrink if too wide,
+  // then slide it horizontally so neither edge crosses SAFE.left / SAFE.right.
+  const text = React.Children.toArray(children).join("");
+  const chars = Array.from(text).reduce((n, ch) => n + (ch.codePointAt(0)! > 0x2000 ? 1.6 : 1), 0);
+  const est = (sz: number) => chars * sz * 0.6 + sz * 0.9 + 18;
+  const maxW = SAFE.right - SAFE.left;
+  const size = est(size0) > maxW ? size0 * (maxW / est(size0)) : size0;
+  const half = est(size) / 2;
+  const cx = Math.min(Math.max(x, SAFE.left + half), SAFE.right - half);
   return (
     <div
       style={{
         position: "absolute",
-        left: x,
+        left: cx,
         top: y,
         transform: `translate(-50%, -50%) scale(${s}) rotate(${rot + Math.sin((frame - delay) / 8) * 2}deg)`,
         background: bg,
